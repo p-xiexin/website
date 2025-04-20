@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - svelte-version  # 只在指定分支推送时触发
+      - main  # 只在指定分支推送时触发
 
 jobs:
   deploy:
