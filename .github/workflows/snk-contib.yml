@@ -2,9 +2,6 @@ name: Snake Contrib Generate
 
 # allows to manually run the job at any time
 on:
-  push:
-    branches:
-      - svelte-version  # 只在指定分支推送时触发
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
