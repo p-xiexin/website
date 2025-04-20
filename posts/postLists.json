@@ -1,0 +1,26 @@
+[
+    {
+      "title": "Second",
+      "description": "Second post.",
+      "date": "2023-04-16",
+      "author": "pxx",
+      "categories": [
+        "sveltekit",
+        "svelte"
+      ],
+      "published": true,
+      "slug": "second-post"
+    },
+    {
+      "title": "First post",
+      "description": "First post.",
+      "date": "2023-04-14",
+      "author": "pxx",
+      "categories": [
+        "sveltekit",
+        "svelte"
+      ],
+      "published": true,
+      "slug": "fitst-post"
+    }
+  ]
