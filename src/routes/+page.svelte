@@ -28,6 +28,7 @@
   import IconCloud from '$lib/externel/components/icon-cloud.svelte';
   import { Award, Briefcase, Heart, Notebook } from 'lucide-svelte';
   import NoteCard from '$lib/components/NoteCard.svelte';
+    import GithubContrib from '$lib/components/GithubContrib.svelte';
 
   
   export let data;
@@ -50,7 +51,9 @@
       <IconCloud iconSlugs={techIcons} />
     </div>
   </div>
-
+  <div class="mt-6 border-t border-zinc-100 py-8 dark:border-zinc-700/40">
+    <GithubContrib />
+  </div>
   <!-- Awards -->
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
     <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
