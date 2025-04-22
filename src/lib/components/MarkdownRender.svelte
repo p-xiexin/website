@@ -1,61 +1,51 @@
 <script lang="ts">
-    import { Marked, type RendererObject } from "marked";
-    import markedKatex from "marked-katex-extension";
-    import { markedHighlight } from "marked-highlight";
-    import hljs from "highlight.js";
-    import 'highlight.js/styles/github.css'
-    // import katex from "katex";
     import { onMount } from "svelte";
     import FloatingCatalog from "./FloatingCatalog.svelte";
-    
+    import rehypeKatex from "rehype-katex";
+    import remarkMath from "remark-math";
+    import remarkParse from "remark-parse";
+    import remarkRehype from "remark-rehype";
+    import remarkGfm from 'remark-gfm'
+    import rehypeStringify from "rehype-stringify";
+    import rehypeHighlight from "rehype-highlight";
+    import rehypeSlug from "rehype-slug";
+    import { unified } from "unified";
+    import "katex/dist/katex.min.css";
+    import { theme } from "$lib/stores";
+
     export let content: string = "";
-    
-    // Directory structure for the catalog
-    let catalog: { title: string; slug: string; children?: { title: string; slug: string }[] }[] = []
-    
-    const katexOptions = {
-        throwOnError: false,
-    };
+
+    // 目录结构
+    let catalog: { title: string; slug: string; children?: { title: string; slug: string }[] }[] = [];
+    let renderedContent: string = "";
+    let div: HTMLDivElement;
+
+    async function renderMarkdown(markdown: string) {
+        const result = await unified()
+            .use(remarkParse)  // 解析Markdown
+            .use(remarkMath)   // 支持数学公式
+            .use(remarkGfm)
+            .use(remarkRehype, { allowDangerousHtml: true }) // 转换为HTML，保留原始HTML标签
+            .use(rehypeKatex)  // 渲染数学公式
+            .use(rehypeHighlight) // 代码高亮
+            .use(rehypeSlug)   // 为标题添加ID
+            .use(rehypeStringify, { allowDangerousHtml: true }) // 转换为HTML字符串
+            .process(markdown);
+        
+        return String(result);
+    }
 
     function slugify(text: string): string {
         return text
             .trim()
             .toLowerCase()
-            .normalize('NFD')                           // 分解为基本字母 + 变音符号
-            .replace(/[\u0300-\u036f]/g, '')            // 移除变音符号
-            .replace(/[^a-z0-9\u4e00-\u9fa5]+/gi, '-')  // 仅保留英文、数字和中文，其他替换为 -
-            .replace(/^-+|-+$/g, '');                   // 去除头尾的 -
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9\u4e00-\u9fa5]+/gi, '-')
+            .replace(/^-+|-+$/g, '');
     }
 
-    const renderer: RendererObject = {
-        heading(this, token) {
-            const { text, depth } = token;
-            const slug = slugify(text);
-
-            if (depth === 2 || depth === 3) {
-                return `<h${depth} id="${slug}">${text}</h${depth}>`;
-            }
-
-            return `<h${depth}>${text}</h${depth}>`;
-        }
-    };
-    const marked = new Marked();
-    marked.use(
-        markedHighlight({
-            highlight(code, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    return hljs.highlight(code, { language: lang }).value;
-                }
-                return hljs.highlightAuto(code).value;
-            },
-        }),
-        markedKatex(katexOptions),
-        { renderer }
-    );
-
-    let div: HTMLDivElement;
-
-    // Function to generate catalog from the markdown content
+    // 从Markdown内容生成目录
     function generateCatalog(content: string) {
         const headings: any[] = [];
         const regex = /^(##+)\s+(.+)$/gm;
@@ -74,93 +64,102 @@
         }
 
         catalog = headings;
-    }    
-    
-    // Function to add copy buttons to code blocks
+    }
+
+    // 添加代码块复制按钮
     function addCopyButtons() {
         if (!div) return;
         
         const codeBlocks = div.querySelectorAll('pre code');
         
-        codeBlocks.forEach((codeBlock, index) => {
+        codeBlocks.forEach((codeBlock) => {
             const pre = codeBlock.parentNode as HTMLElement;
             if (!pre || pre.tagName !== 'PRE') return;
             
-            // Create wrapper to contain the pre and button
+            // 正确的类型检查
+            const parent = pre.parentNode;
+            if (!parent || !(parent instanceof HTMLElement) || parent.classList.contains('code-block-wrapper')) return;
+            
+            // 创建包装器
             const wrapper = document.createElement('div');
             wrapper.className = 'code-block-wrapper relative';
-            pre.parentNode?.insertBefore(wrapper, pre);
+            parent.insertBefore(wrapper, pre);
             wrapper.appendChild(pre);
             
-            // Create copy button (using text instead of image)
+            // 创建复制按钮
             const copyButton = document.createElement('button');
             copyButton.innerText = 'COPY';
             copyButton.className = 'copy-button absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white p-1 rounded cursor-pointer';
-            copyButton.title = 'Copy to clipboard';
+            copyButton.title = '复制到剪贴板';
             
             copyButton.addEventListener('click', () => {
                 const code = codeBlock.textContent || '';
                 navigator.clipboard.writeText(code).then(() => {
-                    // Change button text to "COPIED!"
                     copyButton.innerText = 'COPIED!';
-                    copyButton.title = 'Copied!';
+                    copyButton.title = '已复制!';
                     
-                    // Reset button text to "COPY" after 2 seconds
                     setTimeout(() => {
                         copyButton.innerText = 'COPY';
-                        copyButton.title = 'Copy to clipboard';
-                    }, 2000); // 2 seconds
+                        copyButton.title = '复制到剪贴板';
+                    }, 2000);
                 });
             });
             
             wrapper.appendChild(copyButton);
         });
-    }
-    
-    // Use onMount to ensure DOM is ready
-    onMount(() => {
-        generateCatalog(content);  // Generate catalog when the component mounts
-        addCopyButtons();
-    });
-
-    
-    // When content changes, we need to re-render and re-add the buttons
-    $: if (content) {
+    }    
+    // 处理Markdown内容变化
+    async function processContent() {
+        if (!content) return;
+        
+        // 渲染Markdown
+        renderedContent = await renderMarkdown(content);
+        
+        // 生成目录和添加复制按钮（在DOM更新后）
         setTimeout(() => {
-            generateCatalog(content);  // Re-generate catalog when content changes
+            generateCatalog(content);
             addCopyButtons();
         }, 0);
     }
+    
+    onMount(async () => {
+        await processContent();
+    });
+    
+    // 监视内容变化
+    $: content && processContent();
 </script>
 
-<svelte:head>
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
-        integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn"
-        crossorigin="anonymous"
-    />
-</svelte:head>
 
 <div class="prose dark:prose-invert max-w-none" bind:this={div}>
-    {@html marked.parse(content)}
+    {@html renderedContent}
 </div>
 
 <FloatingCatalog {catalog}/>
 
+{#if $theme === 'dark'}
+  <style>
+    @import 'highlight.js/styles/github-dark.css';
+  </style>
+{:else}
+  <style>
+    @import 'highlight.js/styles/github.css';
+  </style>
+{/if}
+
 <style>
-    /* Style for the code block wrapper */
+    /* 代码块包装器样式 */
     :global(.code-block-wrapper) {
         position: relative;
         margin-bottom: 1rem;
     }
     
-    /* Ensure pre has padding for the button */
+    /* 确保pre有足够的右侧填充以容纳按钮 */
     :global(.code-block-wrapper pre) {
         padding-right: 3rem;
     }
     
-    /* Copy button styles */
+    /* 复制按钮样式 */
     :global(.copy-button) {
         opacity: 0.7;
         transition: opacity 0.2s;
@@ -171,5 +170,33 @@
     
     :global(.copy-button:hover) {
         opacity: 1;
+    }
+    /* 添加图片居中样式 */
+    :global(.prose img) {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* 重写代码块的样式 */
+    /* :global(.prose pre) {
+        background-color: transparent !important;
+        padding: 1rem;
+        border-radius: 0.375rem;
+        border: 1px solid #e5e7eb;
+        margin: 1rem 0;
+    } */
+    
+    /* 重写代码文本的样式 */
+    /* :global(.prose code) {
+        color: inherit !important;
+        background-color: transparent !important;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    } */
+    
+    /* 保留代码高亮类的样式，但重写背景色 */
+    :global(.hljs) {
+        background-color: transparent !important;
+        padding: 0 !important;
     }
 </style>

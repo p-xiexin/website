@@ -1,26 +1,29 @@
 [
-    {
-      "title": "Second",
-      "description": "Second post.",
-      "date": "2023-04-16",
-      "author": "pxx",
-      "categories": [
-        "sveltekit",
-        "svelte"
-      ],
-      "published": true,
-      "slug": "second-post"
-    },
-    {
-      "title": "First post",
-      "description": "First post.",
-      "date": "2023-04-14",
-      "author": "pxx",
-      "categories": [
-        "sveltekit",
-        "svelte"
-      ],
-      "published": true,
-      "slug": "fitst-post"
-    }
-  ]
+  {
+    "description": "解读lightrag后端相关api，适配自己的网页",
+    "date": "2025-04-21",
+    "author": "pxx",
+    "categories": "",
+    "published": true,
+    "slug": "4807a175134bab09d15ecdc0e4187fea",
+    "title": "Lightrag后端解读"
+  },
+  {
+    "description": "使用svelte以及github pages 自动化托管自己的个人网站.",
+    "date": "2025-04-20",
+    "author": "pxx",
+    "categories": "",
+    "published": true,
+    "slug": "c32928cb6dfddd6152b9d309e1aa8ebe",
+    "title": "构建一个自己的博客网站"
+  },
+  {
+    "description": "调研最新的GRAG方法.",
+    "date": "2025-03-14",
+    "author": "pxx",
+    "categories": "",
+    "published": true,
+    "slug": "ff0cba4164a0e3ae2813606b2887deb2",
+    "title": "GRAG调研"
+  }
+]

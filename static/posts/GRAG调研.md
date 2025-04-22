@@ -1,22 +1,15 @@
 ---
-title: First post
-description: First post.
-date: '2023-04-14'
+description: 调研最新的GRAG方法.
+date: '2025-03-14'
 author: 'pxx'
 categories:
-  - sveltekit
-  - svelte
+  - RAG
 published: true
 ---
 
-## Markdown
-Hey friends! 👋
-```ts
-  function greet(name: string) {
-    console.log(`Hey ${name}! 👋`)
-  }
-```
-### GRAG技术调研
+# GRAG技术调研
+
+> 参考：[火山引擎-开发者社区](https://developer.volcengine.com/articles/7470360277234499610)
 
 智能问答系统依赖大规模知识库快速提取信息，并生成自然流畅的回答。**RAG（检索增强生成）**无需大规模训练，仅需更新知识库即可保持知识的时效性，同时提高答案的可验证性和可信度。
 

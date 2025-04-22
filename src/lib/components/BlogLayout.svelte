@@ -42,9 +42,9 @@
       {/if}
       <article>
         <header class="flex flex-col">
-          <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100 break-words">
+          <!-- <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100 break-words">
             {blog.title}
-          </h1>
+          </h1> -->
           <time
             datetime={blog.date}
             class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500"
