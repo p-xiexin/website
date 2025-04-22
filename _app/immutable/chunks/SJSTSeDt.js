@@ -1,0 +1,1 @@
+import{b as c,E as f,c as i,ab as p,a3 as h,h as d,d as l,ac as u,ad as b}from"./BbhSZkRh.js";function y(o,s,...r){var a=o,e=p,t;c(()=>{e!==(e=s())&&(t&&(h(t),t=null),t=i(()=>e(a,...r)))},f),d&&(a=l)}let n=Symbol("phosphor-svelte");function g(){return u(n)?b(n):{}}export{g,y as s};
