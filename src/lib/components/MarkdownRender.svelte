@@ -12,6 +12,8 @@
     import { unified } from "unified";
     import "katex/dist/katex.min.css";
     import { theme } from "$lib/stores";
+    import rehypeToc from "rehype-toc";
+    import GitHubSlugger from 'github-slugger';
 
     export let content: string = "";
 
@@ -19,6 +21,27 @@
     let catalog: { title: string; slug: string; children?: { title: string; slug: string }[] }[] = [];
     let renderedContent: string = "";
     let div: HTMLDivElement;
+
+    function generateCatalog(content: string) {
+        const headings: any[] = [];
+        const slugger = new GitHubSlugger();
+        const regex = /^(##+)\s+(.+)$/gm;
+        let match;
+
+        while ((match = regex.exec(content)) !== null) {
+            const level = match[1].length;
+            const title = match[2].trim();
+            const slug = slugger.slug(title);  // 使用 github-slugger 生成 slug
+
+            if (level === 2) {
+                headings.push({ title, slug, children: [] });
+            } else if (level === 3 && headings.length > 0) {
+                headings[headings.length - 1].children.push({ title, slug });
+            }
+        }
+
+        return headings;
+    }
 
     async function renderMarkdown(markdown: string) {
         const result = await unified()
@@ -29,43 +52,23 @@
             .use(rehypeKatex)  // 渲染数学公式
             .use(rehypeHighlight) // 代码高亮
             .use(rehypeSlug)   // 为标题添加ID
+            .use(rehypeToc, {
+                nav: true,       // 将TOC包装在<nav>标签中
+                headings: ['h2', 'h3'], // 包含h2和h3标题
+                cssClasses: {
+                    toc: 'page-outline', // TOC容器的CSS类
+                    link: 'toc-link'     // TOC链接的CSS类
+                }
+            })
             .use(rehypeStringify, { allowDangerousHtml: true }) // 转换为HTML字符串
             .process(markdown);
         
+        // 提取目录内容
+        catalog = generateCatalog(markdown);
+        
         return String(result);
     }
-
-    function slugify(text: string): string {
-        return text
-            .trim()
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/[^a-z0-9\u4e00-\u9fa5]+/gi, '-')
-            .replace(/^-+|-+$/g, '');
-    }
-
-    // 从Markdown内容生成目录
-    function generateCatalog(content: string) {
-        const headings: any[] = [];
-        const regex = /^(##+)\s+(.+)$/gm;
-        let match;
-
-        while ((match = regex.exec(content)) !== null) {
-            const level = match[1].length;
-            const title = match[2].trim();
-            const slug = slugify(title);
-
-            if (level === 2) {
-                headings.push({ title, slug, children: [] });
-            } else if (level === 3 && headings.length > 0) {
-                headings[headings.length - 1].children.push({ title, slug });
-            }
-        }
-
-        catalog = headings;
-    }
-
+    
     // 添加代码块复制按钮
     function addCopyButtons() {
         if (!div) return;
@@ -117,7 +120,6 @@
         
         // 生成目录和添加复制按钮（在DOM更新后）
         setTimeout(() => {
-            generateCatalog(content);
             addCopyButtons();
         }, 0);
     }

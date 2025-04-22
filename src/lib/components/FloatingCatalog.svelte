@@ -14,6 +14,8 @@
     const el = document.getElementById(slug);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.log(`元素 ${slug} 未找到`);
     }
   }
   
