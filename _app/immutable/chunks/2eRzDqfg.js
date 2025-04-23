@@ -1,1 +1,0 @@
-const s=[{name:"CMake",description:"This is the first notes.",slug:"CMake",tags:["cmake","cpp"],published:!0},{name:"Git",description:"This is the second notes.",slug:"Git",tags:["git"],published:!0}];export{s as n};
