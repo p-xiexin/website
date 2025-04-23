@@ -26,9 +26,10 @@
     activitiesIntro 
   } from '$lib/config/projects';
   import IconCloud from '$lib/externel/components/icon-cloud.svelte';
-  import { Award, Briefcase, Heart, Notebook } from 'lucide-svelte';
+  import { Award, Briefcase, ChevronRightIcon, Heart, Notebook } from 'lucide-svelte';
   import NoteCard from '$lib/components/NoteCard.svelte';
     import GithubContrib from '$lib/components/GithubContrib.svelte';
+    import { base } from '$app/paths';
 
   
   export let data;
@@ -141,9 +142,12 @@
       <!-- {#each data.blogList as blog (blog.slug)}
         <BlogCard blog={blog} titleAs="h3"/>
       {/each} -->
-      {#each data.posts as blog (blog.slug)}
+      {#each data.posts.slice(0, 3) as blog (blog.slug)}
         <BlogCard {blog}/>
       {/each}
+      <a href="{base}/blogs" class="flex flex-row items-center text-sm text-primary hover:underline capitalize font-semibold">Read more blogs 
+        <ChevronRightIcon class="ml-1 h-4 w-4 stroke-current" />
+      </a>
     </div>
 
     <!-- right column -->

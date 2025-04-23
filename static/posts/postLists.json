@@ -1,5 +1,14 @@
 [
   {
+    "description": "在ubuntu上设置自定义的分辨率",
+    "date": "2025-04-22",
+    "author": "pxx",
+    "categories": "",
+    "published": true,
+    "slug": "171d0ac99bc119c67eeca0200e62ca7c",
+    "title": "自定义ubuntu显示器分辨率"
+  },
+  {
     "description": "解读lightrag后端相关api，适配自己的网页",
     "date": "2025-04-21",
     "author": "pxx",
@@ -9,12 +18,12 @@
     "title": "Lightrag后端解读"
   },
   {
-    "description": "使用svelte以及github pages 自动化托管自己的个人网站.",
+    "description": "使用svelte以及github pages 自动化托管自己的个人网站，解决子域名404问题.",
     "date": "2025-04-20",
     "author": "pxx",
     "categories": "",
     "published": true,
-    "slug": "c32928cb6dfddd6152b9d309e1aa8ebe",
+    "slug": "4228fb6655b954d36d02eab05c94816f",
     "title": "构建一个自己的博客网站"
   },
   {

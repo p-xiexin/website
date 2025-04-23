@@ -12,16 +12,23 @@ import type { Note } from "$lib/utils/types"
 export const noteList: Array<Note> = [
     {
       name: "CMake",
-      description: "This is the first notes.",
+      description: "学习CMake的基本使用方法，并构建一个简单的CPP工程.",
       slug: "CMake",
       tags: ["cmake", "cpp"],
       published: true
     },
     {
       name: "Git",
-      description: "This is the second notes.",
+      description: "Git版本控制工具是的使用",
       slug: "Git",
       tags: ["git"],
+      published: true
+    },
+    {
+      name: "SLAM",
+      description: "包含视觉SLAM十四讲，VIO原理和基本的数学优化方法",
+      slug: "SLAM",
+      tags: ["SLAM"],
       published: true
     }
   ]
