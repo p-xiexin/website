@@ -1,4 +1,4 @@
-export type Categories = 'sveltekit' | 'RAG' | 'Linux' | 'LLM' | 'CUDA'
+export type Categories = 'sveltekit' | 'RAG' | 'Linux' | 'LLM' | 'CUDA' | 'SQL'
 
 export type Post = {
 	title: string
