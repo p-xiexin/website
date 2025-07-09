@@ -1,5 +1,16 @@
 [
   {
+    "description": "算法题\"两数相加\"",
+    "date": "2025-07-09",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": true,
+    "slug": "a65f4fdda331bcdccb605d8f3865efc6",
+    "title": "Leetcode 2：两数之和"
+  },
+  {
     "description": "SQLAlchemy数据库Schema的学习记录",
     "date": "2025-05-27",
     "author": "pxx",
@@ -48,7 +59,7 @@
     "date": "2025-04-20",
     "author": "pxx",
     "categories": [
-      "svelte"
+      "Web"
     ],
     "published": true,
     "slug": "4228fb6655b954d36d02eab05c94816f",
