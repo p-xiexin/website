@@ -2,6 +2,7 @@ import os
 import json
 from datetime import datetime
 import hashlib
+import yaml
 
 POSTS_DIR = './static/posts'
 OUTPUT_FILE = './static/posts/postLists.json'
@@ -11,29 +12,24 @@ def parse_frontmatter(content):
     if not lines or lines[0].strip() != '---':
         return {}
 
-    metadata = {}
-    i = 1
-    while i < len(lines) and lines[i].strip() != '---':
-        line = lines[i]
-        if ':' in line:
-            key, value = line.split(':', 1)
-            key = key.strip()
-            value = value.strip().strip('"').strip("'")  # 去除前后的双引号和单引号
+    # 找到 frontmatter 的结束行
+    try:
+        end_index = lines.index('---', 1)
+    except ValueError:
+        return {}
 
-            if value.lower() == 'true':
-                value = True
-            elif value.lower() == 'false':
-                value = False
-            else:
-                # 处理日期字段，确保它符合标准格式
-                try:
-                    # 先尝试将其转换为标准的 YYYY-MM-DD 格式
-                    value = datetime.strptime(value, "%Y-%m-%d").date().isoformat()
-                except ValueError:
-                    pass  # 如果无法解析为日期，则保持原样
-            
-            metadata[key] = value
-        i += 1
+    frontmatter_str = '\n'.join(lines[1:end_index])
+    try:
+        metadata = yaml.safe_load(frontmatter_str) or {}
+    except yaml.YAMLError:
+        metadata = {}
+
+    # 标准化字段
+    if 'date' in metadata:
+        try:
+            metadata['date'] = datetime.strptime(str(metadata['date']), "%Y-%m-%d").date().isoformat()
+        except ValueError:
+            pass
 
     return metadata
 

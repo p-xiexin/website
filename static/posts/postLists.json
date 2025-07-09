@@ -1,9 +1,33 @@
 [
   {
+    "description": "SQLAlchemy数据库Schema的学习记录",
+    "date": "2025-05-27",
+    "author": "pxx",
+    "categories": [
+      "SQL"
+    ],
+    "published": true,
+    "slug": "c3b95d2203b199d9311e8d0520cc76f8",
+    "title": "python中数据库的使用"
+  },
+  {
+    "description": "自定义构建vllm镜像，并解决环境依赖问题.",
+    "date": "2025-04-23",
+    "author": "pxx",
+    "categories": [
+      "LLM"
+    ],
+    "published": true,
+    "slug": "33bab88b14f36ce9fa9d0060b9df5c3f",
+    "title": "vllm+5090部署大模型"
+  },
+  {
     "description": "在ubuntu上设置自定义的分辨率",
     "date": "2025-04-22",
     "author": "pxx",
-    "categories": "",
+    "categories": [
+      "Linux"
+    ],
     "published": true,
     "slug": "171d0ac99bc119c67eeca0200e62ca7c",
     "title": "自定义ubuntu显示器分辨率"
@@ -12,7 +36,9 @@
     "description": "解读lightrag后端相关api，适配自己的网页",
     "date": "2025-04-21",
     "author": "pxx",
-    "categories": "",
+    "categories": [
+      "RAG"
+    ],
     "published": true,
     "slug": "4807a175134bab09d15ecdc0e4187fea",
     "title": "Lightrag后端解读"
@@ -21,7 +47,9 @@
     "description": "使用svelte以及github pages 自动化托管自己的个人网站，解决子域名404问题.",
     "date": "2025-04-20",
     "author": "pxx",
-    "categories": "",
+    "categories": [
+      "svelte"
+    ],
     "published": true,
     "slug": "4228fb6655b954d36d02eab05c94816f",
     "title": "构建一个自己的博客网站"
@@ -30,7 +58,9 @@
     "description": "调研最新的GRAG方法.",
     "date": "2025-03-14",
     "author": "pxx",
-    "categories": "",
+    "categories": [
+      "RAG"
+    ],
     "published": true,
     "slug": "ff0cba4164a0e3ae2813606b2887deb2",
     "title": "GRAG调研"

@@ -1,5 +1,5 @@
 <script>
-	import portraitImage from "$lib/images/portrait.jpg";
+	import travelImage from "$lib/images/travel.jpg";
 	import SocialLinks from "$lib/components/SocialLinks.svelte";
 	import { aboutMeHeadline, aboutParagraphs } from "$lib/config/infoConfig";
     import Container from "$lib/components/container/Container.svelte";
@@ -21,7 +21,7 @@
 		<div class="lg:pl-20">
 			<div class="max-w-xs px-2.5 lg:max-w-none">
 				<img
-					src={portraitImage}
+					src={travelImage}
 					alt=""
 					class="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
 					sizes="(min-width: 1024px) 32rem, 20rem"
