@@ -345,7 +345,7 @@
                 </div>
             </div>
         {:else}
-            <div class="flex max-w-3xl flex-col space-y-16">
+            <div class="flex max-w-3xl flex-col space-y-8 md:space-y-16">
                 {#each currentPosts as blog (blog.slug)}
                 <!-- Blog 组件 -->
                 <article class="md:grid md:grid-cols-4 md:items-baseline">
@@ -362,10 +362,10 @@
                             </div>
                         </h2>
                         
-                        <!-- Card.Eyebrow (mobile) -->
+                        <!-- Card.Eyebrow (mobile only) -->
                         <time 
                             datetime={blog.date}
-                            class="relative z-10 order-first mb-3 flex items-center text-sm text-muted-foreground pl-3.5 md:hidden"
+                            class="relative z-10 order-first mb-2 flex items-center text-sm text-muted-foreground pl-3.5 md:hidden"
                         >
                             <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true">
                                 <span class="h-4 w-0.5 rounded-full bg-muted-foreground/30"></span>
@@ -379,16 +379,16 @@
                         </p>
                         
                         <!-- Card.Cta -->
-                        <div aria-hidden="true" class="relative z-10 mt-4 flex items-center text-sm font-medium text-primary">
+                        <div aria-hidden="true" class="relative z-10 mt-3 flex items-center text-sm font-medium text-primary">
                             Read blog
                             <ChevronRight class="ml-1 h-4 w-4 stroke-current" />
                         </div>
                     </div>
                     
-                    <!-- Card.Eyebrow (desktop) -->
+                    <!-- Card.Eyebrow (desktop only) -->
                     <time 
                         datetime={blog.date}
-                        class="relative z-10 order-first mb-3 flex items-center text-sm text-muted-foreground mt-1 md:block"
+                        class="relative z-10 order-first text-sm text-muted-foreground mt-1 hidden md:block"
                     >
                         {formatDate(blog.date)}
                     </time>
