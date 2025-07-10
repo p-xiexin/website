@@ -6,9 +6,9 @@
     let { data } = $props();
 
 	function removeFrontMatter(mdContent: string): string {
-        const regex = /^---\n[\s\S]+?\n---\n/;
-        return mdContent.replace(regex, '');
-    }
+		const regex = /^---\r?\n[\s\S]*?\r?\n---\r?\n?/;
+		return mdContent.replace(regex, '');
+	}
 	const cleanContent = removeFrontMatter(data.content);
 </script>
 

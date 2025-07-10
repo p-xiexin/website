@@ -21,6 +21,8 @@
     let catalog: { title: string; slug: string; children?: { title: string; slug: string }[] }[] = [];
     let renderedContent: string = "";
     let div: HTMLDivElement;
+    let showFloatingCatalog = false;
+    let tocElement: HTMLElement | null = null;
 
     function generateCatalog(content: string) {
         const headings: any[] = [];
@@ -110,7 +112,30 @@
             
             wrapper.appendChild(copyButton);
         });
-    }    
+    }
+
+    // 滚动监听函数
+    function handleScroll() {
+        if (!tocElement) return;
+        
+        const rect = tocElement.getBoundingClientRect();
+        // 当目录元素完全滚出视口时显示浮动目录
+        showFloatingCatalog = rect.bottom < 0;
+    }
+
+    // 查找目录元素
+    function findTocElement() {
+        if (!div) return;
+        
+        // 查找 rehype-toc 生成的目录元素
+        tocElement = div.querySelector('nav.page-outline') || div.querySelector('.page-outline');
+        
+        if (!tocElement) {
+            // 如果没有找到自动生成的目录，可以查找第一个 h2 作为参考点
+            tocElement = div.querySelector('h2');
+        }
+    }
+    
     // 处理Markdown内容变化
     async function processContent() {
         if (!content) return;
@@ -121,11 +146,21 @@
         // 生成目录和添加复制按钮（在DOM更新后）
         setTimeout(() => {
             addCopyButtons();
+            findTocElement();
         }, 0);
     }
     
-    onMount(async () => {
-        await processContent();
+    onMount(() => {
+        // 处理异步内容
+        processContent();
+        
+        // 添加滚动监听
+        window.addEventListener('scroll', handleScroll);
+        
+        // 返回清理函数
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     });
     
     // 监视内容变化
@@ -137,7 +172,9 @@
     {@html renderedContent}
 </div>
 
-<FloatingCatalog {catalog}/>
+{#if showFloatingCatalog}
+    <FloatingCatalog {catalog}/>
+{/if}
 
 {#if $theme === 'dark'}
   <style>

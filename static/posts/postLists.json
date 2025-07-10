@@ -1,5 +1,16 @@
 [
   {
+    "description": "算法题\"无重复字符的最长子串\"",
+    "date": "2025-07-10",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": true,
+    "slug": "4cc1b75643f1be65b92f297a43881c86",
+    "title": "Leetcode_3_无重复字符的最长字串"
+  },
+  {
     "description": "算法题\"两数相加\"",
     "date": "2025-07-09",
     "author": "pxx",
@@ -7,8 +18,8 @@
       "Algorithms"
     ],
     "published": true,
-    "slug": "a65f4fdda331bcdccb605d8f3865efc6",
-    "title": "Leetcode 2：两数之和"
+    "slug": "01a0679a1e8c1f43b9c8e6e0a15fdc16",
+    "title": "Leetcode_2_两数相加"
   },
   {
     "description": "SQLAlchemy数据库Schema的学习记录",
