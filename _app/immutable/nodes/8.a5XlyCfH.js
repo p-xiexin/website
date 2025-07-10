@@ -1,4 +1,4 @@
-import"../chunks/C6KxToXk.js";import"../chunks/CXJeWBdf.js";import{M as o}from"../chunks/Ccctz5ED.js";import{C as n}from"../chunks/XX90532K.js";function f(a){const t=`
+import"../chunks/C6KxToXk.js";import"../chunks/CXJeWBdf.js";import{M as o}from"../chunks/CT4Uxwwu.js";import{C as n}from"../chunks/XX90532K.js";function f(a){const t=`
 # Markdown与数学公式渲染示例
 
 ## Markdown基本用法
