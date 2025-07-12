@@ -37,7 +37,30 @@
 
 <Container class="mt-9">
   <!-- personal info -->
-  <div class="mb-10 grid grid-cols-1 md:grid-cols-2">
+  <!-- 移动端布局：只在小屏显示 -->
+  <div class="md:hidden mb-10 flex flex-col">
+    <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl opacity-80">
+      {headline}
+    </h2>
+    <div class="mt-4 flex justify-center">
+      <div class="w-60 h-60 sm:w-72 sm:h-72">
+        <IconCloud 
+          iconSlugs={techIcons} 
+          containerProps={{ class: "w-full h-full" }}
+        />
+      </div>
+    </div>
+    <p class="mt-6 text-xl text-muted-foreground">
+      {introduction}
+    </p>
+    <SocialLinks className="mt-4" />
+    <div class="mt-6 border-t border-zinc-100 py-8 dark:border-zinc-700/40">
+      <GithubContrib />
+    </div>
+  </div>
+
+  <!-- 桌面端布局：只在 md 及以上显示 -->
+  <div class="hidden md:grid mb-10 grid-cols-2">
     <div class="md:mt-20">
       <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl opacity-80">
         {headline}
@@ -45,14 +68,14 @@
       <p class="mt-6 text-xl text-muted-foreground">
         {introduction}
       </p>
-      <SocialLinks/>
-      <!-- <SocialLinks class="md:mt-24"/> -->
+      <SocialLinks />
     </div>
-    <div class="relative flex size-full items-center justify-center overflow-hidden w-full px-20 md:px-0 md:w-2/3 ml-auto md:mr-8">
+    <div class="relative flex items-center justify-center overflow-hidden w-full px-20 md:px-0 md:w-2/3 ml-auto md:mr-8">
       <IconCloud iconSlugs={techIcons} />
     </div>
   </div>
-  <div class="mt-6 border-t border-zinc-100 py-8 dark:border-zinc-700/40">
+
+  <div class="hidden md:block mt-6 border-t border-zinc-100 py-8 dark:border-zinc-700/40">
     <GithubContrib />
   </div>
   <!-- Awards -->

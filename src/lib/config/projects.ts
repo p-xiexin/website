@@ -74,6 +74,6 @@ export const activities: Array<ActivityItemType> = [
       'A high-speed 3D printer built with CoreXY mechanics and powered by Klipper firmware for enhanced precision, speed, and remote control capabilities.',
     date: '2024-07-14',
     location: 'Wuhan',
-    // link: 'https://example.com/corexy-klipper',
+    link: 'https://www.bilibili.com/video/BV17XGGzUEUU/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
   }
 ]

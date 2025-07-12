@@ -3,10 +3,10 @@
     import { email, socialLinks } from '../config/infoConfig'
     import { utm_source } from "$lib/config/siteConfig";
 
-
+    export let className = ""; // 用别名className避免和class关键字冲突
 </script>
 
-<div class="mt-6 flex items-center">
+<div class={"mt-6 flex items-center " + className}>
     {#each socialLinks as link, index}
         <a
             href={`${link.href}?utm_source=${utm_source}`}
