@@ -1,5 +1,16 @@
 [
   {
+    "description": "算法题\"找出有效子序列的最大长度 I\"",
+    "date": "2025-07-16",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": true,
+    "slug": "723371bfe887453738b520efd96e717c",
+    "title": "Leetcode_3201_找出有效子序列的最大长度 I"
+  },
+  {
     "description": "算法题\"寻找两个正序数组的中位数\"",
     "date": "2025-07-12",
     "author": "pxx",
