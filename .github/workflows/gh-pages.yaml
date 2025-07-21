@@ -34,6 +34,11 @@ jobs:
         run: |
           cp ./build/index.html ./build/404.html
 
+      - name: Copy posts and notes to build directory
+        run: |
+          cp -r ./posts ./build/posts
+          cp -r ./notes ./build/notes
+
       # 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
