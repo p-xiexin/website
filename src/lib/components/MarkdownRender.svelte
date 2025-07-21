@@ -21,7 +21,6 @@
     let catalog: { title: string; slug: string; children?: { title: string; slug: string }[] }[] = [];
     let renderedContent: string = "";
     let div: HTMLDivElement;
-    let showFloatingCatalog = false;
     let tocElement: HTMLElement | null = null;
 
     function generateCatalog(content: string) {
@@ -54,14 +53,14 @@
             .use(rehypeKatex)  // 渲染数学公式
             .use(rehypeHighlight) // 代码高亮
             .use(rehypeSlug)   // 为标题添加ID
-            .use(rehypeToc, {
-                nav: true,       // 将TOC包装在<nav>标签中
-                headings: ['h2', 'h3'], // 包含h2和h3标题
-                cssClasses: {
-                    toc: 'page-outline', // TOC容器的CSS类
-                    link: 'toc-link'     // TOC链接的CSS类
-                }
-            })
+            // .use(rehypeToc, {
+            //     nav: true,       // 将TOC包装在<nav>标签中
+            //     headings: ['h2', 'h3'], // 包含h2和h3标题
+            //     cssClasses: {
+            //         toc: 'page-outline', // TOC容器的CSS类
+            //         link: 'toc-link'     // TOC链接的CSS类
+            //     }
+            // })
             .use(rehypeStringify, { allowDangerousHtml: true }) // 转换为HTML字符串
             .process(markdown);
         
@@ -114,15 +113,6 @@
         });
     }
 
-    // 滚动监听函数
-    function handleScroll() {
-        if (!tocElement) return;
-        
-        const rect = tocElement.getBoundingClientRect();
-        // 当目录元素完全滚出视口时显示浮动目录
-        showFloatingCatalog = rect.bottom < 0;
-    }
-
     // 查找目录元素
     function findTocElement() {
         if (!div) return;
@@ -153,14 +143,6 @@
     onMount(() => {
         // 处理异步内容
         processContent();
-        
-        // 添加滚动监听
-        window.addEventListener('scroll', handleScroll);
-        
-        // 返回清理函数
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
     });
     
     // 监视内容变化
@@ -172,9 +154,7 @@
     {@html renderedContent}
 </div>
 
-{#if showFloatingCatalog}
-    <FloatingCatalog {catalog}/>
-{/if}
+<FloatingCatalog {catalog}/>
 
 {#if $theme === 'dark'}
   <style>
