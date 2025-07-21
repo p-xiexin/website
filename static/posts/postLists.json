@@ -1,5 +1,38 @@
 [
   {
+    "description": "从拉格朗日力学到最优控制",
+    "date": "2025-07-21",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "f5f0c57f202b990a7f4e61e733ce930e",
+    "title": "从拉格朗日力学到最优控制"
+  },
+  {
+    "description": "算法题\"找出有效子序列的最大长度 I\"",
+    "date": "2025-07-16",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": true,
+    "slug": "723371bfe887453738b520efd96e717c",
+    "title": "Leetcode_3201_找出有效子序列的最大长度 I"
+  },
+  {
+    "description": "让用户把你的网站像原生 App 一样，直接从主屏幕启动，并且带上自定义图标和启动页体验。",
+    "date": "2025-07-12",
+    "author": "pxx",
+    "categories": [
+      "Web"
+    ],
+    "published": true,
+    "slug": "cbf3b47057ab84579fac22c42c42745c",
+    "title": "ios网页适配"
+  },
+  {
     "description": "算法题\"寻找两个正序数组的中位数\"",
     "date": "2025-07-12",
     "author": "pxx",
