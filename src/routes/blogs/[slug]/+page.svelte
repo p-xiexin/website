@@ -4,16 +4,19 @@
     import { formatDate } from '$lib/utils/formatDate';
     import { goto } from '$app/navigation';
 	import { base } from "$app/paths";
+    import { onMount, setContext } from 'svelte';
 
     let { data } = $props();
+
+	// 设置 context：从哪来的，比如列表页的 URL
+	setContext('previousPathname', '/blog');
+
 
 	function removeFrontMatter(mdContent: string): string {
 		const regex = /^---\r?\n[\s\S]*?\r?\n---\r?\n?/;
 		return mdContent.replace(regex, '');
 	}
 	
-	const cleanContent = removeFrontMatter(data.content);
-
 	// 返回按钮处理函数
 	function handleBack() {
 		// 方式1: 使用浏览器历史记录返回
@@ -24,7 +27,6 @@
 			goto('/blog'); // 或者 goto('/')
 		}
 	}
-
 
 	function preprocessImageLinks(content: string): string {
 		const basePath = `${base}/posts/res`;
@@ -47,6 +49,7 @@
 	if (data?.content) {
 		data.content = preprocessImageLinks(data.content);
 	}
+	const cleanContent = removeFrontMatter(data.content);
 </script>
 
 <svelte:head>
@@ -57,36 +60,36 @@
 	{/if}
 </svelte:head>
 
+<!-- 返回按钮 -->
+<!-- <button
+	type="button"
+	onclick={handleBack}
+	aria-label="Go back to blogs"
+	class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition lg:absolute lg:-left-5 lg:-mt-2 lg:mb-0 xl:-top-1.5 xl:left-0 xl:mt-0 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20"
+>
+	<svg 
+		class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400" 
+		viewBox="0 0 16 16" 
+		fill="none" 
+		aria-hidden="true"
+	>
+		<path
+			d="M7.25 11.25 3.75 8m0 0 3.5-3.25M3.75 8h8.5"
+			stroke-width="1.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</svg>
+</button> -->
 {#if data.meta}
 	<BlogLayout blog={data.meta}>
-		<!-- 返回按钮 -->
-		<button
-			type="button"
-			on:click={handleBack}
-			aria-label="Go back to blogs"
-			class="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition lg:absolute lg:-left-5 lg:-mt-2 lg:mb-0 xl:-top-1.5 xl:left-0 xl:mt-0 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20"
-		>
-			<svg 
-				class="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400" 
-				viewBox="0 0 16 16" 
-				fill="none" 
-				aria-hidden="true"
-			>
-				<path
-					d="M7.25 11.25 3.75 8m0 0 3.5-3.25M3.75 8h8.5"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				/>
-			</svg>
-		</button>
 		<MarkdownRender content={cleanContent} />
 	</BlogLayout>
 {:else}
 	<p>文章加载失败</p>
 {/if}
 
-<style>
+<!-- <style>
 	/* 确保Tailwind类能正常工作，如果没有Tailwind CSS可以使用以下样式 */
 	.group {
 		display: flex;
@@ -151,4 +154,4 @@
 			stroke: rgba(161, 161, 170, 1); /* dark:group-hover:stroke-zinc-400 */
 		}
 	}
-</style>
+</style> -->
