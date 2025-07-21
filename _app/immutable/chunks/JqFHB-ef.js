@@ -1,0 +1,1 @@
+import{q as n,v as o,u as i,G as d,ac as m,ad as u}from"./9qshXjgS.js";function b(f,c,s){n(()=>{var r=o(()=>c(f,s==null?void 0:s())||{});if(s&&(r!=null&&r.update)){var t=!1,e={};i(()=>{var a=s();d(a),t&&m(e,a)&&(e=a,r.update(a))}),t=!0}if(r!=null&&r.destroy)return()=>r.destroy()})}const h=u("system");export{b as a,h as t};
