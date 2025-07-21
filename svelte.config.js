@@ -5,8 +5,7 @@ import { mdsvex } from 'mdsvex';
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
-  extensions: ['.md'],
-  exclude: [/static\/posts\/.*\.md/]
+  extensions: ['.md']
 };
 
 /** @type {import('@sveltejs/kit').Config} */

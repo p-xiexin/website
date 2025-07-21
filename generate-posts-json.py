@@ -4,8 +4,8 @@ from datetime import datetime
 import hashlib
 import yaml
 
-POSTS_DIR = './static/posts'
-OUTPUT_FILE = './static/posts/postLists.json'
+POSTS_DIR = './posts'
+OUTPUT_FILE = './posts/postLists.json'
 
 def parse_frontmatter(content):
     lines = content.splitlines()
