@@ -3,6 +3,7 @@
     import MarkdownRender from "$lib/components/MarkdownRender.svelte";
     import { formatDate } from '$lib/utils/formatDate';
     import { goto } from '$app/navigation';
+	import { base } from "$app/paths";
 
     let { data } = $props();
 
@@ -22,6 +23,29 @@
 			// 如果没有历史记录，跳转到首页或博客列表页
 			goto('/blog'); // 或者 goto('/')
 		}
+	}
+
+
+	function preprocessImageLinks(content: string): string {
+		const basePath = `${base}/posts/res`;
+
+		// 替换 Markdown 图片语法
+		content = content.replace(/!\[([^\]]*)\]\((\.?\/?res\/[^)]+)\)/g, (_match, alt, path) => {
+			const filename = path.replace(/^\.?\/?res\//, ''); // 去掉前缀
+			return `![${alt}](${basePath}/${filename})`;
+		});
+
+		// 替换 HTML 图片语法
+		content = content.replace(/<img\s+([^>]*?)src=["']\.?\/?res\/([^"']+)["']([^>]*?)>/g, (_match, beforeSrc, filename, afterSrc) => {
+			return `<img ${beforeSrc}src="${basePath}/${filename}"${afterSrc}>`;
+		});
+
+		return content;
+	}
+	
+	// 替换图片路径
+	if (data?.content) {
+		data.content = preprocessImageLinks(data.content);
 	}
 </script>
 
