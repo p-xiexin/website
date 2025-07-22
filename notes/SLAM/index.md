@@ -841,35 +841,48 @@ $$
 $$
 ​	其中$\boldsymbol{\vartheta}=(\psi_{roll}, \theta_{pitch}, \phi_{yaw})^T$,$E_{wb}$表示将IMU body坐标系下的角速度转化为欧拉角速度（关于为什么需要左乘这样的一个矩阵，主要是跟欧拉角表示姿态会存在奇异性问题，其计算方法跟欧拉角的旋转顺序有关）。
 
-1. 绕**惯性坐标系的z轴**旋转$\phi$,得到新的坐标系$b^1$:
+1. 绕**惯性坐标系的 z 轴**旋转 $\phi$，得到新的坐标系 $b^1$：
 
 $$
-\mathbf{x}_b^1 &= \begin{bmatrix}
+\begin{aligned}
+\mathbf{x}_b^1 &= 
+\begin{bmatrix}
 \cos \phi & \sin \phi & 0 \\
 -\sin \phi & \cos \phi & 0 \\
 0 & 0 & 1 \\
-\end{bmatrix} \mathbf{x}_b^0= R(\phi) \mathbf{x}_b^0
+\end{bmatrix} \mathbf{x}_b^0 \\
+&= R(\phi)\, \mathbf{x}_b^0
+\end{aligned}
 $$
 
-2. 绕**新的坐标系$b^1$的y轴**旋转$\theta$，得到坐标系$b^2$:
+2. 绕**新的坐标系 $b^1$ 的 y 轴**旋转 $\theta$，得到坐标系 $b^2$：
 
 $$
-\mathbf{x}_b^2 &= \begin{bmatrix}
-\cos \theta & 0 & -\sin\theta \\
+\begin{aligned}
+\mathbf{x}_b^2 &= 
+\begin{bmatrix}
+\cos \theta & 0 & -\sin \theta \\
 0 & 1 & 0 \\
-\sin\theta & 0 & \cos\theta \\
-\end{bmatrix} \mathbf{x}_b^1= R(\theta) \mathbf{x}_b^1
+\sin \theta & 0 & \cos \theta \\
+\end{bmatrix} \mathbf{x}_b^1 \\
+&= R(\theta)\, \mathbf{x}_b^1
+\end{aligned}
 $$
 
-3. 绕**新的坐标系$b^2$的y轴**旋转$\psi$，得到坐标系$b^3$，即body坐标系:
+3. 绕**新的坐标系 $b^2$ 的 x 轴**旋转 $\psi$，得到坐标系 $b^3$，即 body 坐标系：
 
 $$
-\mathbf{x}_b^3 &= \begin{bmatrix}
+\begin{aligned}
+\mathbf{x}_b^3 &= 
+\begin{bmatrix}
 1 & 0 & 0 \\
-0 & \cos\psi & \sin\psi \\
-0 & -\sin\psi & \cos\psi \\
-\end{bmatrix} \mathbf{x}_b^2= R(\psi) \mathbf{x}_b^2
+0 & \cos \psi & \sin \psi \\
+0 & -\sin \psi & \cos \psi \\
+\end{bmatrix} \mathbf{x}_b^2 \\
+&= R(\psi)\, \mathbf{x}_b^2
+\end{aligned}
 $$
+
 
 
 
@@ -1091,8 +1104,10 @@ $$
 
 阻尼因子的更新策略实际上是通过比例因子来确定的：
 $$
-\rho = \frac{F'(x) - F(x + \Delta x_{lm})}{L(0) - L(\Delta x_{lm})}\\
-&= \frac{\text{实际下降}}{近似下降}
+\begin{aligned}
+\rho &= \frac{F'(x) - F(x + \Delta x_{lm})}{L(0) - L(\Delta x_{lm})} \\
+     &= \frac{\text{实际下降}}{\text{近似下降}}
+\end{aligned}
 $$
 其中：
 $$
@@ -1309,16 +1324,23 @@ $$
 
 1. **基于泰勒展开的误差传递**
 
-​	非线性系统$\mathbf{x}_k = f(\mathbf{x}_{k-1}, \mathbf{u}_{k-1})$的状态误差的线性递推关系为：$\delta \mathbf{x}_k = F \delta \mathbf{x}_{k-1} + G \mathbf{n}_{k-1} \tag{37}$，其中其中，$F$ 是状态变量$\mathbf{x}_k$对状态变量$\mathbf{x}_{k-1}$的雅克比矩阵，G是状态变量 $\mathbf{x}_k$ 对输入$\mathbf{u}_{k-1}$的雅克比矩阵。
+    非线性系统 $\mathbf{x}_k = f(\mathbf{x}_{k-1}, \mathbf{u}_{k-1})$ 的状态误差的线性递推关系为：
 
-​	对非线性系统一阶泰勒展开有：
-$$
-\begin{align*}
-\mathbf{x}_k &= f(\mathbf{x}_{k-1}, \mathbf{u}_{k-1})\\
-\hat{\mathbf{x}}_k + \delta \mathbf{x}_k &= f(\hat{\mathbf{x}}_{k-1} + \delta \mathbf{x}_{k-1}, \mathbf{u}_{k-1} + \mathbf{n}_{k-1})\\
-\mathbf{x}_k + \delta \mathbf{x}_k &= f(\mathbf{x}_{k-1}, \mathbf{u}_{k-1}) + F \delta \mathbf{x}_{k-1} + G \mathbf{n}_{k-1}
-\end{align*}
-$$
+    $$
+    \delta \mathbf{x}_k = \mathbf{F}_{k-1} \, \delta \mathbf{x}_{k-1} + \mathbf{G}_{k-1} \, \mathbf{n}_{k-1} \tag{37}
+    $$
+
+    其中，$\mathbf{F}_{k-1}$ 是状态变量 $\mathbf{x}_k$ 对状态变量 $\mathbf{x}_{k-1}$ 的雅可比矩阵，$\mathbf{G}_{k-1}$ 是状态变量 $\mathbf{x}_k$ 对输入 $\mathbf{u}_{k-1}$ 的雅可比矩阵。
+
+    对非线性系统一阶泰勒展开有：
+    
+    $$
+    \begin{align*}
+    \mathbf{x}_k &= f(\mathbf{x}_{k-1}, \mathbf{u}_{k-1})\\
+    \hat{\mathbf{x}}_k + \delta \mathbf{x}_k &= f(\hat{\mathbf{x}}_{k-1} + \delta \mathbf{x}_{k-1}, \mathbf{u}_{k-1} + \mathbf{n}_{k-1})\\
+    \mathbf{x}_k + \delta \mathbf{x}_k &= f(\mathbf{x}_{k-1}, \mathbf{u}_{k-1}) + F \delta \mathbf{x}_{k-1} + G \mathbf{n}_{k-1}
+    \end{align*}
+    $$
 
 2. **基于误差随时间变化的递推方程**
 
@@ -1334,82 +1356,82 @@ $$
     \end{align*}
     $$
 
-对比以上两种方法可以看出：$\mathbf{F}=\mathbf{I}+\mathbf{A}\Delta{t} $，$\mathbf{G}=\mathbf{B}\Delta{t}$
+    对比以上两种方法可以看出：$\mathbf{F}=\mathbf{I}+\mathbf{A}\Delta{t} $，$\mathbf{G}=\mathbf{B}\Delta{t}$
 
-回顾使用mid-point 方法得到预积分的离散形式，将噪声也在方程中表示出来：
-$$
-\begin{align*}
-\boldsymbol{\omega} &= \frac{1}{2} \left( (\tilde{\boldsymbol{\omega}}_{b_k} + \boldsymbol{n}_{k}^{g} - \boldsymbol{b}_{k}^{g}) + (\tilde{\boldsymbol{\omega}}_{b_{k+1}} + \boldsymbol{n}_{k+1}^{g} - \boldsymbol{b}_{k+1}^{g}) \right) \\
-\boldsymbol{q}_{b_ib_{k+1}} &= \boldsymbol{q}_{b_ib_{k}} \otimes 
-\begin{bmatrix}
-    1 \\
-    \frac{1}{2}\boldsymbol{\omega}\Delta t
-\end{bmatrix} \\
-\boldsymbol{a} &= \frac{1}{2} \left( \boldsymbol{q}_{b_ib_{k}} \left(\tilde{\boldsymbol{a}}_{b_k} + \boldsymbol{n}_{k}^{a} - \boldsymbol{b}_{k}^{a}\right) + \boldsymbol{q}_{b_ib_{k+1}} \left(\tilde{\boldsymbol{a}}_{b_{k+1}} + \boldsymbol{n}_{k+1}^{a} - \boldsymbol{b}_{k+1}^{a}\right) \right) \\
-\boldsymbol{\alpha}_{b_ib_{k+1}} &= \boldsymbol{\alpha}_{b_ib_{k}} + \boldsymbol{\beta}_{b_ib_{k}} \Delta t + \frac{1}{2} \boldsymbol{a} \Delta t^2 \\
-\boldsymbol{\beta}_{b_ib_{k+1}} &= \boldsymbol{\beta}_{b_ib_{k}} + \boldsymbol{a} \Delta t \\
-\boldsymbol{b}_{k+1}^{a} &= \boldsymbol{b}_{k}^{a} + \boldsymbol{n}_{b_{k}}^{a} \Delta t \\
-\boldsymbol{b}_{k+1}^{g} &= \boldsymbol{b}_{k}^{g} + \boldsymbol{n}_{b_{k}}^{g} \Delta t
-\end{align*}
-$$
-我们希望能够用一阶泰勒展开的推导方式，推导出误差的递推公式：
-$$
-\begin{align*}
-\begin{bmatrix}
-    \delta \boldsymbol{\alpha}_{b_{k+1}} \\
-    \delta \boldsymbol{\omega}_{b_{k+1}} \\
-    \delta \boldsymbol{\beta}_{b_{k+1}} \\
-    \delta \boldsymbol{b}^{a}_{k+1} \\
-    \delta \boldsymbol{b}^{g}_{k+1}
-\end{bmatrix} =
-\mathbf{F}
-\begin{bmatrix}
-    \delta \boldsymbol{\alpha}_{b_k} \\
-    \delta \boldsymbol{\omega}_{b_k} \\
-    \delta \boldsymbol{\beta}_{b_k} \\
-    \delta \boldsymbol{b}^{a}_{k} \\
-    \delta \boldsymbol{b}^{g}_{k}
-\end{bmatrix} +
-\mathbf{G}
-\begin{bmatrix}
-    \boldsymbol{n}^{a}_{k} \\
-    \boldsymbol{n}^{g}_{k} \\
-    \boldsymbol{n}^{a}_{k+1} \\
-    \boldsymbol{n}^{g}_{k+1} \\
-    \boldsymbol{n}^{a}_{b_k} \\
-    \boldsymbol{n}^{g}_{b_k}
-\end{bmatrix}
-\end{align*}
-$$
-$\delta(\cdot)$表示各时刻的误差，**F**，**G**为两个时刻的协方差传递矩阵：
-$$
-\mathbf{F} = \begin{bmatrix}
-    \mathbf{I} & \boldsymbol{f_{12}} & \mathbf{I}\delta t & -\frac{1}{4} (\boldsymbol{q}_{b_k,b_k} + \boldsymbol{q}_{b_k,b_{k+1}}) \delta t^2 & \boldsymbol{f_{15}} \\
-    0 & \mathbf{I} - [\boldsymbol{\omega}]_{\times} \delta t & 0 & 0 & -\mathbf{I}\delta t \\
-    0 & \boldsymbol{f_{32}} & \mathbf{I} & -\frac{1}{2} (\boldsymbol{q}_{b_k,b_k} + \boldsymbol{q}_{b_k,b_{k+1}}) \delta t & \boldsymbol{f_{35}} \\
-    0 & 0 & 0 & \mathbf{I} & 0 \\
-    0 & 0 & 0 & 0 & \mathbf{I} \\
-\end{bmatrix}\\
+    回顾使用mid-point 方法得到预积分的离散形式，将噪声也在方程中表示出来：
+    $$
+    \begin{align*}
+    \boldsymbol{\omega} &= \frac{1}{2} \left( (\tilde{\boldsymbol{\omega}}_{b_k} + \boldsymbol{n}_{k}^{g} - \boldsymbol{b}_{k}^{g}) + (\tilde{\boldsymbol{\omega}}_{b_{k+1}} + \boldsymbol{n}_{k+1}^{g} - \boldsymbol{b}_{k+1}^{g}) \right) \\
+    \boldsymbol{q}_{b_ib_{k+1}} &= \boldsymbol{q}_{b_ib_{k}} \otimes 
+    \begin{bmatrix}
+        1 \\
+        \frac{1}{2}\boldsymbol{\omega}\Delta t
+    \end{bmatrix} \\
+    \boldsymbol{a} &= \frac{1}{2} \left( \boldsymbol{q}_{b_ib_{k}} \left(\tilde{\boldsymbol{a}}_{b_k} + \boldsymbol{n}_{k}^{a} - \boldsymbol{b}_{k}^{a}\right) + \boldsymbol{q}_{b_ib_{k+1}} \left(\tilde{\boldsymbol{a}}_{b_{k+1}} + \boldsymbol{n}_{k+1}^{a} - \boldsymbol{b}_{k+1}^{a}\right) \right) \\
+    \boldsymbol{\alpha}_{b_ib_{k+1}} &= \boldsymbol{\alpha}_{b_ib_{k}} + \boldsymbol{\beta}_{b_ib_{k}} \Delta t + \frac{1}{2} \boldsymbol{a} \Delta t^2 \\
+    \boldsymbol{\beta}_{b_ib_{k+1}} &= \boldsymbol{\beta}_{b_ib_{k}} + \boldsymbol{a} \Delta t \\
+    \boldsymbol{b}_{k+1}^{a} &= \boldsymbol{b}_{k}^{a} + \boldsymbol{n}_{b_{k}}^{a} \Delta t \\
+    \boldsymbol{b}_{k+1}^{g} &= \boldsymbol{b}_{k}^{g} + \boldsymbol{n}_{b_{k}}^{g} \Delta t
+    \end{align*}
+    $$
+    我们希望能够用一阶泰勒展开的推导方式，推导出误差的递推公式：
+    $$
+    \begin{align*}
+    \begin{bmatrix}
+        \delta \boldsymbol{\alpha}_{b_{k+1}} \\
+        \delta \boldsymbol{\omega}_{b_{k+1}} \\
+        \delta \boldsymbol{\beta}_{b_{k+1}} \\
+        \delta \boldsymbol{b}^{a}_{k+1} \\
+        \delta \boldsymbol{b}^{g}_{k+1}
+    \end{bmatrix} =
+    \mathbf{F}
+    \begin{bmatrix}
+        \delta \boldsymbol{\alpha}_{b_k} \\
+        \delta \boldsymbol{\omega}_{b_k} \\
+        \delta \boldsymbol{\beta}_{b_k} \\
+        \delta \boldsymbol{b}^{a}_{k} \\
+        \delta \boldsymbol{b}^{g}_{k}
+    \end{bmatrix} +
+    \mathbf{G}
+    \begin{bmatrix}
+        \boldsymbol{n}^{a}_{k} \\
+        \boldsymbol{n}^{g}_{k} \\
+        \boldsymbol{n}^{a}_{k+1} \\
+        \boldsymbol{n}^{g}_{k+1} \\
+        \boldsymbol{n}^{a}_{b_k} \\
+        \boldsymbol{n}^{g}_{b_k}
+    \end{bmatrix}
+    \end{align*}
+    $$
+    $\delta(\cdot)$表示各时刻的误差，**F**，**G**为两个时刻的协方差传递矩阵：
+    $$
+    \mathbf{F} = \begin{bmatrix}
+        \mathbf{I} & \boldsymbol{f_{12}} & \mathbf{I}\delta t & -\frac{1}{4} (\boldsymbol{q}_{b_k,b_k} + \boldsymbol{q}_{b_k,b_{k+1}}) \delta t^2 & \boldsymbol{f_{15}} \\
+        0 & \mathbf{I} - [\boldsymbol{\omega}]_{\times} \delta t & 0 & 0 & -\mathbf{I}\delta t \\
+        0 & \boldsymbol{f_{32}} & \mathbf{I} & -\frac{1}{2} (\boldsymbol{q}_{b_k,b_k} + \boldsymbol{q}_{b_k,b_{k+1}}) \delta t & \boldsymbol{f_{35}} \\
+        0 & 0 & 0 & \mathbf{I} & 0 \\
+        0 & 0 & 0 & 0 & \mathbf{I} \\
+    \end{bmatrix}\\
+    
+    \mathbf{G} = \begin{bmatrix}
+        \frac{1}{4} \boldsymbol{q}_{b_k,b_k} \delta t^2 & \boldsymbol{g_{12}} & \frac{1}{4} \boldsymbol{q}_{b_k,b_{k+1}} \delta t^2 & \boldsymbol{g_{14}} & 0 \\
+        0 & \frac{1}{2} \mathbf{I}\delta t & 0 & \frac{1}{2} \mathbf{I}\delta t & 0 \\
+        \frac{1}{2} \boldsymbol{q}_{b_k,b_k} \delta t & \boldsymbol{g_{32}} & \frac{1}{2} \boldsymbol{q}_{b_k,b_{k+1}} \delta t & \boldsymbol{g_{34}} & 0 \\
+        0 & 0 & 0 & \mathbf{I}\delta t & 0 \\
+        0 & 0 & 0 & 0 & \mathbf{I}\delta t \\
+    \end{bmatrix}
+    $$
 
-\mathbf{G} = \begin{bmatrix}
-    \frac{1}{4} \boldsymbol{q}_{b_k,b_k} \delta t^2 & \boldsymbol{g_{12}} & \frac{1}{4} \boldsymbol{q}_{b_k,b_{k+1}} \delta t^2 & \boldsymbol{g_{14}} & 0 \\
-    0 & \frac{1}{2} \mathbf{I}\delta t & 0 & \frac{1}{2} \mathbf{I}\delta t & 0 \\
-    \frac{1}{2} \boldsymbol{q}_{b_k,b_k} \delta t & \boldsymbol{g_{32}} & \frac{1}{2} \boldsymbol{q}_{b_k,b_{k+1}} \delta t & \boldsymbol{g_{34}} & 0 \\
-    0 & 0 & 0 & \mathbf{I}\delta t & 0 \\
-    0 & 0 & 0 & 0 & \mathbf{I}\delta t \\
-\end{bmatrix}
-$$
-
-$$
-\begin{aligned}
-\boldsymbol{f_{12}} &= \frac{\partial \boldsymbol{\delta\alpha}_{b_{k+1}}}{\partial \boldsymbol{\delta\theta}_{b_k}} = -\frac{1}{4}(\boldsymbol{R}_{b_k,b_k}[\boldsymbol{a}^k - \boldsymbol{b}_k^{\boldsymbol{a}}]_\times \delta t + \boldsymbol{R}_{b_k,b_{k+1}}[\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}}]_\times (\boldsymbol{I} - [\boldsymbol{\omega}]_\times \delta t)^2) \\
-\boldsymbol{f_{32}} &= \frac{\partial \boldsymbol{\delta\beta}_{b_{k+1}}}{\partial \boldsymbol{\delta\theta}_{b_k}} = -\frac{1}{2}(\boldsymbol{R}_{b_k,b_k}[\boldsymbol{a}^k - \boldsymbol{b}_k^{\boldsymbol{a}}]_\times \delta t + \boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times (\boldsymbol{I} - [\boldsymbol{\omega}]_\times \delta t)]) \\
-\boldsymbol{f_{15}} &= \frac{\partial \boldsymbol{\delta\alpha}_{b_{k+1}}}{\partial \boldsymbol{\delta b}^{\boldsymbol{g}}_{k}} = -\frac{1}{4} (\boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times \delta t]^2)(-\delta t) \\
-\boldsymbol{f_{35}} &= \frac{\partial \boldsymbol{\delta\beta}_{b_{k+1}}}{\partial \boldsymbol{\delta b}^{\boldsymbol{g}}_{k}} = -\frac{1}{2} (\boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times \delta t](-\delta t)) \\
-\boldsymbol{g_{12}} &= \frac{\partial \boldsymbol{\delta\alpha}_{b_{k+1}}}{\partial \boldsymbol{\delta n}^{\boldsymbol{g}}_{k}} = \boldsymbol{g_{14}} = \frac{\partial \boldsymbol{\delta\alpha}_{b_{k+1}}}{\partial \boldsymbol{\delta n}^{\boldsymbol{g}}_{k+1}} = -\frac{1}{4}(\boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times \delta t]^2) \frac{1}{2}(-\delta t) \\
-\boldsymbol{g_{32}} &= \frac{\partial \boldsymbol{\delta\beta}_{b_{k+1}}}{\partial \boldsymbol{\delta n}^{\boldsymbol{g}}_{k}} = \boldsymbol{g_{34}} = \frac{\partial \boldsymbol{\delta\beta}_{b_{k+1}}}{\partial \boldsymbol{\delta n}^{\boldsymbol{g}}_{k+1}} = -\frac{1}{2}(\boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times \delta t])(\frac{1}{2} \delta t) \\
-\end{aligned}
-$$
+    $$
+    \begin{aligned}
+    \boldsymbol{f_{12}} &= \frac{\partial \boldsymbol{\delta\alpha}_{b_{k+1}}}{\partial \boldsymbol{\delta\theta}_{b_k}} = -\frac{1}{4}(\boldsymbol{R}_{b_k,b_k}[\boldsymbol{a}^k - \boldsymbol{b}_k^{\boldsymbol{a}}]_\times \delta t + \boldsymbol{R}_{b_k,b_{k+1}}[\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}}]_\times (\boldsymbol{I} - [\boldsymbol{\omega}]_\times \delta t)^2) \\
+    \boldsymbol{f_{32}} &= \frac{\partial \boldsymbol{\delta\beta}_{b_{k+1}}}{\partial \boldsymbol{\delta\theta}_{b_k}} = -\frac{1}{2}(\boldsymbol{R}_{b_k,b_k}[\boldsymbol{a}^k - \boldsymbol{b}_k^{\boldsymbol{a}}]_\times \delta t + \boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times (\boldsymbol{I} - [\boldsymbol{\omega}]_\times \delta t)]) \\
+    \boldsymbol{f_{15}} &= \frac{\partial \boldsymbol{\delta\alpha}_{b_{k+1}}}{\partial \boldsymbol{\delta b}^{\boldsymbol{g}}_{k}} = -\frac{1}{4} (\boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times \delta t]^2)(-\delta t) \\
+    \boldsymbol{f_{35}} &= \frac{\partial \boldsymbol{\delta\beta}_{b_{k+1}}}{\partial \boldsymbol{\delta b}^{\boldsymbol{g}}_{k}} = -\frac{1}{2} (\boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times \delta t](-\delta t)) \\
+    \boldsymbol{g_{12}} &= \frac{\partial \boldsymbol{\delta\alpha}_{b_{k+1}}}{\partial \boldsymbol{\delta n}^{\boldsymbol{g}}_{k}} = \boldsymbol{g_{14}} = \frac{\partial \boldsymbol{\delta\alpha}_{b_{k+1}}}{\partial \boldsymbol{\delta n}^{\boldsymbol{g}}_{k+1}} = -\frac{1}{4}(\boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times \delta t]^2) \frac{1}{2}(-\delta t) \\
+    \boldsymbol{g_{32}} &= \frac{\partial \boldsymbol{\delta\beta}_{b_{k+1}}}{\partial \boldsymbol{\delta n}^{\boldsymbol{g}}_{k}} = \boldsymbol{g_{34}} = \frac{\partial \boldsymbol{\delta\beta}_{b_{k+1}}}{\partial \boldsymbol{\delta n}^{\boldsymbol{g}}_{k+1}} = -\frac{1}{2}(\boldsymbol{R}_{b_k,b_{k+1}}[(\boldsymbol{a}^{k+1} - \boldsymbol{b}_k^{\boldsymbol{a}})_\times \delta t])(\frac{1}{2} \delta t) \\
+    \end{aligned}
+    $$
 
 #### 残差Jacobian的推导
 
@@ -2086,10 +2108,10 @@ $$
 P(a, b) = \mathcal{N} \left( \begin{bmatrix} \mu_a \\ \mu_b \end{bmatrix}, \begin{bmatrix} \boldsymbol{\Sigma_{aa}} & \boldsymbol{\Sigma_{ab}} \\ \boldsymbol{\Sigma_{ba}} & \boldsymbol{\Sigma_{bb}} \end{bmatrix} \right) = \mathcal{N}^{-1} \left( \begin{bmatrix} n_a \\ n_b \end{bmatrix}, \begin{bmatrix} \boldsymbol{\Lambda_{aa}} & \boldsymbol{\Lambda_{ab}} \\ \boldsymbol{\Lambda_{ba}} & \boldsymbol{\Lambda_{bb}} \end{bmatrix} \right),
 $$
 
-|                  | 边际概率<br />$p(\mathbf{a})=\int p(\mathbf{a},\mathbf{b})d\mathbf{b}$ | 条件概率<br />$p(\mathbf{a}|\mathbf{b})=p(\mathbf{a}, \mathbf{b})/p(\mathbf{b})$ |
+|                  | 边际概率$p(\mathbf{a})=\int p(\mathbf{a},\mathbf{b})d\mathbf{b}$ | 条件概率$p(\mathbf{a}|\mathbf{b})=p(\mathbf{a}, \mathbf{b})/p(\mathbf{b})$ |
 | ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **均方差形式**   | $\mu = \mu_a$ <br>$\boldsymbol{\Sigma} = \boldsymbol{\Sigma_{aa}}$ (33) | $\mu' = \mu_a + \boldsymbol{\Sigma_{ab} \Sigma_{bb}}^{-1} (b - \mu_b) $<br>$\boldsymbol{\Sigma'} = \boldsymbol{\Sigma_{aa}} - \boldsymbol{\Sigma_{ab} \Sigma_{bb}^{-1} \Sigma_{ba}}$ |
-| **信息矩阵形式** | $\eta = n_a - \boldsymbol{\Lambda_{ab}} \boldsymbol{\Lambda_{bb}^{-1}} n_b$<br>$\boldsymbol{\Lambda} = \boldsymbol{\Lambda_{aa}} - \boldsymbol{\Lambda_{ab}} \boldsymbol{\Lambda_{bb}^{-1}} \boldsymbol{\Lambda_{ba}}$ | $\eta' = n_a - \boldsymbol{\Lambda_{ab}} n_b $<br>$\boldsymbol{\Lambda'} = \boldsymbol{\Lambda_{aa}}$ |
+| **均方差形式**   | $\boldsymbol{\Sigma} = \boldsymbol{\Sigma_{aa}}$             | $\mu' = \mu_a + \boldsymbol{\Sigma_{ab} \Sigma_{bb}}^{-1} (b - \mu_b) $$\boldsymbol{\Sigma'} = \boldsymbol{\Sigma_{aa}} - \boldsymbol{\Sigma_{ab} \Sigma_{bb}^{-1} \Sigma_{ba}}$ |
+| **信息矩阵形式** | $\boldsymbol{\Lambda} = \boldsymbol{\Lambda_{aa}} - \boldsymbol{\Lambda_{ab}} \boldsymbol{\Lambda_{bb}^{-1}} \boldsymbol{\Lambda_{ba}}$ | $\boldsymbol{\Lambda'} = \boldsymbol{\Lambda_{aa}}$          |
 
 #### 滑动窗口算法
 
