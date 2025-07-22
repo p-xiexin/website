@@ -161,7 +161,7 @@
   <div class="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
     <!-- left column -->
     <!-- blog -->
-    <div class="flex flex-col gap-16">
+    <div class="flex max-w-3xl flex-col space-y-8 md:space-y-16">
       <!-- {#each data.blogList as blog (blog.slug)}
         <BlogCard blog={blog} titleAs="h3"/>
       {/each} -->

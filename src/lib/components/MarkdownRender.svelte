@@ -12,7 +12,6 @@
     import { unified } from "unified";
     import "katex/dist/katex.min.css";
     import { theme } from "$lib/stores";
-    import rehypeToc from "rehype-toc";
     import GitHubSlugger from 'github-slugger';
 
     export let content: string = "";
