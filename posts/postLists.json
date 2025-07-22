@@ -1,5 +1,16 @@
 [
   {
+    "description": "哈密顿函数与最优控制",
+    "date": "2025-07-23",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "9a2ae3b2b4fd989f3c134c9711d062fd",
+    "title": "hamilton_optimal_control"
+  },
+  {
     "description": "从拉格朗日力学到最优控制",
     "date": "2025-07-21",
     "author": "pxx",
