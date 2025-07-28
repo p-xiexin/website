@@ -1,5 +1,16 @@
 [
   {
+    "description": "stm32启动过程详解",
+    "date": "2025-07-28",
+    "author": "pxx",
+    "categories": [
+      "MCU"
+    ],
+    "published": true,
+    "slug": "b158fe10bc5f62a0a4e9b509c0f46322",
+    "title": "stm32_startup_analysis"
+  },
+  {
     "description": "初识Linux内核",
     "date": "2025-07-27",
     "author": "pxx",
