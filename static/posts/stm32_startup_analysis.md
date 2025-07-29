@@ -157,3 +157,54 @@ b .
 ```
 
 这个看似简单的"bl main"指令，实际上标志着系统从启动阶段转入正常运行阶段的重要时刻。
+
+
+## 5. 其他：项目目录结构解释
+
+**📁 start**
+- 存放启动相关文件
+- 包含startup.s启动汇编文件
+- 可能还有链接脚本(.ld文件)和启动配置
+
+**📁 cmsis** 
+- 存放CMSIS标准接口文件
+- 包含ARM Cortex-M核心定义(core_cm4.h等)
+- 芯片相关的头文件(stm32f4xx.h)
+- 系统初始化文件(system_stm32f4xx.c/h)
+- 以f4的芯片为例：
+  1. ARM Cortex-M核心相关：
+    - core_cm4.h - Cortex-M4核心的寄存器定义和访问函数
+    - core_cmFunc.h - Cortex-M核心通用函数（如开关中断、内存屏障等）
+    - core_cmInstr.h - Cortex-M核心指令的内联汇编封装
+    - core_cmSimd.h - SIMD（单指令多数据）相关定义
+  2. STM32F4xx芯片相关：
+    - stm32f4xx.h - STM32F4系列的主头文件，包含所有外设寄存器定义
+    - stm32f4xx_conf.h - 配置文件，用于选择要使用的外设库
+    - stm32f4xx_it.c/h - 中断服务函数的模板文件
+  3. 系统相关：
+    - system_stm32f4xx.c/h - 系统初始化函数，包含SystemInit()和时钟配置
+
+**📁 users**
+- 用户自定义代码区域
+- 存放main.c和你编写的应用程序代码
+- 自定义的头文件和源文件
+- 业务逻辑实现
+
+**📁 project**
+- Keil MDK工程文件存放位置
+- 包含.uvproj/.uvprojx工程文件
+- 编译输出文件(Objects, Listings)
+- 调试配置文件
+
+**📁 freertos**
+- FreeRTOS实时操作系统源码
+- 包含任务调度、内存管理、同步机制等
+- 移植层文件(port.c)
+- 配置文件(FreeRTOSConfig.h)
+
+**📁 fwlib**
+- STM32标准外设库文件
+- 各种外设的驱动源码(GPIO, UART, SPI等)
+- 对应的头文件(.h)
+- 提供高级API封装底层寄存器操作
+
