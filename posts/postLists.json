@@ -11,6 +11,17 @@
     "title": "wsl2_offline_install_blog"
   },
   {
+    "description": "FreeRTOS 内存管理概述",
+    "date": "2025-08-04",
+    "author": "pxx",
+    "categories": [
+      "RTOS"
+    ],
+    "published": true,
+    "slug": "99b8effc7ca9f17f3b2b735a8a6e59c0",
+    "title": "FreeRTOS_heap"
+  },
+  {
     "description": "stm32启动过程详解",
     "date": "2025-07-28",
     "author": "pxx",
