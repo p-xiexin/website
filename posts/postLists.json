@@ -196,5 +196,16 @@
     "published": true,
     "slug": "ff0cba4164a0e3ae2813606b2887deb2",
     "title": "GRAG调研"
+  },
+  {
+    "description": "百度完全模型组智能车竞赛调度方案",
+    "date": "2023-08-27",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "391d15495b78d046b4859cde54b5c22e",
+    "title": "cpp_multithreading_blog"
   }
 ]
