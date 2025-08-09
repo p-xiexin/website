@@ -1,0 +1,1 @@
+import{b as e}from"./5-O3aQ5J.js";const r="derek-portfolio",s=[{name:"Home",href:`${e}/`},{name:"About",href:`${e}/about`},{name:"Projects",href:`${e}/projects`},{name:"Blogs",href:`${e}/blogs`}];export{s as n,r as u};
