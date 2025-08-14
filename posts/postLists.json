@@ -1,5 +1,16 @@
 [
   {
+    "description": "进制转换判断方法和01背包法",
+    "date": "2025-08-14",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": true,
+    "slug": "f05dfba08bbe30f58c0655a03c1e5799",
+    "title": "Leetcode_1780_判断一个数字是否可以表示成三的幂的和"
+  },
+  {
     "description": "如何在完全无法联网的 Windows 系统中成功安装和使用 WSL2",
     "date": "2025-08-06",
     "author": "pxx",
