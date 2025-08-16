@@ -221,6 +221,7 @@
     @media (max-width: 768px) {
       :global(.katex-display) {
         overflow-x: auto;
+        overflow-y: hidden;
         max-width: 100%;
         display: block;
       }
