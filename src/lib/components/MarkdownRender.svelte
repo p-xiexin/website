@@ -217,4 +217,12 @@
         background-color: transparent !important;
         padding: 0 !important;
     }
+    /* 防止公式溢出（移动端） */
+    @media (max-width: 768px) {
+      :global(.katex-display) {
+        overflow-x: auto;
+        max-width: 100%;
+        display: block;
+      }
+    }
 </style>
