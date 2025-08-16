@@ -1,5 +1,16 @@
 [
   {
+    "description": "模型参考控制器",
+    "date": "2025-08-16",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "044712a4c0c68f2f819edee2a6c81eb5",
+    "title": "MRAC"
+  },
+  {
     "description": "进制转换判断方法和01背包法",
     "date": "2025-08-14",
     "author": "pxx",
