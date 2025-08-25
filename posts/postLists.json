@@ -1,5 +1,16 @@
 [
   {
+    "description": "流形上旋转误差的选取思路与推导",
+    "date": "2025-08-26",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "87b3cea34649ea6e3de00ce37367fe92",
+    "title": "rotation_error_blog"
+  },
+  {
     "description": "模型参考控制器",
     "date": "2025-08-16",
     "author": "pxx",
