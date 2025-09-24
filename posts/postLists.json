@@ -1,5 +1,16 @@
 [
   {
+    "description": "Model-Based Diffusion论文解读",
+    "date": "2025-09-24",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "3067903aee55ca13cd437b3a432ac9d9",
+    "title": "mbd_diffusion_blog"
+  },
+  {
     "description": "流形上旋转误差的选取思路与推导",
     "date": "2025-08-26",
     "author": "pxx",
