@@ -40,7 +40,7 @@ $$
 代码实现：
 
 ```python
-## ---------- 扩散 schedule（与论文 Eq.(3) 对应） ----------
+# ---------- 扩散 schedule（与论文 Eq.(3) 对应） ----------
 # betas：线性调度
 betas = jnp.linspace(args.beta0, args.betaT, args.Ndiffuse)   # β_t
 alphas = 1.0 - betas                                          # α_t = 1 - β_t
