@@ -9,7 +9,10 @@
   export let titleAs = 'h2';
 
   // Compute the UTM link
-  $: utmLink = `https://${project.link.href}?utm_source=${utm_source}`;
+  // $: utmLink = `https://${project.link.href}?utm_source=${utm_source}`;
+  $: utmLink = project.link.href.startsWith('http')
+              ? `${project.link.href}?utm_source=${utm_source}`
+              : `https://${project.link.href}?utm_source=${utm_source}`;
 
   // Dynamic component
   $: Component = titleAs;
