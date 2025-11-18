@@ -50,7 +50,8 @@ export const projects: Array<ProjectItemType> = [
   {
     name: 'Knowledge Base Question Answering System',
     description: 'An intelligent Q&A system based on a structured knowledge base.',
-    link: { href: 'https://example.com/lab617-llm', label: 'LLM' },
+    // link: { href: 'https://example.com/lab617-llm', label: 'LLM' },
+    link: { href: https://mp.weixin.qq.com/s/1IoqA9wj-9pDBECPOFOOfQ', label: 'LLM' },
     tags: ['Website', 'GRAG', 'TailwindCSS', 'Fastapi', 'LLM']
   },
 ]
