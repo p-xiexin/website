@@ -1,5 +1,16 @@
 [
   {
+    "description": "cross compile tools introduction",
+    "date": "2025-11-16",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "b40a0077dca278ec9a2d6c1ac4f5c044",
+    "title": "cross_compiler_blog"
+  },
+  {
     "description": "Model-Based Diffusion论文解读",
     "date": "2025-09-24",
     "author": "pxx",
