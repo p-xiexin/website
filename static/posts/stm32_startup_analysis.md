@@ -5,13 +5,25 @@ author: 'pxx'
 categories:
   - MCU
 published: true
+
 ---
-
-
 
 # STM32启动过程详解：从上电到main()的完整历程
 
-在嵌入式开发中，很多初学者习惯性地认为程序是从main()函数开始执行的。但实际上，在main()函数被调用之前，系统已经悄悄地完成了大量的初始化工作。以STM32为例，探究这个神秘的启动过程。
+在嵌入式开发中，很多初学者习惯性地认为程序是从main()函数开始执行的。但实际上，在main()函数被调用之前，系统已经悄悄地完成了大量的初始化工作。
+
+```
+上电复位
+   ↓
+取出 MSP = _estack
+取出 PC  = Reset_Handler
+   ↓
+Reset_Handler:
+   1) 复制 .data
+   2) 清零 .bss
+   3) SystemInit → 配置时钟
+   4) 调用 main
+```
 
 ## 1. 硬件复位：一切的开始
 
@@ -37,174 +49,261 @@ g_pfnVectors:
   ; ... 更多中断向量
 ```
 
-## 2. 启动代码的精密编排
+这里 `_estack` 在链接脚本中由 `RAM` 段的最高地址定义（一般是 0x20020000）。
+
+```asm
+_estack = ORIGIN(RAM) + LENGTH(RAM);
+```
+
+## 2. Reset_Handler：真正的启动流程核心
 
 当CPU读取到复位向量后，程序跳转到Reset_Handler标签处开始执行。这个Reset_Handler就是我们常说的启动代码（startup code），通常位于startup_stm32xxxx.s文件中。
 
-### 系统时钟
+这里以`startup_stm32f40_41xxx.s`为例说明：
+
+```asm
+/**
+ * @brief  This is the code that gets called when the processor first
+ *          starts execution following a reset event. Only the absolutely
+ *          necessary set is performed, after which the application
+ *          supplied main() routine is called. 
+ * @param  None
+ * @retval : None
+*/
+
+    .section  .text.Reset_Handler
+  .weak  Reset_Handler
+  .type  Reset_Handler, %function
+Reset_Handler:  
+
+/* Copy the data segment initializers from flash to SRAM */  
+  movs  r1, #0 准备一个寄存器 r1，初始值为 0，用于复制/清零循环。
+  b  LoopCopyDataInit 
+```
+
+在 ARM/GCC 的汇编里，**section（段）就是编译出来的程序在内存中的分类区域**，比如：
+
+- `.text` → 存放代码（只读）
+- `.data` → 存放初始化的全局变量
+- `.bss`  → 存放未初始化的全局变量
+
+这个语句：
+
+```asm
+.section .text.Reset_Handler
+```
+
+意思是：
+
+- 新建（或切换到）一个名为 `.text.Reset_Handler` 的 **代码段**
+- 后面写的指令会放到这个段中
+- 链接脚本会把这个段安排到 Flash 的恰当位置（通常靠近 `.text`）
+
+### 2.1 复制.data段
+
+```asm
+CopyDataInit:
+  ldr  r3, =_sidata        ; r3 = Flash 中 .data 初始值的起始地址（源地址）
+  ldr  r3, [r3, r1]        ; 从 _sidata + offset(r1) 取 4 字节到 r3
+  str  r3, [r0, r1]        ; 将 r3 写入到 _sdata + offset(r1)（SRAM 目的地址）
+  adds  r1, r1, #4         ; offset += 4，准备复制下一个字（32bit）
+    
+LoopCopyDataInit:
+  ldr  r0, =_sdata         ; r0 = SRAM 中 .data 区域的起始地址（目的地址）
+  ldr  r3, =_edata         ; r3 = SRAM 中 .data 区域的结束地址
+  adds  r2, r0, r1         ; r2 = 当前目的地址 = _sdata + offset
+  cmp  r2, r3              ; 判断目的地址是否到达 .data 末尾
+  bcc  CopyDataInit        ; 若 r2 < r3，继续复制下一个字
+  
+  ldr  r2, =_sbss          ; r2 = .bss 段起始地址，为后续清零做准备
+  b  LoopFillZerobss       ; 跳转去执行清零 .bss
+
+```
+
+- `.data` 段包含**已初始化的全局变量与静态变量**。
+- 在 Flash 中这些变量的初始值存放在 `_sidata`。
+- 启动时必须把这些初始值复制到 SRAM 中的 `_sdata ~ _edata`。
+
+执行动作：
+
+1. 使用 `r1` 作为偏移量。
+2. 从 Flash 的 `_sidata + r1` 读取 4 字节。
+3. 写到 SRAM 的 `_sdata + r1`。
+4. 偏移递增，直到达到 `_edata` 为止。
+
+整个过程确保程序中诸如：
+
+```c
+int a = 5;
+static int b = 9;
+```
+
+这些变量在 RAM 中得到正确初始化。
+
+### 2.2 清零.bss段（未初始化的全局变量）
+
+```asm
+/* Zero fill the bss segment. */
+FillZerobss:
+  movs r3, #0              ; r3 = 0
+  str  r3, [r2], #4        ; 将 0 写入当前地址，同时 r2 += 4
+
+LoopFillZerobss:
+  ldr  r3, =_ebss          ; r3 = .bss 的结束地址
+  cmp  r2, r3              ; 是否到达 bss 结束？
+  bcc  FillZerobss         ; 未到结束则继续写 0
+```
+
+`.bss` 段存放**未初始化的全局变量与静态变量**。
+
+```c
+int counter;
+static int flag;
+```
+
+C 语言标准要求这些变量在程序启动前必须自动置 0。
+
+执行动作：
+
+1. 从 `_sbss` 开始。
+2. 每次写入一个字（4 字节）为 0。
+3. 写满到 `_ebss`。
+
+这确保所有未初始化变量都从 `0` 开始运行。
+
+### 2.3 调用 SystemInit()（配置系统时钟等）
 
 启动代码的第一个重要任务是配置系统时钟。STM32芯片复位后默认使用内部RC振荡器（HSI），频率通常只有8MHz或16MHz。但现代STM32芯片的性能远不止于此，它们需要更高的工作频率来发挥最佳性能。
 
 ```assembly
-Reset_Handler:
-    ; 首先设置栈指针（虽然硬件已经设置了，但这里再次确认）
-    ldr sp, =_estack
-    
-    ; 调用系统时钟配置函数
-    bl SystemInit
-    
-    ; 继续后续初始化...
+/* Call the clock system intitialization function.*/
+  bl  SystemInit   
+/* Call the application's entry point.*/
+  bl  main   ; 跳转执行 C 程序入口 main()
+  bx  lr     ; main 返回
+.size  Reset_Handler, .-Reset_Handler
 ```
 
-SystemInit()函数是用C语言编写的，它负责配置PLL（锁相环）、选择时钟源、设置分频器等。这个过程就像为整个系统装上了一颗强劲的心脏，让所有外设都能以最佳速度运行。
+SystemInit()函数是用C语言编写的（位于 system_stm32f4xx.c），它负责配置PLL（锁相环）、选择时钟源、设置分频器等。这个过程就像为整个系统装上了一颗强劲的心脏，让所有外设都能以最佳速度运行。
 
-### 内存数据段和BSS段初始化
+### 2.4 默认中断
 
-接下来，启动代码需要准备C语言运行环境。C程序中的全局变量和静态变量需要被正确初始化，这涉及到两个重要的内存段：
+```asm
+/**
+ * @brief  This is the code that gets called when the processor receives an 
+ *         unexpected interrupt.  This simply enters an infinite loop, preserving
+ *         the system state for examination by a debugger.
+ * @param  None     
+ * @retval None       
+*/
 
-**数据段（.data section）的复制过程**
-
-数据段包含了所有已初始化的全局变量和静态变量。这些变量的初始值在编译时就确定了，存储在Flash存储器中。但C程序运行时需要访问的是RAM中的副本，因为Flash通常是只读的。
-
-```assembly
-; 复制数据段从Flash到RAM
-ldr r0, =_sdata      ; RAM中数据段的起始地址
-ldr r1, =_edata      ; RAM中数据段的结束地址
-ldr r2, =_sidata     ; Flash中数据段初始值的地址
-
-movs r3, #0
-b LoopCopyDataInit
-
-CopyDataInit:
-    ldr r4, [r2, r3]     ; 从Flash读取数据
-    str r4, [r0, r3]     ; 写入到RAM
-    adds r3, r3, #4      ; 移动到下一个字
-
-LoopCopyDataInit:
-    adds r4, r0, r3      ; 计算当前地址
-    cmp r4, r1           ; 是否到达结束地址
-    bcc CopyDataInit     ; 如果没有，继续复制
+/* 默认中断处理函数：进入无限循环，便于调试 */
+.section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+  .size Default_Handler, .-Default_Handler
 ```
 
-这个过程就像搬家一样，把所有的"家具"（初始化的变量）从"仓库"（Flash）搬到"新家"（RAM）。
+当发生未定义的中断/异常时，执行无限循环，所有未定义的中断都跳到这里，保持现场供调试器检查。
 
-**BSS段的清零**
+### 2.5 中断向量表
 
-BSS段包含了所有未初始化的全局变量和静态变量。按照C语言标准，这些变量应该被初始化为0。但它们在编译时并不占用Flash空间，只在RAM中分配空间。
+```asm
+/* 中断向量表，需放在物理地址 0x00000000 */
+.section .isr_vector,"a",%progbits
+.type  g_pfnVectors, %object
+.size  g_pfnVectors, .-g_pfnVectors
 
-```assembly
-; 清零BSS段
-ldr r2, =_sbss       ; BSS段起始地址
-ldr r4, =_ebss       ; BSS段结束地址
-movs r3, #0          ; 清零值
-b LoopFillZerobss
 
-FillZerobss:
-    str r3, [r2], #4     ; 写入0并递增地址
-
-LoopFillZerobss:
-    cmp r2, r4           ; 是否到达结束地址
-    bcc FillZerobss      ; 如果没有，继续清零
+g_pfnVectors:
+  .word _estack
+  .word Reset_Handler
+  .word NMI_Handler
+  .word HardFault_Handler
+  …
 ```
 
-### 浮点单元的准备工作
+`"a"` = **allocatable**（需要分配内存）
 
-对于带有FPU（浮点处理单元）的STM32芯片，启动代码还需要启用浮点运算功能。这涉及到设置CPACR（协处理器访问控制寄存器）来允许访问浮点协处理器。
+`%progbits` 表示：
 
-```assembly
-; 启用FPU (如果存在)
-ldr r0, =0xE000ED88    ; CPACR寄存器地址
-ldr r1, [r0]
-orr r1, r1, #(0xF << 20) ; 设置CP10和CP11的访问权限
-str r1, [r0]
-dsb                    ; 数据同步屏障
-isb                    ; 指令同步屏障
+> 段中包含普通的程序内容（比如常量、代码、数据等）。
+
+与之相对的是 `%nobits` → 不需要储存（如 `.bss` 清零段）。
+
+ISR 表是实际的数据（地址列表），所以属于 **progbits**。
+
+## 3. 其他
+
+| 关键字            | 用途                 |
+| ----------------- | -------------------- |
+| `.section`        | 放入指定段           |
+| `.word`           | 放入 4 字节常量      |
+| `.global`         | 对其他文件可见       |
+| `.weak`           | 弱符号，可被覆盖     |
+| `.type`           | 说明这是个函数或对象 |
+| `.thumb_set a, b` | 让符号 a 等同于 b    |
+| `ldr rX, =符号`   | 取地址（伪指令）     |
+| `b`、`bl`         | 跳转、函数调用       |
+| `str`、`ldr`      | 内存存/取            |
+| `cmp` + 条件跳转  | 判断循环             |
+
+### 3.1 文件头部与编译器设置
+
+```asm
+.syntax unified
+.cpu cortex-m4
+.fpu softvfp
+.thumb
 ```
 
-## 3. C运行时环境的最终准备
+- **.syntax unified**：启用 ARM 的 Unified 汇编语法（ARM/Thumb 共用风格）。
+- **.cpu cortex-m4**：告诉汇编器目标 CPU 是 Cortex-M4。
+- **.fpu softvfp**：使用软件浮点（编译器不生成硬件 FPU 指令）。
+- **.thumb**：使用 Thumb 指令集（32/16 位混合，更省空间）。
 
-完成了硬件层面的初始化后，启动代码开始为C语言程序创建运行环境。这个过程包括几个关键步骤：
+这些只是告诉编译器要用什么风格解释后面的指令。
 
-### 全局构造函数的调用
+### 3.2 声明全局符号
 
-在C++程序中，全局对象的构造函数需要在main()函数之前被调用。即使在C程序中，某些特殊的初始化函数（如__attribute__((constructor))标记的函数）也需要在此时执行。
-
-```assembly
-; 调用全局构造函数（如果存在）
-ldr r0, =__preinit_array_start
-ldr r1, =__preinit_array_end
-bl __libc_init_array
+```asm
+.global  g_pfnVectors
+.global  Default_Handler
 ```
 
-### 标准库的初始化
+- **.global**：声明这些符号在其他文件可见（类似 C 的 `extern`）。
 
-如果程序使用了C标准库（如printf、malloc等函数），这些库函数的内部数据结构也需要被初始化。这通常由__libc_init_array()函数完成。
+### 3.3 导入链接脚本中的段地址
 
-### 栈溢出保护的设置
-
-在调试版本中，启动代码可能会在栈的底部设置特殊的标记值，用于检测栈溢出。这是一个重要的调试功能，可以帮助开发者及早发现栈溢出问题。
-
-## 4. main()函数进入
-
-经过了这一系列复杂的初始化过程，系统终于准备好运行用户代码了。此时，启动代码会调用main()函数：
-
-```assembly
-; 最终跳转到main函数
-bl main
-
-; 如果main函数返回，进入无限循环
-b .
+```asm
+.word _sidata
+.word _sdata
+.word _edata
+.word _sbss
+.word _ebss
 ```
 
-这个看似简单的"bl main"指令，实际上标志着系统从启动阶段转入正常运行阶段的重要时刻。
+- **.word**：放置一个 32 位数（这里是地址）。
+- 这些符号来自 *链接脚本*，用于初始化 `.data` 和 `.bss`。
 
+### 3.4 所有中断处理函数做弱定义（weak alias）
 
-## 5. 其他：项目目录结构解释
+例如：
 
-**📁 start**
-- 存放启动相关文件
-- 包含startup.s启动汇编文件
-- 可能还有链接脚本(.ld文件)和启动配置
+```asm
+.weak NMI_Handler
+.thumb_set NMI_Handler,Default_Handler
+```
 
-**📁 cmsis** 
-- 存放CMSIS标准接口文件
-- 包含ARM Cortex-M核心定义(core_cm4.h等)
-- 芯片相关的头文件(stm32f4xx.h)
-- 系统初始化文件(system_stm32f4xx.c/h)
-- 以f4的芯片为例：
-  1. ARM Cortex-M核心相关：
-    - core_cm4.h - Cortex-M4核心的寄存器定义和访问函数
-    - core_cmFunc.h - Cortex-M核心通用函数（如开关中断、内存屏障等）
-    - core_cmInstr.h - Cortex-M核心指令的内联汇编封装
-    - core_cmSimd.h - SIMD（单指令多数据）相关定义
-  2. STM32F4xx芯片相关：
-    - stm32f4xx.h - STM32F4系列的主头文件，包含所有外设寄存器定义
-    - stm32f4xx_conf.h - 配置文件，用于选择要使用的外设库
-    - stm32f4xx_it.c/h - 中断服务函数的模板文件
-  3. 系统相关：
-    - system_stm32f4xx.c/h - 系统初始化函数，包含SystemInit()和时钟配置
+- **.weak**：允许用户在 C 文件里重新定义同名函数。
+- **.thumb_set A, B**：让符号 A 指向符号 B（类似 C 的 `#define A B`）。
 
-**📁 users**
-- 用户自定义代码区域
-- 存放main.c和你编写的应用程序代码
-- 自定义的头文件和源文件
-- 业务逻辑实现
+## 4. 总结
 
-**📁 project**
-- Keil MDK工程文件存放位置
-- 包含.uvproj/.uvprojx工程文件
-- 编译输出文件(Objects, Listings)
-- 调试配置文件
-
-**📁 freertos**
-- FreeRTOS实时操作系统源码
-- 包含任务调度、内存管理、同步机制等
-- 移植层文件(port.c)
-- 配置文件(FreeRTOSConfig.h)
-
-**📁 fwlib**
-- STM32标准外设库文件
-- 各种外设的驱动源码(GPIO, UART, SPI等)
-- 对应的头文件(.h)
-- 提供高级API封装底层寄存器操作
-
+1. **向量表必须放在 Flash 起始地址**
+2. `Reset_Handler` 负责初始化 C 运行环境
+3. `.data` 必须复制，`.bss` 必须清零
+4. `SystemInit()` 配置系统时钟，是性能的基础
+5. 链接脚本决定所有内存地址和布局
+6. 最终跳转到用户的 `main()` 执行
