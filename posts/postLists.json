@@ -1,5 +1,16 @@
 [
   {
+    "description": "stm32链接脚本",
+    "date": "2025-11-20",
+    "author": "pxx",
+    "categories": [
+      "MCU"
+    ],
+    "published": true,
+    "slug": "39f333244823459e2600006549727914",
+    "title": "stm32_linker_blog"
+  },
+  {
     "description": "cross compile tools introduction",
     "date": "2025-11-16",
     "author": "pxx",
