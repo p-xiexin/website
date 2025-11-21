@@ -517,25 +517,200 @@ void function(void) {
 3. 设置栈指针为0x20020000
 4. 跳转到Reset_Handler，最终执行main
 
-## 常见问题和优化
+## 实践：修改链接脚本
 
-### 问题1：栈溢出
+理解链接脚本的原理后，我们可以根据实际需求调整它：
 
-如果`_Min_Stack_Size`太小，程序的栈指针可能会越界，导致程序崩溃。可以通过增加这个值来解决，但要注意不要超过可用的RAM。
+### 增加堆的大小
 
-### 问题2：堆碎片化
+如果程序需要动态分配大量内存，可以增加堆的最小大小：
 
-频繁分配和释放不同大小的内存会导致堆碎片化。在资源受限的嵌入式系统中，最好使用静态分配或内存池。
-
-### 优化：使用CCMRAM
-
-对于实时性要求高的代码，可以将关键函数或数据放在CCMRAM中：
-
-```c
-uint8_t critical_data[256] __attribute__((section(".ccmram")));
+```ld
+_Min_Heap_Size = 0x4000;    /* 从512字节增加到16384字节 */
+_Min_Stack_Size = 0x800;    /* 保持或调整栈的大小 */
 ```
 
-然后在链接脚本中添加相应的.ccmram段定义。
+这样堆就有了16KB的空间。当然，你需要确保RAM足够大。如果修改后链接器报"region RAM overflowed"错误，说明RAM空间不足，需要减少其他数据或使用更大容量的芯片。
+
+### 将关键代码放在CCMRAM
+
+CCMRAM因为访问速度快，适合存放性能关键的代码。比如你有一个中断处理程序需要快速执行：
+
+```c
+void critical_interrupt_handler(void) __attribute__((section(".critical_code")));
+void critical_interrupt_handler(void) {
+    /* 时间关键的代码 */
+}
+```
+
+然后在链接脚本中添加一个新段：
+
+```ld
+.critical_code :
+{
+  . = ALIGN(4);
+  *(.critical_code)
+  . = ALIGN(4);
+} >CCMRAM AT> FLASH
+```
+
+这样，关键代码会存储在FLASH中（启动时加载到CCMRAM），运行时直接从快速的CCMRAM执行。
+
+### 分离数据到不同的内存区域
+
+如果你想将某些性能关键的数据存放在CCMRAM：
+
+```ld
+.fast_data :
+{
+  . = ALIGN(4);
+  *(.fast_data)
+  . = ALIGN(4);
+} >CCMRAM AT> FLASH
+```
+
+然后标记需要快速访问的数据：
+
+```c
+uint32_t dma_buffer[256] __attribute__((section(".fast_data")));
+```
+
+### 调整栈的大小
+
+如果程序有深层的函数调用或大量的本地变量，可能需要更大的栈：
+
+```ld
+_Min_Stack_Size = 0x2000;    /* 增加到8192字节 */
+```
+
+但要小心——栈太大会挤压堆的空间，导致内存分配失败。
+
+### 添加外部SRAM支持
+
+如果硬件连接了外部SRAM，可以在MEMORY块中添加：
+
+```ld
+MEMORY
+{
+  CCMRAM    (xrw)    : ORIGIN = 0x10000000,   LENGTH = 64K
+  RAM       (xrw)    : ORIGIN = 0x20000000,   LENGTH = 128K
+  EXTRAM    (xrw)    : ORIGIN = 0x68000000,   LENGTH = 256K  /* 外部SRAM */
+  FLASH     (rx)     : ORIGIN = 0x8000000,    LENGTH = 1024K
+}
+```
+
+然后可以在SECTIONS中为外部RAM添加段：
+
+```ld
+.ext_data :
+{
+  *(.ext_data)
+} >EXTRAM
+```
+
+## 调试链接脚本
+
+当发生内存相关的问题时，调试链接脚本是关键：
+
+### 查看内存映射
+
+编译后生成的.map文件包含了完整的内存映射信息。在STM32CubeIDE中，编译后在build目录中会有一个.map文件。打开它可以看到：
+
+```
+LOAD build/your_project.o
+...
+ .text          0x08000000    0x5234
+ .rodata        0x08005234    0x0abc
+ .data          0x20000000    0x0100  (load addr 0x08006000)
+ .bss           0x20000100    0x0200
+```
+
+这个映射显示了每个段的VMA（虚拟地址）和LMA（加载地址）。对于.data段，VMA是0x20000000（运行时地址在RAM），LMA是0x08006000（存储地址在FLASH）。
+
+### 常见的链接错误
+
+**错误：symbol not found**
+
+如果启动代码找不到某个符号（比如`_estack`），通常是因为链接脚本中没有定义这个符号。检查拼写和大小写。
+
+**错误：region RAM overflowed by X bytes**
+
+这表示代码和数据的总大小超过了RAM的容量。解决方案：
+
+- 减少`_Min_Heap_Size`或`_Min_Stack_Size`
+- 使用更大容量的芯片
+- 优化代码，减少全局变量
+- 将某些数据存放在FLASH中，运行时使用常量而不是副本
+
+**错误：undefined reference to `_sidata`**
+
+这通常意味着启动代码中引用了链接脚本创建的符号，但链接脚本没有正确定义它。确保链接脚本中有：
+
+```ld
+_sidata = LOADADDR(.data);
+```
+
+
+## 链接脚本与启动代码的协作
+
+让我们回顾一下启动代码如何使用链接脚本定义的符号。一个典型的汇编启动序列是这样的：
+
+```assembly
+.section .text.Reset_Handler
+.weak Reset_Handler
+.type Reset_Handler, %function
+Reset_Handler:
+  /* 关闭中断 */
+  cpsid i
+  
+  /* 设置栈指针 */
+  ldr   sp, =_estack
+  
+  /* 调用系统初始化 */
+  bl    SystemInit
+  
+  /* 复制初始化数据 */
+  ldr   r0, =_edata
+  ldr   r1, =_sdata
+  ldr   r2, =_sidata
+  b     LoopCopyDataInit
+  
+CopyDataInit:
+  ldr   r3, [r2], #4
+  str   r3, [r1], #4
+  
+LoopCopyDataInit:
+  cmp   r1, r0
+  bne   CopyDataInit
+  
+  /* 清零BSS段 */
+  ldr   r0, =_ebss
+  ldr   r1, =_sbss
+  movs  r2, #0
+  b     LoopFillZeroBss
+  
+FillZeroBss:
+  str   r2, [r1], #4
+  
+LoopFillZeroBss:
+  cmp   r1, r0
+  bne   FillZeroBss
+  
+  /* 调用全局构造函数 */
+  bl    __libc_init_array
+  
+  /* 跳转到main */
+  bl    main
+  
+  /* 如果main返回，进入死循环 */
+  bx    lr
+```
+
+每一步都依赖于链接脚本创建的符号：
+
+1. `_estack`：由链接脚本计算为RAM末尾
+2. `_sdata`、`_edata`、`_sidata`：定义了初始化数据的范围和源位置
+3. `_sbss`、`_ebss`：定义了BSS段的范围
 
 ## 总结
 
