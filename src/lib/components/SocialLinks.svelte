@@ -13,9 +13,11 @@
             target="_blank"
             rel="noreferrer"
             aria-label={link.ariaLabel ?? `Follow on ${link.name}`}
-            class="inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+            class="group inline-flex h-10 w-10 items-center justify-center rounded-md"
         >
-            <CustomIcon name={link.icon} />
+            <span class="transition-colors group-hover:text-pink-500">
+                <CustomIcon name={link.icon} />
+            </span>
             <span class="sr-only">{link.name}</span>
         </a>
     {/each}
@@ -24,9 +26,11 @@
         target="_blank"
         rel="noreferrer"
         aria-label='Email'
-        class="inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+        class="group inline-flex h-10 w-10 items-center justify-center rounded-md"
     >
-        <CustomIcon name='email' />
+        <span class="transition-colors group-hover:text-pink-500">
+            <CustomIcon name='email' />
+        </span>
         <span class="sr-only">Email</span>
     </a>
 </div>

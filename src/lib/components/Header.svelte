@@ -6,6 +6,7 @@
     import MobileNavBar from "./MobileNavBar.svelte";
     import NavBar from "./NavBar.svelte";
     import ThemeToggle from "./themeToggle.svelte";
+    import LanguageToggle from "./LanguageToggle.svelte";
 
 // 判断是否是首页
   const isHomePage = derived(page, ($page) => $page.url.pathname === '/');
@@ -89,6 +90,7 @@
                     </div>
                     <div class="flex justify-end md:flex-1">
                         <div class="pointer-events-auto flex flex-row items-center gap-2 md:mr-2">
+                            <LanguageToggle />
                             <ThemeToggle />
                             <GithubRepo />
                         </div>

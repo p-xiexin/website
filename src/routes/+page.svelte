@@ -5,34 +5,30 @@
   import Career from '$lib/components/Career.svelte';
   import Education from '$lib/components/Education.svelte';
   import SocialLinks from '$lib/components/SocialLinks.svelte';
-  import { headline, introduction, noteList } from '$lib/config/infoConfig';
   import BlogCard from '$lib/components/BlogCard.svelte';
   import ProjectCard from '$lib/components/ProjectCard.svelte';
   import ActivityCard from '$lib/components/ActivityCard.svelte';
-  import { 
-    projectHeadLine, 
-    projectIntro, 
-    projects, 
-    blogHeadLine, 
-    blogIntro, 
-    techIcons 
+  import {
+    projects,
+    techIcons
   } from '$lib/config/infoConfig';
   import { 
     awards, 
-    awardsHeadLine, 
-    awardsIntro, 
     activities, 
-    activitiesHeadLine, 
-    activitiesIntro 
   } from '$lib/config/projects';
   import IconCloud from '$lib/externel/components/icon-cloud.svelte';
   import { Award, Briefcase, ChevronRightIcon, Heart, Notebook } from 'lucide-svelte';
   import NoteCard from '$lib/components/NoteCard.svelte';
-    import GithubContrib from '$lib/components/GithubContrib.svelte';
-    import { base } from '$app/paths';
+  import GithubContrib from '$lib/components/GithubContrib.svelte';
+  import { base } from '$app/paths';
+  import { uiContent } from '$lib/i18n';
+  import { t } from 'svelte-i18n';
+  import { noteList } from '$lib/config/notes';
 
   
   export let data;
+
+  const notesLocalized = noteList;
 </script>
 
 <Container class="mt-9">
@@ -40,7 +36,7 @@
   <!-- 移动端布局：只在小屏显示 -->
   <div class="md:hidden mb-10 flex flex-col">
     <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl opacity-80">
-      {headline}
+      {$uiContent.home.headline}
     </h2>
     <div class="mt-4 flex justify-center">
       <div class="w-60 h-60 sm:w-72 sm:h-72">
@@ -51,7 +47,7 @@
       </div>
     </div>
     <p class="mt-6 text-xl text-muted-foreground">
-      {introduction}
+      {$uiContent.home.introduction.join(' ')}
     </p>
     <SocialLinks className="mt-4" />
     <div class="mt-6 border-t border-zinc-100 py-8 dark:border-zinc-700/40">
@@ -63,10 +59,10 @@
   <div class="hidden md:grid mb-10 grid-cols-2">
     <div class="md:mt-20">
       <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl opacity-80">
-        {headline}
+        {$uiContent.home.headline}
       </h2>
       <p class="mt-6 text-xl text-muted-foreground">
-        {introduction}
+        {$uiContent.home.introduction.join(' ')}
       </p>
       <SocialLinks />
     </div>
@@ -82,7 +78,7 @@
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
     <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
       <Award size={28}/>
-      {awardsHeadLine}
+      {$uiContent.home.awardsHeadline}
     </h2>
     <ul
       role="list"
@@ -98,10 +94,10 @@
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
     <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
       <Briefcase size={28}/>
-      {projectHeadLine}
+      {$uiContent.home.projectHeadline}
     </h2>
     <p class="text-base text-muted-foreground max-w-2xl mb-8">
-      {projectIntro}
+      {$uiContent.home.projectIntro}
     </p>
     <ul
       role="list"
@@ -117,10 +113,10 @@
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
     <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
       <Heart size={28}/>
-      {activitiesHeadLine}
+      {$uiContent.home.activitiesHeadline}
     </h2>
     <p class="text-base text-muted-foreground max-w-2xl mb-8">
-      {activitiesIntro}
+      {$uiContent.home.activitiesIntro}
     </p>
     <ul
       role="list"
@@ -134,16 +130,16 @@
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
     <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
         <Notebook size={28}/>
-        {'NoteBooks'}
+        {$uiContent.home.notesHeadline}
     </h2>
     <p class="text-base text-muted-foreground max-w-2xl mb-8">
-      {'studying notes'}
+      {$uiContent.home.notesIntro}
     </p>
     <ul
     role="list"
     class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3 auto-rows-[1fr]"
     >
-        {#each noteList as book (book.slug)}
+        {#each notesLocalized as book (book.slug)}
             <NoteCard book={book} titleAs="h3"/>
         {/each}
     </ul>
@@ -152,10 +148,10 @@
   <!-- Blog Section -->
   <div class="mx-auto flex flex-col max-w-xl gap-6 py-8 my-8 lg:max-w-none border-t border-muted">
     <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
-      {blogHeadLine}
+      {$uiContent.home.blogHeadline}
     </h2>
     <p class="text-base text-muted-foreground max-w-2xl mb-8">
-      {blogIntro}
+      {$uiContent.home.blogIntro}
     </p>
   </div>
   <div class="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
@@ -168,7 +164,7 @@
       {#each data.posts.slice(0, 3) as blog (blog.slug)}
         <BlogCard {blog}/>
       {/each}
-      <a href="{base}/blogs" class="flex flex-row items-center text-sm text-primary hover:underline capitalize font-semibold">Read more blogs 
+      <a href="{base}/blogs" class="flex flex-row items-center text-sm text-primary hover:underline capitalize font-semibold">{$t('ui.readMoreBlogs')} 
         <ChevronRightIcon class="ml-1 h-4 w-4 stroke-current" />
       </a>
     </div>

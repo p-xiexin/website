@@ -1,10 +1,12 @@
 <script>
+    import { t } from "svelte-i18n";
     import { navItems } from "$lib/config/siteConfig";
     import ThemeToggle from "./themeToggle.svelte";
     import SocialLinks from "./SocialLinks.svelte";
     import ContainerInner from "./container/ContainerInner.svelte";
     import ContainerOuter from "./container/ContainerOuter.svelte";
     import { name } from '../config/infoConfig';
+    import LanguageToggle from "./LanguageToggle.svelte";
 
 </script>
 
@@ -16,14 +18,15 @@
                     <div class="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-start">
                     <div class="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm font-medium">
                         {#each navItems as item}
-                            <a href={item.href}>{item.name}</a>
+                            <a href={item.href} class="hover:text-teal-500 transition-colors ease-in-out">{($t(`nav.${item.key}`))}</a>
                         {/each}
                     </div>
                     <div class='flex flex-col justify-center items-start'>
                         <div class='flex flex-row justify-end items-center gap-2'>
                         <p class="text-sm text-muted-foreground">
-                            &copy; {new Date().getFullYear()} {name}. All rights reserved.
+                            &copy; {new Date().getFullYear()} {name}. {$t('ui.rights')}
                         </p>
+                        <LanguageToggle />
                         <ThemeToggle />
                         </div>
                         <SocialLinks/>

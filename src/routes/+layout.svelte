@@ -2,6 +2,7 @@
     import Footer from "$lib/components/Footer.svelte";
 	import Header from "$lib/components/Header.svelte";
     import { onMount } from "svelte";
+    import { setupI18n } from "$lib/i18n";
 	import "../app.css";
 
 	let { children } = $props();
@@ -13,6 +14,7 @@
     };
 
     onMount(() => {
+        setupI18n();
         setSideSpacingVars();
         window.addEventListener('resize', setSideSpacingVars);
 

@@ -39,12 +39,12 @@
 </Button> -->
 
 <button on:click={toggleDarkMode} 
-class="cursor-pointer inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+class="group cursor-pointer inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
 >
   {#if $theme === 'dark'}
-    <Moon class="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+    <Moon class="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all group-hover:text-purple-500 dark:rotate-0 dark:scale-100" />
   {:else}
-    <Sun class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+    <Sun class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all group-hover:text-yellow-500 dark:-rotate-90 dark:scale-0" />
   {/if}
   <span class="sr-only">Toggle theme</span>
 </button>

@@ -1,10 +1,12 @@
 <script lang="ts">
     import { fade, scale } from 'svelte/transition';
     import { XIcon, ChevronDownIcon } from 'lucide-svelte';
+    import { t } from 'svelte-i18n';
     import { clickOutside } from '$lib/utils/onClickOutside';
   
     import { name } from '../config/infoConfig';
     import { navItems } from '../config/siteConfig';
+    import LanguageToggle from './LanguageToggle.svelte';
   
     let open = false;
     let panelRef: HTMLDivElement;
@@ -19,7 +21,7 @@
       class="group flex items-center rounded-full px-4 py-2 text-sm font-medium shadow-lg ring-1 ring-muted backdrop-blur"
       on:click={toggle}
     >
-      Menu
+      {$t('ui.menu')}
       <ChevronDownIcon class="ml-3 h-auto w-2" />
     </button>
   
@@ -38,12 +40,15 @@
           </button>
           <h2 class="text-sm font-medium text-muted-foreground">{name}</h2>
         </div>
+        <div class="mt-4 flex justify-end">
+          <LanguageToggle />
+        </div>
         <nav class="mt-6">
           <ul class="-my-2 divide-y divide-zinc-100 text-base dark:divide-zinc-100/5">
             {#each navItems as item}
               <li>
                 <a href={item.href} class="block py-2" on:click={close}>
-                    {item.name}
+                    {$t(`nav.${item.key}`)}
                 </a>
               </li>
             {/each}

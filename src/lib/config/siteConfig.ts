@@ -4,25 +4,25 @@ import { base } from '$app/paths';
 
 // navigation config
 type NavItemType = {
-  name: string
+  key: 'home' | 'about' | 'projects' | 'blogs'
   href: string
 }
 
 export const navItems: Array<NavItemType> = [
   {
-    name: 'Home',
+    key: 'home',
     href: `${base}/`
   },
   {
-    name: 'About',
+    key: 'about',
     href: `${base}/about`
   },
   {
-    name: 'Projects',
+    key: 'projects',
     href: `${base}/projects`
   },
   {
-    name: 'Blogs',
+    key: 'blogs',
     href: `${base}/blogs`
   },
   // {

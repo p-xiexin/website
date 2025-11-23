@@ -26,7 +26,7 @@
             target="_blank"
             rel="noreferrer"
             aria-label='Email'
-            class="group flex flex-row ml-3 justify-start items-center text-md font-medium transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
+            class="group flex flex-row ml-3 justify-start items-center text-md font-medium transition dark:text-zinc-200 dark:hover:text-teal-500"
         >
             <CustomIcon name="email" size={22}/>
             <span class="ml-4">{email}</span>

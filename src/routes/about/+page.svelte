@@ -1,16 +1,16 @@
 <script>
 	import travelImage from "$lib/images/travel.jpg";
 	import SocialLinks from "$lib/components/SocialLinks.svelte";
-	import { aboutMeHeadline, aboutParagraphs } from "$lib/config/infoConfig";
     import Container from "$lib/components/container/Container.svelte";
     import AboutLinks from "$lib/components/AboutLinks.svelte";
+    import { uiContent } from "$lib/i18n";
 </script>
 
 <svelte:head>
-	<title>About</title>
+	<title>{$uiContent.about.pageTitle}</title>
 	<meta
 		name="description"
-		content="I'm Spencer Sharp. I live in New York City, where I design the future."
+		content={$uiContent.about.description}
 	/>
 </svelte:head>
 
@@ -32,10 +32,10 @@
 			<h1
 				class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
 			>
-				{aboutMeHeadline}
+				{$uiContent.about.headline}
 			</h1>
 			<div class="mt-6 space-y-7 text-xl text-zinc-700 dark:text-zinc-300">
-				{#each aboutParagraphs as paragraph, index}
+				{#each $uiContent.about.paragraphs as paragraph, index}
 					<p>{paragraph}</p>
 				{/each}
 			</div>

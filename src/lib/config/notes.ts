@@ -19,7 +19,7 @@ export const noteList: Array<Note> = [
     },
     {
       name: "Git",
-      description: "Git版本控制工具是的使用",
+      description: "Git版本控制工具的使用",
       slug: "Git",
       tags: ["git"],
       published: true

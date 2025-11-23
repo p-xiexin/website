@@ -1,4 +1,5 @@
 <script>
+    import { t } from 'svelte-i18n';
     import { navItems } from '../config/siteConfig';
 	import NavItem from './NavItem.svelte';
 
@@ -12,7 +13,7 @@
                     <div class="h-4 w-px bg-muted-foreground/30"></div>
                 </li>
             {/if}
-            <NavItem href={item.href} item={item.name}/>
+            <NavItem href={item.href} item={$t(`nav.${item.key}`)}/>
         {/each}
     </ul>
 </nav>
