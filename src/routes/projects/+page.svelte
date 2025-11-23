@@ -29,7 +29,7 @@
 </ul>
 
 <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
-    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
+    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-90 mb-4">
     <Calendar size={28}/>
     {$uiContent.projects.hobbiesTitle}
     </h2>

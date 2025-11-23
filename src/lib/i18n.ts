@@ -40,7 +40,7 @@ const messages = {
     ui: {
       menu: '菜单',
       readMoreBlogs: '查看更多博客',
-      rights: '版权所有。',
+      rights: '版权所有',
       searchPlaceholder: '搜索文章…',
       clearSearch: '清除搜索',
       allCategories: '全部分类',
@@ -79,7 +79,6 @@ const contentByLocale = {
     about: {
       pageTitle: 'About',
       headline: 'Who Are You and Why Should I Care?',
-      // description: "I'm Spencer Sharp. I live in New York City, where I design the future.",
       paragraphs: [
         "Hi! My name is Peng Xiexin, and I'm currently a graduate student at HUST, focusing on the field of robotics",
         'I am passionate about artificial intelligence and robotics, especially in utilizing advanced technologies to enhance robot autonomy and intelligence.',
@@ -100,16 +99,16 @@ const contentByLocale = {
   },
   zh: {
     home: {
-      headline: '华中科技大学学生。',
+      headline: '华中科技大学研究生',
       introduction: [
         '你好！我是彭谢昕，目前在华中科技大学读研，研究方向聚焦机器人控制。',
-        '我对人工智能与机器人充满热情，尤其关注用先进技术提升机器人的自治与智能。',
+        '我对人工智能与机器人充满热情，尤其关注用先进技术提升机器人的自主智能控制。',
       ],
       awardsHeadline: '奖项与荣誉',
       awardsIntro: '学术及专业方面获得的认可。',
       projectHeadline: '研究与项目',
       projectIntro: '我曾参与的学术研究与技术项目。',
-      activitiesHeadline: '兴趣与志愿',
+      activitiesHeadline: '兴趣',
       activitiesIntro: '业余兴趣项目',
       notesHeadline: '学习笔记',
       notesIntro: '学习过程中的笔记与整理',
@@ -121,7 +120,6 @@ const contentByLocale = {
     about: {
       pageTitle: '关于',
       headline: '我是谁，我关注什么？',
-      // description: '我是 Spencer Sharp，现居纽约，致力于设计未来。',
       paragraphs: [
         '你好！我是彭谢昕，目前在华中科技大学读研，研究方向聚焦机器人控制。',
         '我对人工智能与机器人充满热情，尤其关注用先进技术提升机器人的自治与智能。',

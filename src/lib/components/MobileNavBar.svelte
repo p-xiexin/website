@@ -40,9 +40,9 @@
           </button>
           <h2 class="text-sm font-medium text-muted-foreground">{name}</h2>
         </div>
-        <div class="mt-4 flex justify-end">
+        <!-- <div class="mt-4 flex justify-end">
           <LanguageToggle />
-        </div>
+        </div> -->
         <nav class="mt-6">
           <ul class="-my-2 divide-y divide-zinc-100 text-base dark:divide-zinc-100/5">
             {#each navItems as item}

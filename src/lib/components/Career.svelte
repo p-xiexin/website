@@ -4,7 +4,6 @@
     import { getCareerByLocale } from '$lib/config/career';
     import { locale } from 'svelte-i18n';
     import { uiContent } from '$lib/i18n';
-    import { t } from 'svelte-i18n';
 
 
     const FALLBACK_LOCALE = 'zh';

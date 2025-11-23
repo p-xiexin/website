@@ -226,7 +226,7 @@
 
       <div class="relative category-dropdown">
         <button
-          class="flex items-center justify-between w-full sm:w-48 px-4 py-2 border border-input rounded-md bg-background text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+          class="flex items-center cursor-pointer justify-between w-full sm:w-48 px-4 py-2 border border-input rounded-md bg-background text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
           onclick={() => (isDropdownOpen = !isDropdownOpen)}
         >
           <div class="flex items-center">
@@ -345,7 +345,7 @@
       <nav class="flex items-center justify-center space-x-2 mt-12 pt-8 border-t border-muted">
         <button
           class={clsx(
-            'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
+            'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer',
             currentPage === 1 ? 'text-muted-foreground cursor-not-allowed' : 'text-foreground hover:bg-muted'
           )}
           disabled={currentPage === 1}
@@ -362,7 +362,7 @@
             {:else}
               <button
                 class={clsx(
-                  'inline-flex items-center justify-center w-10 h-10 text-sm font-medium rounded-md transition-colors',
+                  'inline-flex items-center justify-center w-10 h-10 text-sm font-medium rounded-md transition-colors cursor-pointer',
                   pageNum === currentPage
                     ? 'bg-primary text-primary-foreground'
                     : 'text-foreground hover:bg-muted'
@@ -377,7 +377,7 @@
 
         <button
           class={clsx(
-            'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
+            'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer',
             currentPage === totalPages ? 'text-muted-foreground cursor-not-allowed' : 'text-foreground hover:bg-muted'
           )}
           disabled={currentPage === totalPages}
@@ -391,7 +391,7 @@
   </div>
 
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
-    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
+    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-90 mb-4">
       <Notebook size={28} />
       {$uiContent.blogs.notesHeadline}
     </h2>

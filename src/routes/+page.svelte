@@ -39,7 +39,7 @@
   <!-- personal info -->
   <!-- 移动端布局：只在小屏显示 -->
   <div class="md:hidden mb-10 flex flex-col">
-    <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl opacity-80">
+    <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
       {$uiContent.home.headline}
     </h2>
     <div class="mt-4 flex justify-center">
@@ -62,7 +62,7 @@
   <!-- 桌面端布局：只在 md 及以上显示 -->
   <div class="hidden md:grid mb-10 grid-cols-2">
     <div class="md:mt-20">
-      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl opacity-80">
+      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
         {$uiContent.home.headline}
       </h2>
       <p class="mt-6 text-xl text-muted-foreground">
@@ -80,7 +80,7 @@
   </div>
   <!-- Awards -->
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
-    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
+    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl mb-4">
       <Award size={28}/>
       {$uiContent.home.awardsHeadline}
     </h2>
@@ -96,7 +96,7 @@
 
   <!-- Research & Projects -->
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
-    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
+    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl mb-4">
       <Briefcase size={28}/>
       {$uiContent.home.projectHeadline}
     </h2>
@@ -115,7 +115,7 @@
 
   <!-- Hobbies & Volunteer -->
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
-    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
+    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl mb-4">
       <Heart size={28}/>
       {$uiContent.home.activitiesHeadline}
     </h2>
@@ -132,7 +132,7 @@
     </ul>
   </div>
   <div class="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
-    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
+    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl mb-4">
         <Notebook size={28}/>
         {$uiContent.home.notesHeadline}
     </h2>
@@ -151,7 +151,7 @@
 
   <!-- Blog Section -->
   <div class="mx-auto flex flex-col max-w-xl gap-6 py-8 my-8 lg:max-w-none border-t border-muted">
-    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
+    <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl mb-4">
       {$uiContent.home.blogHeadline}
     </h2>
     <p class="text-base text-muted-foreground max-w-2xl mb-4">

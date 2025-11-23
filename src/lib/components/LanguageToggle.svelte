@@ -34,6 +34,6 @@
   on:click={toggle}
 >
   <span class="transition-colors group-hover:text-blue-500 dark:group-hover:text-blue-400">
-    {current === 'en' ? '中文' : 'EN'}
+    {current === 'en' ? 'en' : '中文'}
   </span>
 </Button>
