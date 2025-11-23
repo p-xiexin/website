@@ -13,6 +13,32 @@
     import "katex/dist/katex.min.css";
     import { theme } from "$lib/stores";
     import GitHubSlugger from 'github-slugger';
+    import type { LanguageFn } from 'highlight.js';
+    import bash from 'highlight.js/lib/languages/bash';
+    import c from 'highlight.js/lib/languages/c';
+    import cpp from 'highlight.js/lib/languages/cpp';
+    import cmake from 'highlight.js/lib/languages/cmake';
+    import javascript from 'highlight.js/lib/languages/javascript';
+    import typescript from 'highlight.js/lib/languages/typescript';
+    import json from 'highlight.js/lib/languages/json';
+    import python from 'highlight.js/lib/languages/python';
+    import markdown from 'highlight.js/lib/languages/markdown';
+    const markdownLanguage = markdown as unknown as LanguageFn;
+    const highlightLanguages: Record<string, LanguageFn> = {
+        bash,
+        shell: bash,
+        c,
+        cpp,
+        cmake,
+        js: javascript,
+        javascript,
+        ts: typescript,
+        typescript,
+        json,
+        python,
+        md: markdownLanguage,
+        markdown: markdownLanguage,
+    };
 
     export let content: string = "";
 
@@ -50,7 +76,11 @@
             .use(remarkGfm)
             .use(remarkRehype, { allowDangerousHtml: true }) // 转换为HTML，保留原始HTML标签
             .use(rehypeKatex)  // 渲染数学公式
-            .use(rehypeHighlight) // 代码高亮
+            // rehype-highlight types don't expose languages map; cast to any for custom registrations
+            .use(rehypeHighlight as unknown as any, {
+                ignoreMissing: true,
+                languages: highlightLanguages,
+            }) // 代码高亮
             .use(rehypeSlug)   // 为标题添加ID
             // .use(rehypeToc, {
             //     nav: true,       // 将TOC包装在<nav>标签中
