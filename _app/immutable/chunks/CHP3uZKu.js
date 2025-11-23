@@ -1,0 +1,1 @@
+const e=[{name:"CMake",description:"学习CMake的基本使用方法，并构建一个简单的CPP工程.",slug:"CMake",tags:["cmake","cpp"],published:!0},{name:"Git",description:"Git版本控制工具的使用",slug:"Git",tags:["git"],published:!0},{name:"SLAM",description:"包含视觉SLAM十四讲，VIO原理和基本的数学优化方法",slug:"SLAM",tags:["SLAM"],published:!0}];export{e as n};
