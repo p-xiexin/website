@@ -1,6 +1,6 @@
 <script lang="ts">
     import { fade, scale } from 'svelte/transition';
-    import { XIcon, ChevronDownIcon } from 'lucide-svelte';
+    import { XIcon, MenuIcon } from 'lucide-svelte';
     import { t } from 'svelte-i18n';
     import { clickOutside } from '$lib/utils/onClickOutside';
   
@@ -18,11 +18,11 @@
   <div class="relative pointer-events-auto md:hidden">
   <!-- <div class="relative pointer-events-auto md:hidden"> -->
     <button
-      class="group flex items-center rounded-full px-4 py-2 text-sm font-medium shadow-lg ring-1 ring-muted backdrop-blur"
+      class="group flex items-center rounded-full px-3 py-2 shadow-lg ring-1 ring-muted backdrop-blur"
+      aria-label={$t('ui.menu')}
       on:click={toggle}
     >
-      {$t('ui.menu')}
-      <ChevronDownIcon class="ml-3 h-auto w-2" />
+      <MenuIcon class="h-4 w-4" />
     </button>
   
     {#if open}
