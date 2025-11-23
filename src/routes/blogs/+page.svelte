@@ -2,7 +2,7 @@
   import { ChevronRight, Notebook, ChevronLeft, Search, X, Filter, ChevronDown } from 'lucide-svelte';
   import clsx from 'clsx';
   import { formatDate } from '$lib/utils/formatDate';
-  import { noteList } from '$lib/config/notes';
+  import { getNotesByLocale } from '$lib/config/notes';
   import SimpleLayout from '$lib/components/SimpleLayout.svelte';
   import NoteCard from '$lib/components/NoteCard.svelte';
   import { base } from '$app/paths';
@@ -11,10 +11,14 @@
   import type { Categories } from '$lib/utils/types';
   import { uiContent } from '$lib/i18n';
   import { t } from 'svelte-i18n';
+  import { locale } from 'svelte-i18n';
 
   let { data } = $props();
 
   const POSTS_PER_PAGE = 5;
+  const FALLBACK_LOCALE = 'zh';
+  const currentLocale = $derived($locale ?? FALLBACK_LOCALE);
+  const notesLocalized = $derived(getNotesByLocale(currentLocale));
 
   let searchQuery = $state('');
   let isSearching = $state(false);
@@ -398,7 +402,7 @@
       role="list"
       class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3 auto-rows-[1fr]"
     >
-      {#each noteList as book (book.slug)}
+      {#each notesLocalized as book (book.slug)}
         <NoteCard book={book} titleAs="h3" />
       {/each}
     </ul>

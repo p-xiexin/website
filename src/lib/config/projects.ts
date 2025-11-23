@@ -1,66 +1,117 @@
 // Types
 export type ProjectItemType = {
-  name: string
-  description: string
-  link: { href: string; label: string }
-  tags: string[]
-}
+  name: string;
+  description: string;
+  link: { href: string; label: string };
+  tags: string[];
+};
 
 export type ActivityItemType = {
-  name: string
-  description: string
-  date: string
-  location: string
-  link?: string
-}
+  name: string;
+  description: string;
+  date: string;
+  location: string;
+  link?: string;
+};
 
-// Awards
-export const awardsHeadLine = "Awards & Honors"
-export const awardsIntro = "Recognition for academic and professional achievements."
+type SupportedLocale = 'en' | 'zh';
 
-export const awards: Array<ActivityItemType> = [
+const FALLBACK_LOCALE: SupportedLocale = 'zh';
+
+const resolveLocale = (locale?: string): SupportedLocale =>
+  locale?.toLowerCase() === 'en' ? 'en' : FALLBACK_LOCALE;
+
+const selectByLocale = <T>(record: Record<SupportedLocale, T>, locale?: string): T =>
+  record[resolveLocale(locale)];
+
+// ============================================================================
+// Awards & Honors
+// ============================================================================
+const AWARDS_EN: Array<ActivityItemType> = [
   {
-    name: '全国大学生智能汽车竞赛',
-    description: '百度完全模型组-全国一等奖',
+    name: 'The National University Students Intelligent Car Race',
+    description: 'First Prize (Baidu End-to-End Modeling Track)',
     date: '2023',
     location: 'TGU, Tianjin',
-    link: 'https://www.bilibili.com/video/BV1ep421R7LV/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301'
+    link: 'https://www.bilibili.com/video/BV1ep421R7LV/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
+  },
+  {
+    name: 'RoboMaster University League (RMUL)',
+    description: 'Third Prize, Shanghai Division',
+    date: '2023',
+    location: 'SUES, Shanghai',
+    link: 'https://www.bilibili.com/video/BV1Zm4y1h7Pb/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
+  },
+  {
+    name: 'National Undergraduate Electronic Design Contest',
+    description: 'First Prize, Hubei Province',
+    date: '2023',
+    location: 'WUT, Wuhan',
+    link: 'https://www.bilibili.com/video/BV12P33eFEit/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
+  },
+];
+
+const AWARDS_ZH: Array<ActivityItemType> = [
+  {
+    name: '全国大学生智能汽车竞赛',
+    description: '百度完全模型组-全国一等奖。',
+    date: '2023',
+    location: '天津工业大学，天津',
+    link: 'https://www.bilibili.com/video/BV1ep421R7LV/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
   },
   {
     name: '机甲大师高校联盟赛',
-    description: '上海站-三等奖',
+    description: '上海赛区三等奖。',
     date: '2023',
-    location: 'SUES, Shanghai',
-    link: 'https://www.bilibili.com/video/BV1Zm4y1h7Pb/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301'
+    location: '上海工程技术大学，上海',
+    link: 'https://www.bilibili.com/video/BV1Zm4y1h7Pb/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
   },
   {
     name: '全国大学生电子设计竞赛',
-    description: '湖北省一等奖',
+    description: '湖北省一等奖。',
     date: '2023',
-    location: 'WUT, Wuhan',
-    link: 'https://www.bilibili.com/video/BV12P33eFEit/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301'
+    location: '武汉理工大学，武汉',
+    link: 'https://www.bilibili.com/video/BV12P33eFEit/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
   },
-]
+];
 
+export const awardsByLocale: Record<SupportedLocale, Array<ActivityItemType>> = {
+  en: AWARDS_EN,
+  zh: AWARDS_ZH,
+};
+
+// ============================================================================
 // Research & Projects
-export const projectHeadLine = "Research & Projects"
-export const projectIntro = "Academic research and technical projects I've worked on."
+// ============================================================================
 
-export const projects: Array<ProjectItemType> = [
+const PROJECTS_EN: Array<ProjectItemType> = [
   {
-    name: 'Knowledge Base Question Answering System',
-    description: 'An intelligent Q&A system based on a structured knowledge base.',
-    // link: { href: 'https://example.com/lab617-llm', label: 'LLM' },
+    name: 'Knowledge Base Question Answering System.',
+    description: 'An intelligent QA system grounded in structured domain knowledge repositories.',
     link: { href: 'https://mp.weixin.qq.com/s/1IoqA9wj-9pDBECPOFOOfQ', label: 'LLM' },
-    tags: ['Web', 'GRAG', 'LLM']
+    tags: ['Web', 'GRAG', 'LLM'],
   },
-]
+];
 
+const PROJECTS_ZH: Array<ProjectItemType> = [
+  {
+    name: '知识库问答系统',
+    description: '基于结构化领域知识库的智能问答系统。',
+    link: { href: 'https://mp.weixin.qq.com/s/1IoqA9wj-9pDBECPOFOOfQ', label: 'LLM' },
+    tags: ['Web', 'GRAG', 'LLM'],
+  },
+];
+
+export const projectsByLocale: Record<SupportedLocale, Array<ProjectItemType>> = {
+  en: PROJECTS_EN,
+  zh: PROJECTS_ZH,
+};
+
+// ============================================================================
 // Hobbies & Volunteer
-export const activitiesHeadLine = "Hobbies & Volunteer"
-export const activitiesIntro = "Personal interests and community contributions."
+// ============================================================================
 
-export const activities: Array<ActivityItemType> = [
+const ACTIVITIES_EN: Array<ActivityItemType> = [
   {
     name: 'Wheel Legged Robot',
     description:
@@ -76,5 +127,50 @@ export const activities: Array<ActivityItemType> = [
     date: '2024-07-14',
     location: 'Wuhan',
     link: 'https://www.bilibili.com/video/BV17XGGzUEUU/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
-  }
-]
+  },
+];
+
+const ACTIVITIES_ZH: Array<ActivityItemType> = [
+  {
+    name: '轮足机器人',
+    description:
+      '采用线性二次调节器（LQR）作为主要控制策略的轮足机器人项目，关注平衡与轨迹跟踪。',
+    date: '2024-01-18',
+    location: '武汉',
+    link: 'https://www.bilibili.com/video/BV1hx4y1r7qY/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
+  },
+  {
+    name: 'CoreXY 3D 打印机',
+    description:
+      '采用 CoreXY 结构并搭载 Klipper 固件的高速 3D 打印机，兼须精度、速度与远程控制能力。',
+    date: '2024-07-14',
+    location: '武汉',
+    link: 'https://www.bilibili.com/video/BV17XGGzUEUU/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
+  },
+];
+
+export const activitiesByLocale: Record<SupportedLocale, Array<ActivityItemType>> = {
+  en: ACTIVITIES_EN,
+  zh: ACTIVITIES_ZH,
+};
+
+// ============================================================================
+// Helper Functions
+// ============================================================================
+
+export const getAwardsByLocale = (locale?: string): Array<ActivityItemType> =>
+  selectByLocale(awardsByLocale, locale);
+
+export const getProjectsByLocale = (locale?: string): Array<ProjectItemType> =>
+  selectByLocale(projectsByLocale, locale);
+
+export const getActivitiesByLocale = (locale?: string): Array<ActivityItemType> =>
+  selectByLocale(activitiesByLocale, locale);
+
+
+// ============================================================================
+// Backward Compatibility
+// ============================================================================
+export const awards = awardsByLocale[FALLBACK_LOCALE];
+export const projects = projectsByLocale[FALLBACK_LOCALE];
+export const activities = activitiesByLocale[FALLBACK_LOCALE];

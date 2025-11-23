@@ -1,16 +1,21 @@
 <script>
     import { Briefcase } from 'phosphor-svelte';
     import CustomIcon from '$lib/components/CustomIcon.svelte';
-    import { careerList } from '$lib/config/infoConfig'
+    import { getCareerByLocale } from '$lib/config/career';
+    import { locale } from 'svelte-i18n';
+    import { uiContent } from '$lib/i18n';
+    import { t } from 'svelte-i18n';
 
-  
 
+    const FALLBACK_LOCALE = 'zh';
+    $: currentLocale = $locale ?? FALLBACK_LOCALE;
+    $: careerList = getCareerByLocale(currentLocale);
 </script>
 
 <div class="rounded-2xl border border-muted shadow-sm p-6">
     <h2 class="flex text-sm font-semibold">
     <Briefcase size={24} weight="duotone" />
-    <span class="ml-3">Work</span>
+    <span class="ml-3">{$uiContent.home.work}</span>
     </h2>
     <ol class="mt-6 space-y-4">
     {#each careerList as careerItem, index}
@@ -39,3 +44,4 @@
     {/each}
     </ol>
 </div>
+

@@ -1,7 +1,13 @@
 <script>
     import { Student } from 'phosphor-svelte';
-    import { educationList } from '$lib/config/infoConfig';
     import CustomIcon from '$lib/components/CustomIcon.svelte';
+    import { getEducationByLocale } from '$lib/config/education';
+    import { locale } from 'svelte-i18n';
+    import { uiContent } from '$lib/i18n';
+  
+    const FALLBACK_LOCALE = 'zh';
+    $: currentLocale = $locale ?? FALLBACK_LOCALE;
+    $: educationList = getEducationByLocale(currentLocale);
   
     // The education item type can be imported or defined here
     // For example:
@@ -19,7 +25,7 @@
 <div class="rounded-2xl border border-muted shadow-sm p-6">
 <h2 class="flex text-sm font-semibold">
     <Student size={24} weight="duotone" />
-    <span class="ml-3">Education</span>
+    <span class="ml-3">{$uiContent.home.education}</span>
 </h2>
 <ol class="mt-6 space-y-4">
     {#each educationList as educationItem, index}
@@ -48,3 +54,4 @@
     {/each}
 </ol>
 </div>
+

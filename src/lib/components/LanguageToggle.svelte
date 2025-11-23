@@ -29,7 +29,7 @@
 
 <Button
   variant="secondary"
-  className="group p-1 rounded-md cursor-pointer"
+  class="group cursor-pointer inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
   aria-label="Toggle language"
   on:click={toggle}
 >

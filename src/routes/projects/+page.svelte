@@ -1,11 +1,16 @@
 <script>
     import SimpleLayout from '$lib/components/SimpleLayout.svelte';
-    import { projects } from '$lib/config/infoConfig';
-    import { activities } from '$lib/config/projects';
+    import { getProjectsByLocale, getActivitiesByLocale } from '$lib/config/projects';
     import ProjectCard from '$lib/components/ProjectCard.svelte';
     import ActivityCard from '$lib/components/ActivityCard.svelte';
     import { Calendar } from 'lucide-svelte';
     import { uiContent } from '$lib/i18n';
+    import { locale } from 'svelte-i18n';
+
+    const FALLBACK_LOCALE = 'zh';
+    $: currentLocale = $locale ?? FALLBACK_LOCALE;
+    $: projectsLocalized = getProjectsByLocale(currentLocale);
+    $: activitiesLocalized = getActivitiesByLocale(currentLocale);
 </script>
   
 <svelte:head>
@@ -18,7 +23,7 @@
     role="list"
     class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 pb-10 auto-rows-[1fr]"
 >
-    {#each projects as project (project.name)}
+    {#each projectsLocalized as project (project.name)}
     <ProjectCard project={project} />
     {/each}
 </ul>
@@ -32,7 +37,7 @@
     role="list"
     class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3 auto-rows-[1fr]"
     >
-    {#each activities as activity (activity.name)}
+    {#each activitiesLocalized as activity (activity.name)}
         <ActivityCard activity={activity} titleAs="h3"/>
     {/each}
     </ul>

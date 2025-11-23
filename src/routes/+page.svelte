@@ -8,13 +8,11 @@
   import BlogCard from '$lib/components/BlogCard.svelte';
   import ProjectCard from '$lib/components/ProjectCard.svelte';
   import ActivityCard from '$lib/components/ActivityCard.svelte';
+  import { techIcons } from '$lib/config/infoConfig';
   import {
-    projects,
-    techIcons
-  } from '$lib/config/infoConfig';
-  import { 
-    awards, 
-    activities, 
+    getActivitiesByLocale,
+    getAwardsByLocale,
+    getProjectsByLocale,
   } from '$lib/config/projects';
   import IconCloud from '$lib/externel/components/icon-cloud.svelte';
   import { Award, Briefcase, ChevronRightIcon, Heart, Notebook } from 'lucide-svelte';
@@ -23,12 +21,18 @@
   import { base } from '$app/paths';
   import { uiContent } from '$lib/i18n';
   import { t } from 'svelte-i18n';
-  import { noteList } from '$lib/config/notes';
+  import { locale } from 'svelte-i18n';
+  import { getNotesByLocale } from '$lib/config/notes';
 
   
   export let data;
 
-  const notesLocalized = noteList;
+  const FALLBACK_LOCALE = 'zh';
+  $: currentLocale = $locale ?? FALLBACK_LOCALE;
+  $: awardsLocalized = getAwardsByLocale(currentLocale);
+  $: projectsLocalized = getProjectsByLocale(currentLocale);
+  $: activitiesLocalized = getActivitiesByLocale(currentLocale);
+  $: notesLocalized = getNotesByLocale(currentLocale);
 </script>
 
 <Container class="mt-9">
@@ -84,7 +88,7 @@
       role="list"
       class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3 auto-rows-[1fr]"
     >
-      {#each awards as award (award.name)}
+      {#each awardsLocalized as award (award.name)}
         <ActivityCard activity={award} titleAs="h3"/>
       {/each}
     </ul>
@@ -96,14 +100,14 @@
       <Briefcase size={28}/>
       {$uiContent.home.projectHeadline}
     </h2>
-    <p class="text-base text-muted-foreground max-w-2xl mb-8">
+    <p class="text-base text-muted-foreground max-w-2xl mb-2">
       {$uiContent.home.projectIntro}
     </p>
     <ul
       role="list"
       class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3 auto-rows-[1fr]"
     >
-      {#each projects as project (project.name)}
+      {#each projectsLocalized as project (project.name)}
         <ProjectCard project={project} titleAs="h3"/>
       {/each}
     </ul>
@@ -115,14 +119,14 @@
       <Heart size={28}/>
       {$uiContent.home.activitiesHeadline}
     </h2>
-    <p class="text-base text-muted-foreground max-w-2xl mb-8">
+    <p class="text-base text-muted-foreground max-w-2xl mb-2">
       {$uiContent.home.activitiesIntro}
     </p>
     <ul
       role="list"
       class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3 auto-rows-[1fr]"
     >
-      {#each activities as activity (activity.name)}
+      {#each activitiesLocalized as activity (activity.name)}
         <ActivityCard activity={activity} titleAs="h3"/>
       {/each}
     </ul>
@@ -132,7 +136,7 @@
         <Notebook size={28}/>
         {$uiContent.home.notesHeadline}
     </h2>
-    <p class="text-base text-muted-foreground max-w-2xl mb-8">
+    <p class="text-base text-muted-foreground max-w-2xl mb-2">
       {$uiContent.home.notesIntro}
     </p>
     <ul
@@ -150,7 +154,7 @@
     <h2 class="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
       {$uiContent.home.blogHeadline}
     </h2>
-    <p class="text-base text-muted-foreground max-w-2xl mb-8">
+    <p class="text-base text-muted-foreground max-w-2xl mb-4">
       {$uiContent.home.blogIntro}
     </p>
   </div>

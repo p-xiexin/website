@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import { derived } from 'svelte/store';
 import { dictionary, init, locale as $locale } from 'svelte-i18n';
+import type Education from './components/Education.svelte';
 
 const DEFAULT_LOCALE = 'zh';
 const STORAGE_KEY = 'locale';
@@ -72,6 +73,8 @@ const contentByLocale = {
       notesIntro: 'Studying notes',
       blogHeadline: "What I've thinking about.",
       blogIntro: "I've written something about Robotics, AI, programming and life.",
+      work: "Work",
+      education: "Education",
     },
     about: {
       pageTitle: 'About',
@@ -107,11 +110,13 @@ const contentByLocale = {
       projectHeadline: '研究与项目',
       projectIntro: '我曾参与的学术研究与技术项目。',
       activitiesHeadline: '兴趣与志愿',
-      activitiesIntro: '个人兴趣与公益贡献。',
+      activitiesIntro: '业余兴趣项目',
       notesHeadline: '学习笔记',
       notesIntro: '学习过程中的笔记与整理',
       blogHeadline: '我在思考的事情',
       blogIntro: '记录关于机器人、AI、编程的学习思考。',
+      work: "工作",
+      education: "教育",
     },
     about: {
       pageTitle: '关于',
