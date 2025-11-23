@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { locale } from 'svelte-i18n';
   import Button from './Button.svelte';
+  import { Languages, Globe2 } from 'lucide-svelte';
 
   let current = 'en';
 
@@ -34,6 +35,10 @@
   on:click={toggle}
 >
   <span class="transition-colors group-hover:text-blue-500 dark:group-hover:text-blue-400">
-    {current === 'en' ? 'en' : '中文'}
+    {#if current === 'en'}
+      <Globe2 class="h-4 w-4" />
+    {:else}
+      <Languages class="h-4 w-4" />
+    {/if}
   </span>
 </Button>
