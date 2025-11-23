@@ -1,6 +1,25 @@
 # sv
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## About This Project
+
+This project is a **Svelte-based re-implementation** inspired by two excellent open-source projects:
+
+* **SCLS AI Camp — MP1**: [A project template designed for building personal web CVs.](https://github.com/SCLS-AI-Camp/MP1.git)
+* **Corey Chiu’s personal website**: [A beautifully designed interactive portfolio built with Next.js.](https://coreychiu.com/)
+
+Both of those projects are written using **Next.js**, while **this repository rewrites their core ideas entirely in Svelte**, taking advantage of its simpler reactivity model and smaller bundle size.
+
+During the rewrite, I also introduced several of my own improvements and customizations, including:
+
+* A redesigned component structure using Svelte's single-file components
+* Optimized transitions and animations
+* Refined layouts and typography
+* Better internationalization support
+* Additional content modules tailored to my own profile
+
+This project is therefore not a direct port, but rather a **reinterpretation** of the original ideas using the Svelte ecosystem.
+
+Everything need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
 ## Creating a project
 
