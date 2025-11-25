@@ -264,6 +264,17 @@
     "title": "GRAG调研"
   },
   {
+    "description": "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。",
+    "date": "2025-02-15",
+    "author": "pxx",
+    "categories": [
+      "Operating Systems"
+    ],
+    "published": true,
+    "slug": "f818ba05bca07a49d17c1612fcd3d00e",
+    "title": "cpu_to_os"
+  },
+  {
     "description": "百度完全模型组智能车竞赛调度方案",
     "date": "2023-08-27",
     "author": "pxx",
