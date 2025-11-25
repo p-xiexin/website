@@ -1,18 +1,21 @@
 <script lang='ts'>
     import { onMount } from 'svelte';
-    import { derived, writable } from 'svelte/store';
-    import { page } from '$app/stores';
+    import { Lock, Unlock } from 'lucide-svelte';
+    import { t } from 'svelte-i18n';
     import GithubRepo from "./GithubRepo.svelte";
     import MobileNavBar from "./MobileNavBar.svelte";
     import NavBar from "./NavBar.svelte";
     import ThemeToggle from "./themeToggle.svelte";
     import LanguageToggle from "./LanguageToggle.svelte";
-
-// 判断是否是首页
-  const isHomePage = derived(page, ($page) => $page.url.pathname === '/');
+    import LoginModal from './LoginModal.svelte';
+    import { authStore } from '$lib/stores/auth';
 
   let headerRef: HTMLDivElement;
   let isInitial = true;
+  let isLoginModalOpen = false;
+  let toastVisible = false;
+  let toastTimer: ReturnType<typeof setTimeout> | null = null;
+  let toastTop = 76;
 
   function clamp(number: number, min: number, max: number) {
     return Math.min(Math.max(number, min), max);
@@ -20,10 +23,6 @@
 
   function setProperty(property: string, value: string) {
     document.documentElement.style.setProperty(property, value);
-  }
-
-  function removeProperty(property: string) {
-    document.documentElement.style.removeProperty(property);
   }
 
   function updateHeaderStyles() {
@@ -63,16 +62,40 @@
     isInitial = false;
   }
 
+  const handleResize = () => {
+    updateStyles();
+    toastTop = (headerRef?.getBoundingClientRect().height ?? 64) + 12;
+  };
+
   onMount(() => {
     updateStyles();
+    toastTop = (headerRef?.getBoundingClientRect().height ?? 64) + 12;
     window.addEventListener('scroll', updateStyles, { passive: true });
-    window.addEventListener('resize', updateStyles);
+    window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('scroll', updateStyles);
-      window.removeEventListener('resize', updateStyles);
+      window.removeEventListener('resize', handleResize);
     };
   });
+
+  const toggleLogin = () => {
+    if ($authStore.isLoggedIn) {
+      return;
+    }
+    isLoginModalOpen = true;
+  };
+
+  const handleLoggedIn = () => {
+    isLoginModalOpen = false;
+    toastVisible = true;
+    if (toastTimer) {
+      clearTimeout(toastTimer);
+    }
+    toastTimer = setTimeout(() => {
+      toastVisible = false;
+    }, 3200);
+  };
 </script>
 
 <header 
@@ -83,7 +106,21 @@
         <div class="relative px-4 sm:px-8 lg:px-12">
             <div class="mx-auto max-w-2xl lg:max-w-5xl">
                 <div class='relative flex gap-4'>
-                    <div class="flex flex-1"></div>
+                    <div class="flex flex-1 items-center pointer-events-auto">
+                      <button
+                        class="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm ring-1 ring-muted transition hover:bg-muted sm:text-sm disabled:cursor-not-allowed disabled:opacity-80"
+                        onclick={toggleLogin}
+                        disabled={$authStore.isLoggedIn}
+                        aria-pressed={$authStore.isLoggedIn}
+                      >
+                        {#if $authStore.isLoggedIn}
+                          <Unlock class="h-4 w-4" />
+                        {:else}
+                          <Lock class="h-4 w-4" />
+                          {$t('ui.login')}
+                        {/if}
+                      </button>
+                    </div>
                     <div class="flex flex-1 justify-end md:justify-center">
                         <NavBar />
                         <MobileNavBar/>
@@ -100,6 +137,27 @@
         </div>
     </div>
 </header>
+
+<LoginModal
+  open={isLoginModalOpen}
+  on:close={() => (isLoginModalOpen = false)}
+  on:loggedin={handleLoggedIn}
+/>
+
+{#if toastVisible}
+  <div
+    class="pointer-events-auto fixed z-50"
+    style={`right: calc(var(--side-space, 16px) + 16px); top: ${toastTop}px;`}
+  >
+    <div class="flex items-center gap-3 rounded-2xl bg-card px-4 py-3 text-sm font-semibold text-foreground shadow-lg ring-1 ring-muted">
+      <Unlock class="h-4 w-4 text-primary" />
+      <div class="flex flex-col">
+        <span>{$t('ui.previewUnlocked')}</span>
+        <span class="text-xs font-normal text-muted-foreground">{$t('ui.loginsuccess')}</span>
+      </div>
+    </div>
+  </div>
+{/if}
 
 <style>
   :root {

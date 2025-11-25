@@ -1,11 +1,11 @@
 <!-- src/lib/components/blog/BlogLayout.svelte -->
 <script lang="ts">
   import { getContext } from 'svelte';
-  import { goto } from '$app/navigation';
   import Container from '$lib/components/container/Container.svelte';
 //   import Prose from '$lib/components/shared/Prose.svelte';
   import { formatDate } from '$lib/utils/formatDate';
   import type { Post } from '$lib/utils/types'
+  import { t } from 'svelte-i18n';
 
 
   export let blog : Post;
@@ -55,6 +55,11 @@
             <span class="mx-2">·</span>
             <span>{blog.author}</span>
           </time>
+          {#if !blog.published}
+            <span class="mt-2 inline-flex items-center gap-2 self-start rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/40">
+              {$t('ui.unpublished')}
+            </span>
+          {/if}
         </header>
         <div class="mt-8 prose dark:prose-invert max-w-none">
             <slot></slot>

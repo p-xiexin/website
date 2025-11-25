@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ChevronRight, Notebook, ChevronLeft, Search, X, Filter, ChevronDown } from 'lucide-svelte';
+  import { ChevronRight, Notebook, ChevronLeft, Search, X, Filter, ChevronDown, Lock } from 'lucide-svelte';
   import clsx from 'clsx';
   import { formatDate } from '$lib/utils/formatDate';
   import { getNotesByLocale } from '$lib/config/notes';
@@ -12,6 +12,7 @@
   import { uiContent } from '$lib/i18n';
   import { t } from 'svelte-i18n';
   import { locale } from 'svelte-i18n';
+  import { authStore } from '$lib/stores/auth';
 
   let { data } = $props();
 
@@ -46,7 +47,11 @@
   });
 
   const filteredPosts = $derived((() => {
-    let posts = data.posts;
+    const visiblePosts = $authStore.isLoggedIn
+      ? data.posts
+      : data.posts.filter((post) => post.published);
+
+    let posts = visiblePosts;
 
     if (selectedCategory) {
       posts = posts.filter(
@@ -270,6 +275,13 @@
       </div>
     </div>
 
+    {#if !$authStore.isLoggedIn}
+      <div class="mt-6 flex items-center gap-3 rounded-xl border border-dashed border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 shadow-sm dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-100">
+        <Lock class="h-4 w-4" />
+        <span>{$t('ui.previewLoginHint')}</span>
+      </div>
+    {/if}
+
     {#if isSearching}
       <div class="flex items-center justify-end mt-4 text-sm text-muted-foreground">
         <button class="text-primary hover:underline" onclick={clearAllFilters}>
@@ -324,7 +336,15 @@
                 {blog.description}
               </p>
 
-              <div aria-hidden="true" class="relative z-10 mt-3 flex items-center text-sm font-medium text-primary">
+              <div class="relative z-10 mt-2 flex flex-wrap items-center gap-2">
+                {#if $authStore.isLoggedIn && !blog.published}
+                  <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/40">
+                    {$t('ui.unpublished')}
+                  </span>
+                {/if}
+              </div>
+
+              <div aria-hidden="true" class="relative z-10 mt-2 flex items-center text-sm font-medium text-primary">
                 {$t('ui.readBlog')}
                 <ChevronRight class="ml-1 h-4 w-4 stroke-current" />
               </div>

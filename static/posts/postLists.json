@@ -1,5 +1,126 @@
 [
   {
+    "description": "stm32链接脚本",
+    "date": "2025-11-20",
+    "author": "pxx",
+    "categories": [
+      "MCU"
+    ],
+    "published": true,
+    "slug": "39f333244823459e2600006549727914",
+    "title": "stm32_linker_blog"
+  },
+  {
+    "description": "cross compile tools introduction",
+    "date": "2025-11-16",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "b40a0077dca278ec9a2d6c1ac4f5c044",
+    "title": "cross_compiler_blog"
+  },
+  {
+    "description": "Model-Based Diffusion论文解读",
+    "date": "2025-09-24",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "3067903aee55ca13cd437b3a432ac9d9",
+    "title": "mbd_diffusion_blog"
+  },
+  {
+    "description": "流形上旋转误差的选取思路与推导",
+    "date": "2025-08-26",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "87b3cea34649ea6e3de00ce37367fe92",
+    "title": "rotation_error_blog"
+  },
+  {
+    "description": "模型参考控制器",
+    "date": "2025-08-16",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "044712a4c0c68f2f819edee2a6c81eb5",
+    "title": "MRAC"
+  },
+  {
+    "description": "进制转换判断方法和01背包法",
+    "date": "2025-08-14",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": true,
+    "slug": "f05dfba08bbe30f58c0655a03c1e5799",
+    "title": "Leetcode_1780_判断一个数字是否可以表示成三的幂的和"
+  },
+  {
+    "description": "如何在完全无法联网的 Windows 系统中成功安装和使用 WSL2",
+    "date": "2025-08-06",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "e5333b2dd54d51a01194fbb522b3c03d",
+    "title": "wsl2_offline_install_blog"
+  },
+  {
+    "description": "FreeRTOS 内存管理概述",
+    "date": "2025-08-04",
+    "author": "pxx",
+    "categories": [
+      "RTOS"
+    ],
+    "published": true,
+    "slug": "99b8effc7ca9f17f3b2b735a8a6e59c0",
+    "title": "FreeRTOS_heap"
+  },
+  {
+    "description": "stm32启动过程详解",
+    "date": "2025-07-28",
+    "author": "pxx",
+    "categories": [
+      "MCU"
+    ],
+    "published": true,
+    "slug": "b158fe10bc5f62a0a4e9b509c0f46322",
+    "title": "stm32_startup_analysis"
+  },
+  {
+    "description": "初识Linux内核",
+    "date": "2025-07-27",
+    "author": "pxx",
+    "categories": [
+      "Linux"
+    ],
+    "published": true,
+    "slug": "946f10282f6b872a8eba2ff42d522a31",
+    "title": "Linux内核"
+  },
+  {
+    "description": "哈密顿函数与最优控制",
+    "date": "2025-07-23",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "9a2ae3b2b4fd989f3c134c9711d062fd",
+    "title": "hamilton_optimal_control"
+  },
+  {
     "description": "从拉格朗日力学到最优控制",
     "date": "2025-07-21",
     "author": "pxx",
@@ -141,5 +262,16 @@
     "published": true,
     "slug": "ff0cba4164a0e3ae2813606b2887deb2",
     "title": "GRAG调研"
+  },
+  {
+    "description": "百度完全模型组智能车竞赛调度方案",
+    "date": "2023-08-27",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "391d15495b78d046b4859cde54b5c22e",
+    "title": "cpp_multithreading_blog"
   }
 ]

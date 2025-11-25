@@ -53,4 +53,6 @@ export const techIcons = [
   'nvidia',
   'stmicroelectronics',
   'raspberrypi',
+  'bambulab',
+  'neo4j',
 ]
