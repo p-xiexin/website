@@ -1,5 +1,16 @@
 [
   {
+    "description": "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。",
+    "date": "2025-11-26",
+    "author": "pxx",
+    "categories": [
+      "Operating Systems"
+    ],
+    "published": true,
+    "slug": "d8d2ccf37885da71f0da6ad33ad81f0c",
+    "title": "cpu_to_os"
+  },
+  {
     "description": "stm32链接脚本",
     "date": "2025-11-20",
     "author": "pxx",
@@ -262,17 +273,6 @@
     "published": true,
     "slug": "ff0cba4164a0e3ae2813606b2887deb2",
     "title": "GRAG调研"
-  },
-  {
-    "description": "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。",
-    "date": "2025-02-15",
-    "author": "pxx",
-    "categories": [
-      "Operating Systems"
-    ],
-    "published": true,
-    "slug": "f818ba05bca07a49d17c1612fcd3d00e",
-    "title": "cpu_to_os"
   },
   {
     "description": "百度完全模型组智能车竞赛调度方案",
