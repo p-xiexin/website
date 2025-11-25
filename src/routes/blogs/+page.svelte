@@ -205,90 +205,91 @@
 
 <SimpleLayout title={$uiContent.blogs.title} intro={$uiContent.blogs.intro}>
   <div class="mb-8">
-    <div class="flex flex-col sm:flex-row gap-4 max-w-4xl mx-auto">
-      <div class="relative flex-1">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Search class="h-5 w-5 text-muted-foreground" />
+    <div class="max-w-4xl mx-auto space-y-4">
+      {#if !$authStore.isLoggedIn}
+        <div class="flex items-center gap-3 rounded-xl border border-dashed border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 shadow-sm dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-100">
+          <Lock class="h-4 w-4" />
+          <span>{$t('ui.previewLoginHint')}</span>
         </div>
-        <input
-          type="text"
-          placeholder={$t('ui.searchPlaceholder')}
-          class="block w-full pl-10 pr-10 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-muted-foreground"
-          bind:value={searchQuery}
-          oninput={handleSearchInput}
-          onkeydown={handleKeydown}
-        />
-        {#if searchQuery}
-          <button
-            class="absolute inset-y-0 right-0 pr-3 flex items-center"
-            onclick={clearSearch}
-            title={$t('ui.clearSearch')}
-          >
-            <X class="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
-          </button>
-        {/if}
-      </div>
-
-      <div class="relative category-dropdown">
-        <button
-          class="flex items-center cursor-pointer justify-between w-full sm:w-48 px-4 py-2 border border-input rounded-md bg-background text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
-          onclick={() => (isDropdownOpen = !isDropdownOpen)}
-        >
-          <div class="flex items-center">
-            <Filter class="h-4 w-4 mr-2" />
-            <span class="truncate">
-              {selectedCategory || $t('ui.allCategories')}
-            </span>
+      {/if}
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="relative flex-1">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search class="h-5 w-5 text-muted-foreground" />
           </div>
-          <ChevronDown
-            class={clsx('h-4 w-4 transition-transform', isDropdownOpen && 'rotate-180')}
+          <input
+            type="text"
+            placeholder={$t('ui.searchPlaceholder')}
+            class="block w-full pl-10 pr-10 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-muted-foreground"
+            bind:value={searchQuery}
+            oninput={handleSearchInput}
+            onkeydown={handleKeydown}
           />
-        </button>
-
-        {#if isDropdownOpen}
-          <div
-            class="absolute right-0 mt-2 w-full sm:w-48 bg-background border border-input rounded-md shadow-lg z-50 max-h-64 overflow-y-auto"
-          >
+          {#if searchQuery}
             <button
-              class={clsx(
-                'block w-full px-4 py-2 text-left hover:bg-muted transition-colors',
-                !selectedCategory && 'bg-muted font-medium'
-              )}
-              onclick={() => selectCategory('')}
+              class="absolute inset-y-0 right-0 pr-3 flex items-center"
+              onclick={clearSearch}
+              title={$t('ui.clearSearch')}
             >
-              {$t('ui.allCategories')}
+              <X class="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
             </button>
+          {/if}
+        </div>
 
-            {#each allCategories as category}
+        <div class="relative category-dropdown">
+          <button
+            class="flex items-center cursor-pointer justify-between w-full sm:w-48 px-4 py-2 border border-input rounded-md bg-background text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+            onclick={() => (isDropdownOpen = !isDropdownOpen)}
+          >
+            <div class="flex items-center">
+              <Filter class="h-4 w-4 mr-2" />
+              <span class="truncate">
+                {selectedCategory || $t('ui.allCategories')}
+              </span>
+            </div>
+            <ChevronDown
+              class={clsx('h-4 w-4 transition-transform', isDropdownOpen && 'rotate-180')}
+            />
+          </button>
+
+          {#if isDropdownOpen}
+            <div
+              class="absolute right-0 mt-2 w-full sm:w-48 bg-background border border-input rounded-md shadow-lg z-50 max-h-64 overflow-y-auto"
+            >
               <button
                 class={clsx(
                   'block w-full px-4 py-2 text-left hover:bg-muted transition-colors',
-                  selectedCategory === category && 'bg-muted font-medium'
+                  !selectedCategory && 'bg-muted font-medium'
                 )}
-                onclick={() => selectCategory(String(category))}
+                onclick={() => selectCategory('')}
               >
-                {category}
+                {$t('ui.allCategories')}
               </button>
-            {/each}
-          </div>
-        {/if}
+
+              {#each allCategories as category}
+                <button
+                  class={clsx(
+                    'block w-full px-4 py-2 text-left hover:bg-muted transition-colors',
+                    selectedCategory === category && 'bg-muted font-medium'
+                  )}
+                  onclick={() => selectCategory(String(category))}
+                >
+                  {category}
+                </button>
+              {/each}
+            </div>
+          {/if}
+        </div>
       </div>
+
+      {#if isSearching}
+        <div class="flex items-center justify-end text-sm text-muted-foreground">
+          <button class="text-primary hover:underline" onclick={clearAllFilters}>
+            {$t('ui.clearAllFilters')}
+          </button>
+        </div>
+      {/if}
     </div>
-
-    {#if !$authStore.isLoggedIn}
-      <div class="mt-6 flex items-center gap-3 rounded-xl border border-dashed border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 shadow-sm dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-100">
-        <Lock class="h-4 w-4" />
-        <span>{$t('ui.previewLoginHint')}</span>
-      </div>
-    {/if}
-
-    {#if isSearching}
-      <div class="flex items-center justify-end mt-4 text-sm text-muted-foreground">
-        <button class="text-primary hover:underline" onclick={clearAllFilters}>
-          {$t('ui.clearAllFilters')}
-        </button>
-      </div>
-    {/if}
   </div>
 
   <div class="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
