@@ -1,6 +1,6 @@
 ---
 description: "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。"
-date: "2025-02-15"
+date: "2025-11-26"
 author: "pxx"
 categories:
   - Operating Systems
