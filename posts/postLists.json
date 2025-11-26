@@ -72,7 +72,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "f05dfba08bbe30f58c0655a03c1e5799",
     "title": "Leetcode_1780_判断一个数字是否可以表示成三的幂的和"
   },
@@ -149,7 +149,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "723371bfe887453738b520efd96e717c",
     "title": "Leetcode_3201_找出有效子序列的最大长度 I"
   },
@@ -171,7 +171,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "565ca9378549ee20c2662e3e6d7d6a33",
     "title": "Leetcode_4_寻找两个在正序数组的中位数"
   },
@@ -182,7 +182,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "6df26b15493952104c211833c89a588a",
     "title": "Leetcode_3169_无需开会的工作日"
   },
@@ -193,7 +193,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "4cc1b75643f1be65b92f297a43881c86",
     "title": "Leetcode_3_无重复字符的最长字串"
   },
@@ -204,7 +204,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "01a0679a1e8c1f43b9c8e6e0a15fdc16",
     "title": "Leetcode_2_两数相加"
   },
@@ -284,5 +284,9 @@
     "published": true,
     "slug": "391d15495b78d046b4859cde54b5c22e",
     "title": "cpp_multithreading_blog"
+  },
+  {
+    "slug": "c9308b4591a1c843516cc61ac91a8fc6",
+    "title": "cpp_raii_defects"
   }
 ]
