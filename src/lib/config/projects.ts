@@ -128,6 +128,14 @@ const ACTIVITIES_EN: Array<ActivityItemType> = [
     location: 'Wuhan',
     link: 'https://www.bilibili.com/video/BV17XGGzUEUU/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
   },
+  {
+    name: 'Foxglove Websocket C++ Platform',
+    description:
+      'An experimental simulation platform for RoboMaster vision auto-aim algorithm development. It leverages the Foxglove WebSocket protocol for seamless data exchange between perception algorithms and visualization tools. Featuring Eigen-based camera and coordinate modeling, this hardware-agnostic framework enables rapid algorithm testing, free from mechanical or electrical interference.',
+    date: '2024-03-26',
+    location: 'Wuhan',
+    link: 'https://github.com/p-xiexin/foxglove_websocket_cpp',
+  },
 ];
 
 const ACTIVITIES_ZH: Array<ActivityItemType> = [
@@ -146,6 +154,14 @@ const ACTIVITIES_ZH: Array<ActivityItemType> = [
     date: '2024-07-14',
     location: '武汉',
     link: 'https://www.bilibili.com/video/BV17XGGzUEUU/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
+  },
+  {
+    name: 'Foxglove Websocket C++ 平台',
+    description:
+      '为 RoboMaster 视觉自瞄算法开发打造的实验性仿真平台，基于 Foxglove WebSocket 协议实现算法与可视化工具的无缝数据通信。使用 Eigen 建模相机和多坐标系，完全脱离硬件环境，快速验证算法效果，无需担忧机械、电控等因素干扰。',
+    date: '2024-03-26',
+    location: '武汉',
+    link: 'https://github.com/p-xiexin/foxglove_websocket_cpp',
   },
 ];
 
