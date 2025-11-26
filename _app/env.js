@@ -1,1 +1,1 @@
-export const env={"PUBLIC_PREVIEW_TOKEN":"helloworld"}
+export const env={"PUBLIC_PREVIEW_TOKEN_HASH":"helloworld"}
