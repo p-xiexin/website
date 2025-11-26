@@ -18,7 +18,7 @@ const defaultState: AuthState = {
 };
 
 /* -------------------------------------------------------
- * Local storage helpers
+ * Local storage
  * -----------------------------------------------------*/
 const readStoredState = (): AuthState => {
   if (!browser) return defaultState;
@@ -34,8 +34,8 @@ const readStoredState = (): AuthState => {
       tokenHash: parsed?.tokenHash || '',
       loggedAt: Number(parsed?.loggedAt) || 0,
     };
-  } catch (error) {
-    console.warn('Failed to read preview auth state', error);
+  } catch (err) {
+    console.warn('[preview-auth] Failed to parse stored state', err);
     return defaultState;
   }
 };
@@ -56,10 +56,11 @@ const toHex = (bytes: ArrayBuffer | Uint8Array) =>
 const hashToken = async (token: string): Promise<string> => {
   if (!token) return '';
 
-  // Browser SubtleCrypto
+  // Browser: SubtleCrypto
   if (typeof crypto !== 'undefined' && crypto.subtle) {
     const encoder = new TextEncoder();
-    const digest = await crypto.subtle.digest('SHA-256', encoder.encode(token));
+    const data = encoder.encode(token);
+    const digest = await crypto.subtle.digest('SHA-256', data);
     return toHex(digest);
   }
 
@@ -67,34 +68,40 @@ const hashToken = async (token: string): Promise<string> => {
   try {
     const { createHash } = await import('crypto');
     return createHash('sha256').update(token).digest('hex');
-  } catch (error) {
-    console.warn('Failed to hash token', error);
+  } catch (err) {
+    console.warn('[preview-auth] Failed to hash token', err);
     return '';
   }
 };
 
 /* -------------------------------------------------------
- * Expected hash
+ * Expected hash (only hash — no plaintext allowed)
+ * SUPPORTS:
+ *  - fc5e03...
+ *  - sha256:fc5e03...
  * -----------------------------------------------------*/
-const EXPECTED_HASH =
-  (PUBLIC_PREVIEW_TOKEN_HASH || '').trim().toLowerCase() || null;
+let rawHash = (PUBLIC_PREVIEW_TOKEN_HASH || '').trim().toLowerCase();
+
+if (rawHash.startsWith('sha256:')) {
+  rawHash = rawHash.slice('sha256:'.length);
+}
+
+export const EXPECTED_HASH = rawHash || null;
 
 if (!EXPECTED_HASH) {
-  console.warn(
-    '[preview-auth] Missing PUBLIC_PREVIEW_TOKEN_HASH — login will always fail.'
-  );
+  console.warn('[preview-auth] Missing PUBLIC_PREVIEW_TOKEN_HASH. Login will always fail.');
 }
 
 /* -------------------------------------------------------
- * Expiry
+ * Expiry (1 hour)
  * -----------------------------------------------------*/
-const isExpired = (ts: number) => {
-  const MAX_AGE_MS = 1000 * 60 * 60 * 1; // 1 hour
-  return Date.now() - ts > MAX_AGE_MS;
+const isExpired = (timestamp: number) => {
+  const MAX_AGE = 1000 * 60 * 60; // 1 hour
+  return Date.now() - timestamp > MAX_AGE;
 };
 
 /* -------------------------------------------------------
- * Auth store
+ * Auth Store
  * -----------------------------------------------------*/
 function createAuthStore() {
   const { subscribe, set } = writable<AuthState>(defaultState);
@@ -105,10 +112,7 @@ function createAuthStore() {
   };
 
   const hydrate = () => {
-    if (!EXPECTED_HASH) {
-      clearState();
-      return;
-    }
+    if (!EXPECTED_HASH) return clearState();
 
     const stored = readStoredState();
     if (
@@ -129,9 +133,8 @@ function createAuthStore() {
     if (!trimmed) return false;
 
     const providedHash = await hashToken(trimmed);
-    if (providedHash !== EXPECTED_HASH) {
-      return false;
-    }
+
+    if (providedHash !== EXPECTED_HASH) return false;
 
     const nextState: AuthState = {
       isLoggedIn: true,
@@ -141,7 +144,7 @@ function createAuthStore() {
     };
 
     set(nextState);
-    persistState(nextState);
+    persistState(nextState);   // ← 存入 localStorage
     return true;
   };
 
