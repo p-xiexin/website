@@ -31,6 +31,9 @@ def parse_frontmatter(content):
         except ValueError:
             pass
 
+    # Ensure published is always a boolean for downstream consumers
+    metadata['published'] = bool(metadata.get('published', False))
+
     return metadata
 
 def generate_slug(post_metadata, filename):
@@ -55,12 +58,11 @@ def get_posts():
             with open(filepath, 'r', encoding='utf-8') as f:
                 content = f.read()
             meta = parse_frontmatter(content)
-            if meta.get('published'):
-                # Generate slug and title using the metadata and filename
-                slug, title = generate_slug(meta, filename)
-                meta['slug'] = slug
-                meta['title'] = title
-                posts.append(meta)
+            # Generate slug and title using the metadata and filename
+            slug, title = generate_slug(meta, filename)
+            meta['slug'] = slug
+            meta['title'] = title
+            posts.append(meta)
 
     posts.sort(key=lambda x: x.get('date', ''), reverse=True)
     return posts

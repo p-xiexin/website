@@ -1,5 +1,16 @@
 [
   {
+    "description": "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。",
+    "date": "2025-11-26",
+    "author": "pxx",
+    "categories": [
+      "Operating Systems"
+    ],
+    "published": true,
+    "slug": "d8d2ccf37885da71f0da6ad33ad81f0c",
+    "title": "cpu_to_os"
+  },
+  {
     "description": "stm32链接脚本",
     "date": "2025-11-20",
     "author": "pxx",
@@ -61,7 +72,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "f05dfba08bbe30f58c0655a03c1e5799",
     "title": "Leetcode_1780_判断一个数字是否可以表示成三的幂的和"
   },
@@ -138,7 +149,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "723371bfe887453738b520efd96e717c",
     "title": "Leetcode_3201_找出有效子序列的最大长度 I"
   },
@@ -160,7 +171,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "565ca9378549ee20c2662e3e6d7d6a33",
     "title": "Leetcode_4_寻找两个在正序数组的中位数"
   },
@@ -171,7 +182,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "6df26b15493952104c211833c89a588a",
     "title": "Leetcode_3169_无需开会的工作日"
   },
@@ -182,7 +193,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "4cc1b75643f1be65b92f297a43881c86",
     "title": "Leetcode_3_无重复字符的最长字串"
   },
@@ -193,7 +204,7 @@
     "categories": [
       "Algorithms"
     ],
-    "published": true,
+    "published": false,
     "slug": "01a0679a1e8c1f43b9c8e6e0a15fdc16",
     "title": "Leetcode_2_两数相加"
   },
@@ -264,17 +275,6 @@
     "title": "GRAG调研"
   },
   {
-    "description": "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。",
-    "date": "2025-02-15",
-    "author": "pxx",
-    "categories": [
-      "Operating Systems"
-    ],
-    "published": true,
-    "slug": "f818ba05bca07a49d17c1612fcd3d00e",
-    "title": "cpu_to_os"
-  },
-  {
     "description": "百度完全模型组智能车竞赛调度方案",
     "date": "2023-08-27",
     "author": "pxx",
@@ -284,5 +284,9 @@
     "published": true,
     "slug": "391d15495b78d046b4859cde54b5c22e",
     "title": "cpp_multithreading_blog"
+  },
+  {
+    "slug": "c9308b4591a1c843516cc61ac91a8fc6",
+    "title": "cpp_raii_defects"
   }
 ]

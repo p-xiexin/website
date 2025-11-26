@@ -30,9 +30,13 @@
   const urlSearchQuery = $derived($page.url.searchParams.get('search') || '');
   const urlCategory = $derived($page.url.searchParams.get('category') || '');
 
+  const visiblePosts = $derived(
+    $authStore.isLoggedIn ? data.posts : data.posts.filter((post) => post.published)
+  );
+
   const allCategories = $derived((() => {
     const categories = new Set();
-    data.posts.forEach((post) => {
+    visiblePosts.forEach((post) => {
       if (post.categories) {
         post.categories.forEach((category) => categories.add(category));
       }
@@ -47,10 +51,6 @@
   });
 
   const filteredPosts = $derived((() => {
-    const visiblePosts = $authStore.isLoggedIn
-      ? data.posts
-      : data.posts.filter((post) => post.published);
-
     let posts = visiblePosts;
 
     if (selectedCategory) {
@@ -283,7 +283,23 @@
       </div>
 
       {#if isSearching}
-        <div class="flex items-center justify-end text-sm text-muted-foreground">
+        <div class="flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex items-center gap-2">
+            <div>
+              {#if totalPosts === 0}
+                No posts found
+              {:else}
+                Found {totalPosts} post{totalPosts === 1 ? '' : 's'}
+              {/if}
+              {#if searchQuery && selectedCategory}
+                for "{searchQuery}" in "{selectedCategory}"
+              {:else if searchQuery}
+                for "{searchQuery}"
+              {:else if selectedCategory}
+                in "{selectedCategory}"
+              {/if}
+            </div>
+          </div>
           <button class="text-primary hover:underline" onclick={clearAllFilters}>
             {$t('ui.clearAllFilters')}
           </button>
@@ -323,27 +339,25 @@
                 </div>
               </h2>
 
-              <time
-                datetime={blog.date}
-                class="relative z-10 order-first mb-2 flex items-center text-sm text-muted-foreground pl-3.5 md:hidden"
+              <div
+                class="relative z-10 order-first mb-2 flex flex-col items-start gap-1 pl-3.5 md:hidden"
               >
                 <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true">
                   <span class="h-4 w-0.5 rounded-full bg-muted-foreground/30"></span>
                 </span>
-                {formatDate(blog.date)}
-              </time>
-
-              <p class="relative z-10 mt-2 text-sm text-muted-foreground">
-                {blog.description}
-              </p>
-
-              <div class="relative z-10 mt-2 flex flex-wrap items-center gap-2">
+                <time datetime={blog.date} class="text-sm text-muted-foreground">
+                  {formatDate(blog.date)}
+                </time>
                 {#if $authStore.isLoggedIn && !blog.published}
-                  <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/40">
+                  <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-800 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/40">
                     {$t('ui.unpublished')}
                   </span>
                 {/if}
               </div>
+
+              <p class="relative z-10 mt-2 text-sm text-muted-foreground">
+                {blog.description}
+              </p>
 
               <div aria-hidden="true" class="relative z-10 mt-2 flex items-center text-sm font-medium text-primary">
                 {$t('ui.readBlog')}
@@ -351,12 +365,16 @@
               </div>
             </div>
 
-            <time
-              datetime={blog.date}
-              class="relative z-10 order-first text-sm text-muted-foreground mt-1 hidden md:block"
+            <div
+              class="relative z-10 order-first mt-1 hidden text-sm text-muted-foreground md:flex md:flex-col md:items-start md:gap-2"
             >
-              {formatDate(blog.date)}
-            </time>
+              <time datetime={blog.date}>{formatDate(blog.date)}</time>
+              {#if $authStore.isLoggedIn && !blog.published}
+                <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-800 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-100 dark:ring-amber-500/40">
+                  {$t('ui.unpublished')}
+                </span>
+              {/if}
+            </div>
           </article>
         {/each}
       </div>
