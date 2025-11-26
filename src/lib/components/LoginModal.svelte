@@ -26,9 +26,9 @@
     dispatch('close');
   };
 
-  const submit = () => {
+  const submit = async () => {
     error = '';
-    const success = authStore.login(accessCode);
+    const success = await authStore.login(accessCode);
     if (!success) {
       error = $t('ui.invalidCode');
       return;

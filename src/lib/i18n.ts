@@ -37,7 +37,7 @@ const messages = {
       previewDisclaimer:
         "This is a playful login box that only pretends to have access control. (And yes, I totally know it doesn’t actually work — it’s just a little proof-of-concept experiment!)",
       accessCode: 'Preview access code',
-      accessCodePlaceholder: 'Enter access code: helloworld',
+      accessCodePlaceholder: 'Enter access code',
       unlockPreview: 'Unlock drafts',
       invalidCode: 'Access code is incorrect.',
       unpublished: 'Unpublished',
@@ -76,7 +76,7 @@ const messages = {
       previewLoginHint: '点击左上角登录按钮后可查看未发布文章。',
       previewDisclaimer: '这是一个“假装有权限管理”的登录框。（但我确实知道它没用，只是做个概念验证～）',
       accessCode: '预览口令',
-      accessCodePlaceholder: '输入预览口令: helloworld',
+      accessCodePlaceholder: '输入预览口令',
       unlockPreview: '解锁预览',
       invalidCode: '口令不正确，请重试。',
       unpublished: '未发布',
