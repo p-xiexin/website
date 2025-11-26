@@ -18,6 +18,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'  # 你可以根据需要修改 Node.js 版本
+          
+      - name: Create .env file from GitHub Secrets
+        run: |
+          echo "PUBLIC_PREVIEW_TOKEN=${{ secrets.PREVIEW_TOKEN }}" > .env
+        # ⚠️ .env 不会被加入 git，也不会泄漏
 
       # 安装依赖
       - name: Install dependencies
