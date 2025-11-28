@@ -139,7 +139,7 @@ const ACTIVITIES_EN: Array<ActivityItemType> = [
   {
     name: 'STM32F4 StdLib GCC Template',
     description:
-      'A template project for STM32F4 development using Standard Peripheral Library with GCC. Features ready-to-use CMake configuration and clean project structure for efficient bare-metal C development.',
+      'STM32F4 template using the Standard Peripheral Library, GCC and CMake. Includes FreeRTOS with example tasks and basic init.',
     date: '2024-11-27',
     location: 'Wuhan',
     link: 'https://github.com/p-xiexin/STM32F4-StdLib-GCC-Template',
@@ -174,7 +174,7 @@ const ACTIVITIES_ZH: Array<ActivityItemType> = [
   {
     name: 'STM32F4 StdLib GCC 模板',
     description:
-      '基于 STM32F4 标准外设库和 GCC 的开发模板，内置可用的 CMake 配置和清晰的项目结构，方便高效进行裸机 C 语言开发。',
+      '基于 STM32F4 标准外设库、GCC 与 CMake 的模板，集成 FreeRTOS 示例与基础任务和驱动初始化，便于快速搭建实时多任务工程。',
     date: '2024-11-27',
     location: '武汉',
     link: 'https://github.com/p-xiexin/STM32F4-StdLib-GCC-Template',
