@@ -1,5 +1,27 @@
 [
   {
+    "description": "最小操作系统入门项目的选择",
+    "date": "2025-12-05",
+    "author": "pxx",
+    "categories": [
+      "OS"
+    ],
+    "published": true,
+    "slug": "4e97882c45a43edb064c10f4834c4c12",
+    "title": "xv6_vs_osdev_blog"
+  },
+  {
+    "description": "ROS 官方 GPG 密钥过期问题的完整解决方案与多架构迁移指南",
+    "date": "2025-12-01",
+    "author": "pxx",
+    "categories": [
+      "ROS"
+    ],
+    "published": true,
+    "slug": "08a66f160a45a54c4a92ee0c8de2cd56",
+    "title": "ros_gpg_guide"
+  },
+  {
     "description": "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。",
     "date": "2025-11-26",
     "author": "pxx",
@@ -18,6 +40,9 @@
       "MCU"
     ],
     "published": true,
+    "column": {
+      "name": "STM32"
+    },
     "slug": "39f333244823459e2600006549727914",
     "title": "stm32_linker_blog"
   },
@@ -31,6 +56,18 @@
     "published": true,
     "slug": "b40a0077dca278ec9a2d6c1ac4f5c044",
     "title": "cross_compiler_blog"
+  },
+  {
+    "description": "魔改openai api协议说明",
+    "date": "2025-11-04",
+    "author": "pxx",
+    "categories": [
+      "LLM",
+      "RAG"
+    ],
+    "published": false,
+    "slug": "bab31c70b8ec27ec85eb79e0ef6cac38",
+    "title": "api_documentation"
   },
   {
     "description": "Model-Based Diffusion论文解读",
@@ -62,6 +99,9 @@
       "Optimal Control"
     ],
     "published": true,
+    "column": {
+      "name": "最优控制"
+    },
     "slug": "044712a4c0c68f2f819edee2a6c81eb5",
     "title": "MRAC"
   },
@@ -92,7 +132,7 @@
     "date": "2025-08-04",
     "author": "pxx",
     "categories": [
-      "RTOS"
+      "OS"
     ],
     "published": true,
     "slug": "99b8effc7ca9f17f3b2b735a8a6e59c0",
@@ -106,6 +146,9 @@
       "MCU"
     ],
     "published": true,
+    "column": {
+      "name": "STM32"
+    },
     "slug": "b158fe10bc5f62a0a4e9b509c0f46322",
     "title": "stm32_startup_analysis"
   },
@@ -128,6 +171,9 @@
       "Optimal Control"
     ],
     "published": true,
+    "column": {
+      "name": "最优控制"
+    },
     "slug": "9a2ae3b2b4fd989f3c134c9711d062fd",
     "title": "hamilton_optimal_control"
   },
@@ -139,6 +185,9 @@
       "Optimal Control"
     ],
     "published": true,
+    "column": {
+      "name": "最优控制"
+    },
     "slug": "f5f0c57f202b990a7f4e61e733ce930e",
     "title": "从拉格朗日力学到最优控制"
   },

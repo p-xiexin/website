@@ -5,7 +5,8 @@ author: 'pxx'
 categories:
   - MCU
 published: true
-
+column:
+  name: STM32
 ---
 
 # STM32启动过程详解：从上电到main()的完整历程

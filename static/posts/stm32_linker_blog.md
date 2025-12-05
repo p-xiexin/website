@@ -5,7 +5,10 @@ author: 'pxx'
 categories:
   - MCU
 published: true
+column:
+  name: STM32
 ---
+
 
 # 了解STM32链接脚本：从代码到硬件的桥梁
 

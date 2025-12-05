@@ -5,6 +5,8 @@ author: 'pxx'
 categories:
   - Optimal Control
 published: true
+column:
+  name: 最优控制
 ---
 
 # 哈密顿函数与最优控制

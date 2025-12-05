@@ -3,7 +3,7 @@ description: FreeRTOS 内存管理概述
 date: '2025-08-04'
 author: 'pxx'
 categories:
-  - RTOS
+  - OS
 published: true
 ---
 
