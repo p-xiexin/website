@@ -144,7 +144,35 @@ git config --global core.quotepath false
 * 版本回退
 
   ```shell
-  git reset --hard [commitid]
+  # 1. 撤销最近一次提交
+  git reset --soft HEAD~1     # 撤销提交，但保留修改（已暂存 staged）
+  git reset HEAD~1            # 撤销提交，保留修改（未暂存 unstaged）
+  git reset --hard HEAD~1     # 撤销提交并丢弃修改（危险）
+  
+  # 2. 回退到指定 commit
+  git reset --soft <commit>   # 回退到指定提交，保留修改（已暂存）
+  git reset <commit>          # 回退到指定提交，保留修改（未暂存）
+  git reset --hard <commit>   # 回退到指定提交并丢弃修改（危险）
+  
+  
+  # 3. 不改变历史的安全撤销（推荐用于已推送的提交）
+  git revert <commit>         # 创建一个反向提交，用于撤销某次提交（安全）
+  
+  # 4. 强制覆盖远程历史（⚠危险操作）
+  git push --force            # 将本地历史覆盖远程（慎用）
+  
+  # 5. 查看提交历史
+  git log --oneline           # 简洁查看 commit 记录
+  
+  # 6. HEAD 快捷用法
+  # HEAD~1   表示上一个 commit
+  # HEAD~2   表示上上个 commit
+  # HEAD^    表示父 commit（等于 HEAD~1）
+  # HEAD^^   表示父的父
+  
+  # 恢复误删内容（如果 reset --hard 后悔了）
+  git reflog                  # 显示所有 HEAD 变更记录，可找回历史位置
+
   ```
 
 * 忽略特定文件
