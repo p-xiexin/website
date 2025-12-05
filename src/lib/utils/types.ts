@@ -1,5 +1,11 @@
 export type Categories = 'Web' | 'RAG' | 'Linux' | 'LLM' | 'Algorithms' | 'SQL'
 
+export type ColumnInfo = {
+	name: string
+	order?: number
+	description?: string
+}
+
 export type Post = {
 	title: string
 	slug: string
@@ -8,6 +14,7 @@ export type Post = {
 	author: string
 	categories: Categories[]
 	published: boolean
+	column?: ColumnInfo
 }
 
 export type Note = {

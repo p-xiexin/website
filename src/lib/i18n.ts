@@ -45,6 +45,7 @@ const messages = {
       previewUnlocked: 'Preview unlocked',
       show: 'Show',
       hide: 'Hide',
+      columnLabel: 'Series',
     },
   },
   zh: {
@@ -84,6 +85,7 @@ const messages = {
       previewUnlocked: '预览模式已解锁',
       show: '显示',
       hide: '隐藏',
+      columnLabel: '专栏',
     },
   },
 };

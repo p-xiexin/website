@@ -34,6 +34,23 @@ def parse_frontmatter(content):
     # Ensure published is always a boolean for downstream consumers
     metadata['published'] = bool(metadata.get('published', False))
 
+    column = metadata.get('column')
+    if isinstance(column, str):
+        metadata['column'] = {'name': column}
+    elif isinstance(column, dict):
+        normalized_column = {}
+        name = column.get('name') or column.get('title')
+        if name:
+            normalized_column['name'] = name
+        if 'order' in column:
+            normalized_column['order'] = column.get('order')
+        if 'description' in column:
+            normalized_column['description'] = column.get('description')
+        if normalized_column:
+            metadata['column'] = normalized_column
+        else:
+            metadata.pop('column', None)
+
     return metadata
 
 def generate_slug(post_metadata, filename):

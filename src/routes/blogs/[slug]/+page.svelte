@@ -1,16 +1,14 @@
 <script lang="ts">
     import BlogLayout from '$lib/components/BlogLayout.svelte';
+    import ColumnPosts from '$lib/components/ColumnPosts.svelte';
     import MarkdownRender from "$lib/components/MarkdownRender.svelte";
-    import { formatDate } from '$lib/utils/formatDate';
-    import { goto } from '$app/navigation';
-	import { base } from "$app/paths";
+    import { base } from "$app/paths";
     import { setContext } from 'svelte';
 
     let { data } = $props();
 
 	// 设置 context：从哪来的，比如列表页的 URL
 	setContext('previousPathname', '/blog');
-
 
 	function removeFrontMatter(mdContent: string): string {
 		const regex = /^---\r?\n[\s\S]*?\r?\n---\r?\n?/;
@@ -34,11 +32,8 @@
 		return content;
 	}
 	
-	// 替换图片路径
-	if (data?.content) {
-		data.content = preprocessImageLinks(data.content);
-	}
-	const cleanContent = removeFrontMatter(data.content);
+	const processedContent = $derived(data?.content ? preprocessImageLinks(data.content) : '');
+	const cleanContent = $derived(removeFrontMatter(processedContent));
 </script>
 
 <svelte:head>
@@ -51,6 +46,9 @@
 
 {#if data.meta}
 	<BlogLayout blog={data.meta}>
+		{#if data.meta.column}
+			<ColumnPosts columnName={data.meta.column.name} posts={data.columnPosts} currentSlug={data.meta.slug} />
+		{/if}
 		<MarkdownRender content={cleanContent} />
 	</BlogLayout>
 {:else}
