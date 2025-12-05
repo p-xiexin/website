@@ -176,10 +176,16 @@
 
   @media (prefers-color-scheme: dark) {
     .catalog-container {
-      background: linear-gradient(180deg, rgba(24, 24, 27, 0.9), rgba(24, 24, 27, 0.82));
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 0 12px 50px rgba(0, 0, 0, 0.45);
+      background: linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(24, 24, 27, 0.88));
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
     }
+  }
+  
+  :global(.dark) .catalog-container {
+    background: linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(24, 24, 27, 0.88));
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
   }
 
   .catalog-header {
@@ -194,8 +200,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
     color: #0f172a;
     font-weight: 700;
     letter-spacing: 0.01em;
@@ -203,9 +210,14 @@
 
   @media (prefers-color-scheme: dark) {
     .catalog-pill {
-      background: rgba(59, 130, 246, 0.1);
-      color: #e5e7eb;
+      background: transparent;
+      color: #f1f5f9;
     }
+  }
+  
+  :global(.dark) .catalog-pill {
+    background: transparent;
+    color: #f1f5f9;
   }
 
   .catalog-list {
@@ -220,7 +232,7 @@
     border-radius: 9999px;
     flex-shrink: 0;
   }
-  
+
   .dot-main {
     background-color: #4f46e5;
   }
@@ -231,12 +243,20 @@
   
   @media (prefers-color-scheme: dark) {
     .dot-main {
-      background-color: #a5b4fc;
+      background-color: #60a5fa;
     }
     
     .dot-sub {
-      background-color: #d8b4fe;
+      background-color: #f472b6;
     }
+  }
+  
+  :global(.dark) .dot-main {
+    background-color: #60a5fa;
+  }
+  
+  :global(.dark) .dot-sub {
+    background-color: #f472b6;
   }
 
   .catalog-block {
@@ -252,8 +272,12 @@
 
   @media (prefers-color-scheme: dark) {
     .catalog-block:hover {
-      background-color: rgba(59, 130, 246, 0.12);
+      background-color: rgba(59, 130, 246, 0.16);
     }
+  }
+  
+  :global(.dark) .catalog-block:hover {
+    background-color: rgba(59, 130, 246, 0.16);
   }
 
   .catalog-item {
@@ -277,12 +301,20 @@
 
   @media (prefers-color-scheme: dark) {
     .catalog-item {
-      color: #e5e7eb;
+      color: #f1f5f9;
     }
 
     .catalog-item:hover {
-      color: #93c5fd;
+      color: #bfdbfe;
     }
+  }
+  
+  :global(.dark) .catalog-item {
+    color: #f1f5f9;
+  }
+
+  :global(.dark) .catalog-item:hover {
+    color: #bfdbfe;
   }
 
   .sub-list {
@@ -296,8 +328,12 @@
 
   @media (prefers-color-scheme: dark) {
     .sub-list {
-      border-left: 1px dashed rgba(255, 255, 255, 0.16);
+      border-left: 1px dashed rgba(148, 163, 184, 0.28);
     }
+  }
+  
+  :global(.dark) .sub-list {
+    border-left: 1px dashed rgba(148, 163, 184, 0.28);
   }
 
   .sub-item {
@@ -319,12 +355,20 @@
 
   @media (prefers-color-scheme: dark) {
     .sub-item {
-      color: #9ca3af;
+      color: #cbd5e1;
     }
 
     .sub-item:hover {
-      color: #93c5fd;
+      color: #bfdbfe;
     }
+  }
+  
+  :global(.dark) .sub-item {
+    color: #cbd5e1;
+  }
+
+  :global(.dark) .sub-item:hover {
+    color: #bfdbfe;
   }
 
   .pill-soft {
