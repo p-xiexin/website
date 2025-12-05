@@ -33,6 +33,9 @@
   const visiblePosts = $derived(
     $authStore.isLoggedIn ? data.posts : data.posts.filter((post) => post.published)
   );
+  const DESKTOP_MAX_VISIBLE_PAGES = 5;
+  const MOBILE_MAX_VISIBLE_PAGES = 4;
+  let maxVisiblePages = $state(DESKTOP_MAX_VISIBLE_PAGES);
 
   const allCategories = $derived((() => {
     const categories = new Set();
@@ -148,21 +151,21 @@
 
   const pageNumbers = $derived((() => {
     const pages: (number | string)[] = [];
-    const maxVisiblePages = 5;
 
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      let startPage = Math.max(1, currentPage - 2);
-      let endPage = Math.min(totalPages, currentPage + 2);
+      const halfRange = Math.floor((maxVisiblePages - 1) / 2);
+      let startPage = Math.max(1, currentPage - halfRange);
+      let endPage = Math.min(totalPages, currentPage + halfRange);
 
-      if (endPage - startPage + 1 < maxVisiblePages) {
+      if (endPage - startPage + 1 < maxVisiblePages - 1) {
         if (startPage === 1) {
-          endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+          endPage = Math.min(totalPages, startPage + (maxVisiblePages - 2));
         } else if (endPage === totalPages) {
-          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+          startPage = Math.max(1, endPage - (maxVisiblePages - 2));
         }
       }
 
@@ -196,6 +199,18 @@
   }
 
   $effect(() => {
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(max-width: 640px)');
+      const updateVisiblePages = () => {
+        maxVisiblePages = mediaQuery.matches ? MOBILE_MAX_VISIBLE_PAGES : DESKTOP_MAX_VISIBLE_PAGES;
+      };
+      updateVisiblePages();
+      mediaQuery.addEventListener('change', updateVisiblePages);
+      return () => mediaQuery.removeEventListener('change', updateVisiblePages);
+    }
+  });
+
+  $effect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
@@ -220,7 +235,7 @@
           <input
             type="text"
             placeholder={$t('ui.searchPlaceholder')}
-            class="block w-full pl-10 pr-10 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-muted-foreground"
+            class="block w-full pl-10 pr-10 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-muted-foreground dark:bg-background dark:border-input dark:hover:bg-muted/70"
             bind:value={searchQuery}
             oninput={handleSearchInput}
             onkeydown={handleKeydown}
@@ -238,7 +253,7 @@
 
         <div class="relative category-dropdown">
           <button
-            class="flex items-center cursor-pointer justify-between w-full sm:w-48 px-4 py-2 border border-input rounded-md bg-background text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+            class="flex items-center cursor-pointer justify-between w-full sm:w-48 px-4 py-2 border border-input rounded-md bg-background text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background dark:border-input dark:hover:bg-muted/70"
             onclick={() => (isDropdownOpen = !isDropdownOpen)}
           >
             <div class="flex items-center">
@@ -254,11 +269,11 @@
 
           {#if isDropdownOpen}
             <div
-              class="absolute right-0 mt-2 w-full sm:w-48 bg-background border border-input rounded-md shadow-lg z-50 max-h-64 overflow-y-auto"
+              class="absolute right-0 mt-2 w-full sm:w-48 bg-background border border-input rounded-md shadow-lg z-50 max-h-64 overflow-y-auto dark:bg-background dark:border-input"
             >
               <button
                 class={clsx(
-                  'block w-full px-4 py-2 text-left hover:bg-muted transition-colors',
+                  'block w-full px-4 py-2 text-left hover:bg-muted transition-colors dark:hover:bg-muted/70',
                   !selectedCategory && 'bg-muted font-medium'
                 )}
                 onclick={() => selectCategory('')}
@@ -269,7 +284,7 @@
               {#each allCategories as category}
                 <button
                   class={clsx(
-                    'block w-full px-4 py-2 text-left hover:bg-muted transition-colors',
+                    'block w-full px-4 py-2 text-left hover:bg-muted transition-colors dark:hover:bg-muted/70',
                     selectedCategory === category && 'bg-muted font-medium'
                   )}
                   onclick={() => selectCategory(String(category))}
@@ -384,14 +399,14 @@
       <nav class="flex items-center justify-center space-x-2 mt-12 pt-8 border-t border-muted">
         <button
           class={clsx(
-            'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer',
+            'inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer',
             currentPage === 1 ? 'text-muted-foreground cursor-not-allowed' : 'text-foreground hover:bg-muted'
           )}
           disabled={currentPage === 1}
           onclick={() => goToPage(currentPage - 1)}
         >
-          <ChevronLeft class="h-4 w-4 mr-1" />
-          {$t('ui.previous')}
+          <ChevronLeft class="h-4 w-4 mr-0 sm:mr-1" />
+          <span class="hidden sm:inline">{$t('ui.previous')}</span>
         </button>
 
         <div class="flex items-center space-x-1">
@@ -416,14 +431,14 @@
 
         <button
           class={clsx(
-            'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer',
+            'inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer',
             currentPage === totalPages ? 'text-muted-foreground cursor-not-allowed' : 'text-foreground hover:bg-muted'
           )}
           disabled={currentPage === totalPages}
           onclick={() => goToPage(currentPage + 1)}
         >
-          {$t('ui.next')}
-          <ChevronRight class="h-4 w-4 ml-1" />
+          <span class="hidden sm:inline">{$t('ui.next')}</span>
+          <ChevronRight class="h-4 w-4 ml-0 sm:ml-1" />
         </button>
       </nav>
     {/if}
