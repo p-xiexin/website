@@ -46,6 +46,7 @@ const messages = {
       show: 'Show',
       hide: 'Hide',
       columnLabel: 'Series',
+      contents: 'Contents',
     },
   },
   zh: {
@@ -86,6 +87,7 @@ const messages = {
       show: '显示',
       hide: '隐藏',
       columnLabel: '专栏',
+      contents: '目录',
     },
   },
 };

@@ -3,7 +3,7 @@ description: 最小操作系统入门项目的选择
 date: '2025-12-05'
 author: 'pxx'
 categories:
-  - OS
+  - Operating Systems
 published: true
 ---
 

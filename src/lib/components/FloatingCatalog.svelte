@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { fade, scale } from 'svelte/transition';
+  import { t } from 'svelte-i18n';
   
   export let catalog: {
     title: string;
@@ -8,33 +8,27 @@
     children?: { title: string; slug: string }[];
   }[] = [];
   
-  let activeSlug: string | null = null; // 存储当前活动slug
-  let showMobileCatalog = false; // 控制移动端目录显示
+  let showMobileCatalog = false;
   let panelRef: HTMLDivElement;
   
-  // 滚动跳转函数
   function scrollToSlug(slug: string) {
     const el = document.getElementById(slug);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
-      // 移动端滚动后关闭目录
       showMobileCatalog = false;
     } else {
-      console.log(`元素 ${slug} 未找到`);
+      console.log(`element ${slug} not found`);
     }
   }
   
-  // 切换移动端目录显示
   function toggleMobileCatalog() {
     showMobileCatalog = !showMobileCatalog;
   }
   
-  // 关闭移动端目录
   function closeMobileCatalog() {
     showMobileCatalog = false;
   }
   
-  // 点击外部关闭目录
   function clickOutside(node: HTMLElement) {
     const handleClick = (event: MouseEvent) => {
       if (!node.contains(event.target as Node)) {
@@ -51,76 +45,74 @@
   }
 </script>
 
-<!-- 桌面端目录 -->
 <div
-  class="fixed z-30 w-64 text-sm hidden 2xl:block group"
+  class="fixed z-30 hidden w-72 text-sm 2xl:block group"
   style="top: 50%; right: var(--side-space); transform: translate(100%, -50%);"
 >
-  <div class="catalog-container rounded-lg">
-    {#each catalog as item}
-      <div class="mb-2">
-        <div class="flex items-center mb-2 catalog-item">
-          <div class="dot dot-main"></div>
+  <div class="catalog-container rounded-xl">
+    <div class="catalog-header">
+      <div class="catalog-pill">
+        <span>{$t('ui.contents')}</span>
+      </div>
+    </div>
+    <div class="catalog-list">
+      {#each catalog as item}
+        <div class="catalog-block">
           <button
             type="button"
-            class="font-bold text-muted-foreground hover:text-foreground cursor-pointer bg-transparent border-none p-0 text-left"
+            class="catalog-item"
             on:click={() => scrollToSlug(item.slug)}
           >
-            {item.title}
+            <div class="dot dot-main"></div>
+            <span>{item.title}</span>
           </button>
+
+          {#if item.children}
+            <div class="sub-list">
+              {#each item.children as subitem}
+                <button
+                  type="button"
+                  class="sub-item"
+                  on:click={() => scrollToSlug(subitem.slug)}
+                >
+                  <div class="dot dot-sub"></div>
+                  <div>{subitem.title}</div>
+                </button>
+              {/each}
+            </div>
+          {/if}
         </div>
-        
-        {#if item.children}
-          <div class="space-y-2 text-muted-foreground">
-            {#each item.children as subitem}
-              <button
-                type="button"
-                class="sub-item cursor-pointer rounded bg-transparent border-none p-0 text-left flex items-center hover:text-foreground"
-                on:click={() => scrollToSlug(subitem.slug)}
-              >
-                <div class="dot dot-sub"></div>
-                <div class="ml-2">{subitem.title}</div>
-              </button>
-            {/each}
-          </div>
-        {/if}
-      </div>
-    {/each}
+      {/each}
+    </div>
   </div>
 </div>
 
-<!-- 移动端目录组件 -->
 <div class="relative pointer-events-auto 2xl:hidden">
-  <!-- 浮动按钮 -->
   <button
     class="group flex items-center rounded-full px-4 py-2 text-sm font-medium shadow-lg ring-1 ring-muted backdrop-blur fixed bottom-6 right-6 z-40 bg-card hover:bg-card/90 transition-colors"
     on:click={toggleMobileCatalog}
   >
-    <!-- 目录图标 -->
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
       <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    目录
+    {$t('ui.contents')}
   </button>
 
   {#if showMobileCatalog}
-    <!-- 背景遮罩 -->
     <div 
       transition:fade 
       class="fixed inset-0 z-40 backdrop-blur-sm bg-background/80"
     ></div>
 
-    <!-- 目录面板 -->
     <div
       bind:this={panelRef}
       transition:scale|local={{ duration: 150 }}
       class="fixed inset-x-4 bottom-20 top-20 z-50 origin-center rounded-2xl ring-1 ring-muted bg-card shadow-xl overflow-hidden flex flex-col"
       use:clickOutside
     >
-      <!-- 顶部栏 -->
-      <div class="flex flex-row-reverse items-center justify-between p-4 border-b border-muted shrink-0">
+      <div class="flex flex-row-reverse items-center justify-between p-4 border-b border-muted shrink-0 bg-card/60 backdrop-blur">
         <button 
-          aria-label="关闭目录" 
+          aria-label="close menu" 
           class="-m-1 p-1 hover:bg-muted/50 rounded-lg transition-colors" 
           on:click={closeMobileCatalog}
         >
@@ -128,35 +120,34 @@
             <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <h2 class="text-sm font-medium text-muted-foreground">目录导航</h2>
+        <div class="flex items-center gap-2 text-sm font-semibold text-foreground">
+          <div class="pill-soft">{$t('ui.contents')}</div>
+        </div>
       </div>
       
-      <!-- 可滚动的目录内容 -->
-      <div class="flex-1 overflow-y-auto p-4">
-        <div class="space-y-3">
+      <div class="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-transparent via-card/40 to-card">
+        <div class="space-y-2.5">
           {#each catalog as item}
-            <div class="mb-3">
-              <div class="flex items-center mb-2">
+            <div class="catalog-block">
+              <button
+                type="button"
+                class="catalog-item"
+                on:click={() => scrollToSlug(item.slug)}
+              >
                 <div class="dot dot-main"></div>
-                <button
-                  type="button"
-                  class="font-bold text-foreground hover:text-primary cursor-pointer bg-transparent border-none p-0 text-left text-sm"
-                  on:click={() => scrollToSlug(item.slug)}
-                >
-                  {item.title}
-                </button>
-              </div>
+                <span>{item.title}</span>
+              </button>
               
               {#if item.children}
-                <div class="space-y-2 ml-4">
+                <div class="sub-list">
                   {#each item.children as subitem}
                     <button
                       type="button"
-                      class="sub-item cursor-pointer bg-transparent border-none p-0 text-left flex items-center hover:text-primary text-muted-foreground text-sm"
+                      class="sub-item"
                       on:click={() => scrollToSlug(subitem.slug)}
                     >
                       <div class="dot dot-sub"></div>
-                      <div class="ml-2">{subitem.title}</div>
+                      <div>{subitem.title}</div>
                     </button>
                   {/each}
                 </div>
@@ -171,9 +162,56 @@
 
 <style>
   .catalog-container {
-    background: transparent;
-    box-shadow: none;
-    border: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 14px 50px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(14px);
+    padding: 14px 16px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .catalog-container:hover {
+    box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .catalog-container {
+      background: linear-gradient(180deg, rgba(24, 24, 27, 0.9), rgba(24, 24, 27, 0.82));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 12px 50px rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  .catalog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .catalog-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    color: #0f172a;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .catalog-pill {
+      background: rgba(59, 130, 246, 0.1);
+      color: #e5e7eb;
+    }
+  }
+
+  .catalog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
   
   .dot {
@@ -184,33 +222,116 @@
   }
   
   .dot-main {
-    background-color: #a3a3a3;
+    background-color: #4f46e5;
   }
   
   .dot-sub {
-    background-color: #d4d4d4;
+    background-color: #a855f7;
   }
   
   @media (prefers-color-scheme: dark) {
     .dot-main {
-      background-color: #4b5563;
+      background-color: #a5b4fc;
     }
     
     .dot-sub {
-      background-color: #374151;
+      background-color: #d8b4fe;
     }
   }
-  
-  .catalog-item {
-    transition: background-color 0.3s ease, color 0.3s ease;
+
+  .catalog-block {
+    padding: 0.45rem 0.35rem;
+    border-radius: 0.9rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
   }
-  
+
+  .catalog-block:hover {
+    background-color: rgba(59, 130, 246, 0.06);
+    transform: translateX(-2px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .catalog-block:hover {
+      background-color: rgba(59, 130, 246, 0.12);
+    }
+  }
+
+  .catalog-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0.25rem 0.1rem;
+    cursor: pointer;
+    color: #0f172a;
+    font-weight: 600;
+    text-align: left;
+    letter-spacing: 0.01em;
+  }
+
+  .catalog-item:hover {
+    color: #2563eb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .catalog-item {
+      color: #e5e7eb;
+    }
+
+    .catalog-item:hover {
+      color: #93c5fd;
+    }
+  }
+
+  .sub-list {
+    margin-top: 0.25rem;
+    margin-left: 0.9rem;
+    padding-left: 0.75rem;
+    border-left: 1px dashed rgba(15, 23, 42, 0.12);
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .sub-list {
+      border-left: 1px dashed rgba(255, 255, 255, 0.16);
+    }
+  }
+
   .sub-item {
     display: flex;
     align-items: center;
+    gap: 0.55rem;
+    background: transparent;
+    border: none;
+    padding: 0.2rem 0.05rem;
+    cursor: pointer;
+    color: #4b5563;
+    text-align: left;
+    transition: color 0.2s ease;
   }
 
-  /* 优化滚动条样式 */
+  .sub-item:hover {
+    color: #2563eb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .sub-item {
+      color: #9ca3af;
+    }
+
+    .sub-item:hover {
+      color: #93c5fd;
+    }
+  }
+
+  .pill-soft {
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+  }
+
   .overflow-y-auto::-webkit-scrollbar {
     width: 4px;
   }
