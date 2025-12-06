@@ -1,5 +1,5 @@
 ---
-description: 模型参考控制器
+description: MRAC学习记录
 date: '2025-08-16'
 author: 'pxx'
 categories:
@@ -9,7 +9,7 @@ column:
   name: 最优控制
 ---
 
-# MRAC
+# 模型参考自适应控制方法
 
 模型参考自适应控制（Model Reference Adaptive Control, MRAC）起源于20世纪50年代的航空航天领域，最初由Whitaker等人提出。当时面临的主要问题是飞机在不同飞行条件下（高度、速度、载荷变化）的控制参数需要实时调整，传统的固定参数控制器无法满足全飞行包络的性能要求。
 
