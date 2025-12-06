@@ -14,7 +14,8 @@ export async function load({ params, fetch }): Promise<PostPageData> {
       throw error(404, `Post ${params.slug} not found`);
     }
 
-    const postPath = `${base}/posts/${post.title}.md`;
+    const postFile = post.file || `${post.title}.md`;
+    const postPath = `${base}/posts/${postFile}`;
     const response = await fetch(postPath);
     if (!response.ok) {
       throw error(404, `Could not fetch ${params.slug}`);

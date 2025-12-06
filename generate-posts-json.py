@@ -10,13 +10,21 @@ OUTPUT_FILE = './static/posts/postLists.json'
 
 def parse_frontmatter(content):
     lines = content.splitlines()
-    if not lines or lines[0].strip() != '---':
+    if not lines:
         return {}
 
-    # 找到 frontmatter 的结束行
-    try:
-        end_index = lines.index('---', 1)
-    except ValueError:
+    # tolerate BOM and require opening ---
+    first_line = lines[0].lstrip('\ufeff').strip()
+    if first_line != '---':
+        return {}
+
+    # find closing ---
+    end_index = None
+    for idx, line in enumerate(lines[1:], start=1):
+        if line.strip() == '---':
+            end_index = idx
+            break
+    if end_index is None:
         return {}
 
     frontmatter_str = '\n'.join(lines[1:end_index])
@@ -25,7 +33,7 @@ def parse_frontmatter(content):
     except yaml.YAMLError:
         metadata = {}
 
-    # 标准化字段
+    # normalize date
     if 'date' in metadata:
         try:
             metadata['date'] = datetime.strptime(str(metadata['date']), "%Y-%m-%d").date().isoformat()
@@ -111,6 +119,7 @@ def get_posts():
             slug, title = generate_slug(meta, title)
             meta['slug'] = slug
             meta['title'] = title
+            meta['file'] = filename
             posts.append(meta)
 
     posts.sort(key=lambda x: x.get('date', ''), reverse=True)
@@ -123,4 +132,4 @@ def save_posts(posts):
 if __name__ == '__main__':
     posts = get_posts()
     save_posts(posts)
-    print(f"✅ Generated {OUTPUT_FILE} with {len(posts)} posts.")
+    print(f"✔Generated {OUTPUT_FILE} with {len(posts)} posts.")

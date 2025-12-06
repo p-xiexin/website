@@ -8,7 +8,8 @@
     ],
     "published": true,
     "slug": "6e36c4a5570efc82bd3f5ec74800c736",
-    "title": "芯片架构、ISA、授权模式与内存模型"
+    "title": "芯片架构、ISA、授权模式与内存模型",
+    "file": "cpu_isa_mm_blog.md"
   },
   {
     "description": "最小操作系统入门项目的选择",
@@ -19,7 +20,8 @@
     ],
     "published": true,
     "slug": "cd8439c9ddedf17c454cfbf0b41a4d8e",
-    "title": "xv6-public 与 OSDev 对比：操作系统入门者该如何选择？"
+    "title": "xv6-public 与 OSDev 对比：操作系统入门者该如何选择？",
+    "file": "xv6_vs_osdev_blog.md"
   },
   {
     "description": "ROS 官方 GPG 密钥过期问题的完整解决方案与多架构迁移指南",
@@ -30,7 +32,8 @@
     ],
     "published": true,
     "slug": "fed4026984738cb4b10bcb365e00ba90",
-    "title": "ROS 官方 GPG 密钥过期与迁移指南"
+    "title": "ROS 官方 GPG 密钥过期与迁移指南",
+    "file": "ros_gpg_guide.md"
   },
   {
     "description": "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。",
@@ -41,7 +44,8 @@
     ],
     "published": true,
     "slug": "465b89f9186d82900dd3813381dd2310",
-    "title": "从嵌入式经验出发理解操作系统"
+    "title": "从嵌入式经验出发理解操作系统",
+    "file": "cpu_to_os.md"
   },
   {
     "description": "stm32链接脚本",
@@ -55,7 +59,8 @@
       "name": "STM32"
     },
     "slug": "f93e6b3f9cfef2aeedb88100d6b32cf9",
-    "title": "了解STM32链接脚本：从代码到硬件的桥梁"
+    "title": "了解STM32链接脚本：从代码到硬件的桥梁",
+    "file": "stm32_linker_blog.md"
   },
   {
     "description": "cross compile tools introduction",
@@ -66,7 +71,8 @@
     ],
     "published": true,
     "slug": "b7d2cd9d7bdc557dee629498401b6696",
-    "title": "交叉编译器介绍"
+    "title": "交叉编译器介绍",
+    "file": "cross_compiler_blog.md"
   },
   {
     "description": "魔改openai api协议说明",
@@ -78,7 +84,8 @@
     ],
     "published": false,
     "slug": "0a44b37dcf15799abd5860a34579fa15",
-    "title": "API 使用说明文档"
+    "title": "API 使用说明文档",
+    "file": "api_documentation.md"
   },
   {
     "description": "Model-Based Diffusion论文解读",
@@ -89,7 +96,8 @@
     ],
     "published": true,
     "slug": "c93e2484724b3379c5efe5ed08a7fbdf",
-    "title": "论文《Model-Based Diffusion for Trajectory Optimization》代码实现解析"
+    "title": "论文《Model-Based Diffusion for Trajectory Optimization》代码实现解析",
+    "file": "mbd_diffusion_blog.md"
   },
   {
     "description": "流形上旋转误差的选取思路与推导",
@@ -100,10 +108,11 @@
     ],
     "published": true,
     "slug": "47120aaf895f20c61e4bbdbe6487ba83",
-    "title": "旋转误差函数定义的选择依据"
+    "title": "旋转误差函数定义的选择依据",
+    "file": "rotation_error_blog.md"
   },
   {
-    "description": "模型参考控制器",
+    "description": "MRAC学习记录",
     "date": "2025-08-16",
     "author": "pxx",
     "categories": [
@@ -113,8 +122,9 @@
     "column": {
       "name": "最优控制"
     },
-    "slug": "044712a4c0c68f2f819edee2a6c81eb5",
-    "title": "MRAC"
+    "slug": "0e800603378524ca15d7f7ce55d02b77",
+    "title": "模型参考自适应控制方法",
+    "file": "MRAC.md"
   },
   {
     "description": "进制转换判断方法和01背包法",
@@ -125,7 +135,8 @@
     ],
     "published": false,
     "slug": "9d12644cb26d11a65662a8a6ffc6f3ac",
-    "title": "判断一个数字是否可以表示成三的幂的和（LeetCode 1780）"
+    "title": "判断一个数字是否可以表示成三的幂的和（LeetCode 1780）",
+    "file": "Leetcode_1780_判断一个数字是否可以表示成三的幂的和.md"
   },
   {
     "description": "如何在完全无法联网的 Windows 系统中成功安装和使用 WSL2",
@@ -136,7 +147,8 @@
     ],
     "published": true,
     "slug": "3ee15064f23850529a6054ff89701c63",
-    "title": "完全离线环境下安装和使用 WSL2"
+    "title": "完全离线环境下安装和使用 WSL2",
+    "file": "wsl2_offline_install_blog.md"
   },
   {
     "description": "FreeRTOS 内存管理概述",
@@ -147,7 +159,8 @@
     ],
     "published": true,
     "slug": "6635e2903169605ee0ccc841ec9a22a7",
-    "title": "FreeRTOS 内存管理"
+    "title": "FreeRTOS 内存管理",
+    "file": "FreeRTOS_heap.md"
   },
   {
     "description": "stm32启动过程详解",
@@ -161,7 +174,8 @@
       "name": "STM32"
     },
     "slug": "ad7db0c738e7b687def4b60c936be5d2",
-    "title": "STM32启动过程详解：从上电到main()的完整历程"
+    "title": "STM32启动过程详解：从上电到main()的完整历程",
+    "file": "stm32_startup_analysis.md"
   },
   {
     "description": "初识Linux内核",
@@ -172,7 +186,8 @@
     ],
     "published": true,
     "slug": "8a561a710285ebacaf1d88411a6e84af",
-    "title": "初步了解Linux内核：从基础概念到核心机制"
+    "title": "初步了解Linux内核：从基础概念到核心机制",
+    "file": "Linux内核.md"
   },
   {
     "description": "哈密顿函数与最优控制",
@@ -186,7 +201,8 @@
       "name": "最优控制"
     },
     "slug": "b2b6c0f506c6fd76ca9def6939fc269d",
-    "title": "哈密顿函数与最优控制"
+    "title": "哈密顿函数与最优控制",
+    "file": "hamilton_optimal_control.md"
   },
   {
     "description": "从拉格朗日力学到最优控制",
@@ -200,7 +216,8 @@
       "name": "最优控制"
     },
     "slug": "f5f0c57f202b990a7f4e61e733ce930e",
-    "title": "从拉格朗日力学到最优控制"
+    "title": "从拉格朗日力学到最优控制",
+    "file": "从拉格朗日力学到最优控制.md"
   },
   {
     "description": "算法题\"找出有效子序列的最大长度 I\"",
@@ -211,7 +228,8 @@
     ],
     "published": false,
     "slug": "ded0ff0521672d570a0d988815086153",
-    "title": "3201. 找出有效子序列的最大长度 I"
+    "title": "3201. 找出有效子序列的最大长度 I",
+    "file": "Leetcode_3201_找出有效子序列的最大长度 I.md"
   },
   {
     "description": "让用户把你的网站像原生 App 一样，直接从主屏幕启动，并且带上自定义图标和启动页体验。",
@@ -222,7 +240,8 @@
     ],
     "published": true,
     "slug": "e09ab976ad462d7ff22b3c176c12dcec",
-    "title": "如何让你的 SvelteKit 网站完美适配 GitHub Pages 和 iOS 主屏幕"
+    "title": "如何让你的 SvelteKit 网站完美适配 GitHub Pages 和 iOS 主屏幕",
+    "file": "ios网页适配.md"
   },
   {
     "description": "算法题\"寻找两个正序数组的中位数\"",
@@ -233,7 +252,8 @@
     ],
     "published": false,
     "slug": "f5bea64e500fe47bc4f02a687108fab3",
-    "title": "4. 寻找两个正序数组的中位数"
+    "title": "4. 寻找两个正序数组的中位数",
+    "file": "Leetcode_4_寻找两个在正序数组的中位数.md"
   },
   {
     "description": "算法题\"无需开会的工作日\"",
@@ -244,7 +264,8 @@
     ],
     "published": false,
     "slug": "75c8a1b417b3a0845e4d515decfd534e",
-    "title": "3169. 无需开会的工作日"
+    "title": "3169. 无需开会的工作日",
+    "file": "Leetcode_3169_无需开会的工作日.md"
   },
   {
     "description": "算法题\"无重复字符的最长子串\"",
@@ -255,7 +276,8 @@
     ],
     "published": false,
     "slug": "21c5cfd4e0aac92e2008d059947b0ce5",
-    "title": "Leetcode 3： 无重复字符的最长子串"
+    "title": "Leetcode 3： 无重复字符的最长子串",
+    "file": "Leetcode_3_无重复字符的最长字串.md"
   },
   {
     "description": "算法题\"两数相加\"",
@@ -266,7 +288,8 @@
     ],
     "published": false,
     "slug": "6dd60498c8ba864e5db4871be9965dca",
-    "title": "Leetcode 2：两数相加"
+    "title": "Leetcode 2：两数相加",
+    "file": "Leetcode_2_两数相加.md"
   },
   {
     "description": "SQLAlchemy数据库Schema的学习记录",
@@ -277,7 +300,8 @@
     ],
     "published": true,
     "slug": "35fdb47ef903e09a6a4fce302ef1be9c",
-    "title": "SQLAlchemy数据库Schema定义"
+    "title": "SQLAlchemy数据库Schema定义",
+    "file": "python中数据库的使用.md"
   },
   {
     "description": "自定义构建vllm镜像，并解决环境依赖问题.",
@@ -288,7 +312,8 @@
     ],
     "published": true,
     "slug": "b47962387855749e366a2b296abea650",
-    "title": "vllm+5090部署大模型应用"
+    "title": "vllm+5090部署大模型应用",
+    "file": "vllm+5090部署大模型.md"
   },
   {
     "description": "在ubuntu上设置自定义的分辨率",
@@ -299,7 +324,8 @@
     ],
     "published": true,
     "slug": "171d0ac99bc119c67eeca0200e62ca7c",
-    "title": "自定义ubuntu显示器分辨率"
+    "title": "自定义ubuntu显示器分辨率",
+    "file": "自定义ubuntu显示器分辨率.md"
   },
   {
     "description": "解读lightrag后端相关api，适配自己的网页",
@@ -310,7 +336,8 @@
     ],
     "published": true,
     "slug": "eb30f1c40c0e3925ccd73d7d87c34e79",
-    "title": "知识库后端架构"
+    "title": "知识库后端架构",
+    "file": "Lightrag后端解读.md"
   },
   {
     "description": "使用svelte以及github pages 自动化托管自己的个人网站，解决子域名404问题.",
@@ -321,7 +348,8 @@
     ],
     "published": true,
     "slug": "067758f96375ea622dec7ef6f89b040e",
-    "title": "gh-pages 个人博客"
+    "title": "gh-pages 个人博客",
+    "file": "构建一个自己的博客网站.md"
   },
   {
     "description": "调研最新的GRAG方法.",
@@ -332,7 +360,20 @@
     ],
     "published": true,
     "slug": "c03a139d9618e268554d91d5c653ea68",
-    "title": "GRAG技术调研"
+    "title": "GRAG技术调研",
+    "file": "GRAG调研.md"
+  },
+  {
+    "description": "C++ RAII 在工程中的三大硬伤与应对",
+    "date": "2023-11-18",
+    "author": "pxx",
+    "categories": [
+      "Program"
+    ],
+    "published": true,
+    "slug": "8465608fd93cc31c0e6f3ade482d11d6",
+    "title": "C++ RAII 的两个结构性缺陷",
+    "file": "cpp_raii_defects.md"
   },
   {
     "description": "百度完全模型组智能车竞赛调度方案",
@@ -343,10 +384,7 @@
     ],
     "published": true,
     "slug": "83365f5bcfee05b7988d29ad1d6a713f",
-    "title": "C++多线程技术在大学生智能汽车竞赛中的应用与优化"
-  },
-  {
-    "slug": "d7a8ff3e884e35fda312e17a08a72031",
-    "title": "C++ RAII 的两个结构性缺陷"
+    "title": "C++多线程技术在大学生智能汽车竞赛中的应用与优化",
+    "file": "cpp_multithreading_blog.md"
   }
 ]

@@ -9,6 +9,7 @@ export type ColumnInfo = {
 export type Post = {
 	title: string
 	slug: string
+	file: string
 	description: string
 	date: string
 	author: string
