@@ -126,7 +126,7 @@
       </div>
       
       <div class="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-transparent via-card/40 to-card">
-        <div class="space-y-2.5">
+        <div class="space-y-0.5 mobile-catalog">
           {#each catalog as item}
             <div class="catalog-block">
               <button
@@ -223,7 +223,7 @@
   .catalog-list {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.02rem;
   }
   
   .dot {
@@ -260,7 +260,7 @@
   }
 
   .catalog-block {
-    padding: 0.45rem 0.35rem;
+    padding: 0.12rem 0.3rem;
     border-radius: 0.9rem;
     transition: background-color 0.2s ease, transform 0.2s ease;
   }
@@ -318,12 +318,12 @@
   }
 
   .sub-list {
-    margin-top: 0.25rem;
-    margin-left: 0.9rem;
-    padding-left: 0.75rem;
+    margin-top: 0.1rem;
+    margin-left: 0.8rem;
+    padding-left: 0.6rem;
     border-left: 1px dashed rgba(15, 23, 42, 0.12);
     display: grid;
-    gap: 0.3rem;
+    gap: 0.12rem;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -369,6 +369,34 @@
 
   :global(.dark) .sub-item:hover {
     color: #bfdbfe;
+  }
+
+  /* Tighter spacing on mobile drawer */
+  .mobile-catalog .catalog-list {
+    gap: 0.01rem;
+  }
+
+  .mobile-catalog .catalog-block {
+    padding: 0.1rem 0.28rem;
+  }
+
+  .mobile-catalog .catalog-item {
+    padding: 0.14rem 0.06rem;
+    gap: 0.45rem;
+    font-size: 0.92rem;
+  }
+
+  .mobile-catalog .sub-list {
+    margin-top: 0.08rem;
+    margin-left: 0.75rem;
+    padding-left: 0.55rem;
+    gap: 0.1rem;
+  }
+
+  .mobile-catalog .sub-item {
+    padding: 0.12rem 0.04rem;
+    gap: 0.4rem;
+    font-size: 0.9rem;
   }
 
   .pill-soft {
