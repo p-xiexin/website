@@ -46,7 +46,7 @@
 </script>
 
 <div
-  class="fixed z-30 hidden w-72 text-sm 2xl:block group"
+  class="fixed z-30 hidden w-80 text-sm 2xl:block group"
   style="top: 50%; right: var(--side-space); transform: translate(100%, -50%);"
 >
   <div class="catalog-container rounded-xl">
@@ -167,6 +167,8 @@
     box-shadow: 0 14px 50px rgba(15, 23, 42, 0.08);
     backdrop-filter: blur(14px);
     padding: 14px 16px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
     transition: box-shadow 0.2s ease, transform 0.2s ease;
   }
 
@@ -372,7 +374,9 @@
   }
 
   /* Tighter spacing on mobile drawer */
-  .mobile-catalog .catalog-list {
+  .mobile-catalog {
+    display: flex;
+    flex-direction: column;
     gap: 0.01rem;
   }
 
@@ -420,6 +424,26 @@
   @media (prefers-color-scheme: dark) {
     .overflow-y-auto::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  /* desktop catalog scrollbar */
+  .catalog-container::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .catalog-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .catalog-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 3px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .catalog-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
     }
   }
 </style>
