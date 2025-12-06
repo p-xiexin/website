@@ -3,46 +3,70 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # 只在指定分支推送时触发
-  workflow_dispatch:  # 允许手动触发工作流
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-22.04
     steps:
-      # 检出代码
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 设置 Node.js 环境
+      - name: Detect static-only changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            static:
+              - "static/**"
+            other:
+              - "**"
+              - "!static/**"
+
       - name: Set up Node.js
+        if: steps.changes.outputs.other == 'true' || steps.changes.outputs.static == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # 你可以根据需要修改 Node.js 版本
+          node-version: '18'
 
       - name: Create .env file from GitHub Secrets
+        if: steps.changes.outputs.other == 'true'
         run: |
           echo "PUBLIC_PREVIEW_TOKEN_HASH=${{ secrets.PREVIEW_TOKEN_HASH }}" > .env
-        # ⚠️ .env 不会被加入 git，也不会泄漏
 
-      # 安装依赖
       - name: Install dependencies
+        if: steps.changes.outputs.other == 'true'
         run: |
           npm install
 
-      # 构建项目
       - name: Build project
+        if: steps.changes.outputs.other == 'true'
         run: |
           npm run build
 
-      # 复制 index.html 为 404.html
       - name: Copy index.html to 404.html
+        if: steps.changes.outputs.other == 'true'
         run: |
           cp ./build/index.html ./build/404.html
 
-      # 部署到 GitHub Pages
-      - name: Deploy to GitHub Pages
+      - name: Deploy built site to GitHub Pages
+        if: steps.changes.outputs.other == 'true'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build  # 对于 SvelteKit 项目是 build 目录，传统 Svelte 项目是 dist 目录
+          publish_dir: ./build
+          force_orphan: true  # 不保留历史
+
+      - name: Generate posts JSON for static changes
+        if: steps.changes.outputs.static == 'true' && steps.changes.outputs.other != 'true'
+        run: |
+          npm run generate-postsJson
+
+      - name: Deploy static assets without build
+        if: steps.changes.outputs.static == 'true' && steps.changes.outputs.other != 'true'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./static
+          force_orphan: true
