@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import hashlib
 import yaml
+import re
 
 POSTS_DIR = './static/posts'
 OUTPUT_FILE = './static/posts/postLists.json'
@@ -53,9 +54,39 @@ def parse_frontmatter(content):
 
     return metadata
 
-def generate_slug(post_metadata, filename):
-    # Use file name as the title
-    title = filename.split('.')[0]  # Remove file extension for the title
+def extract_title(content, filename):
+    """
+    Return the first level-1 heading (# ) as title; fallback to filename (sans extension).
+    """
+    lines = content.splitlines()
+    if lines and lines[0].strip() == '---':
+        try:
+            end_index = lines.index('---', 1)
+            lines = lines[end_index + 1 :]
+        except ValueError:
+            # Unclosed frontmatter; fall through with original lines
+            pass
+
+    heading_pattern = re.compile(r'^\s*#\s+(.*)')
+    fence_pattern = re.compile(r'^\s*(```|~~~)')
+    in_fence = False
+    for line in lines:
+        if fence_pattern.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        match = heading_pattern.match(line)
+        if match:
+            heading = match.group(1).strip()
+            # Strip markdown links, keep link text
+            heading = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', heading)
+            if heading:
+                return heading
+
+    return os.path.splitext(filename)[0]
+
+def generate_slug(post_metadata, title):
     description = post_metadata.get('description', '')
     date = post_metadata.get('date', '')
     
@@ -75,8 +106,9 @@ def get_posts():
             with open(filepath, 'r', encoding='utf-8') as f:
                 content = f.read()
             meta = parse_frontmatter(content)
+            title = extract_title(content, filename)
             # Generate slug and title using the metadata and filename
-            slug, title = generate_slug(meta, filename)
+            slug, title = generate_slug(meta, title)
             meta['slug'] = slug
             meta['title'] = title
             posts.append(meta)
