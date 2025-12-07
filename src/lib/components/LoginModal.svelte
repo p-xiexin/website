@@ -14,6 +14,7 @@
   let accessCode = $state('');
   let error = $state('');
   let showPassword = $state(false);
+  let inputRef = $state<HTMLInputElement | null>(null);
 
   const resetState = () => {
     accessCode = '';
@@ -22,6 +23,9 @@
   };
 
   const close = () => {
+    if (inputRef) {
+      inputRef.blur(); // ensure mobile zoom resets when closing
+    }
     resetState();
     dispatch('close');
   };
@@ -121,6 +125,7 @@
                 class="w-full rounded-lg border border-input bg-background px-3 py-2 pr-24 text-sm outline-none ring-primary/20 transition focus:ring-2"
                 placeholder={$t('ui.accessCodePlaceholder')}
                 bind:value={accessCode}
+                bind:this={inputRef}
                 autocomplete="off"
                 onkeydown={(event) => {
                   if (event.key === 'Enter') {

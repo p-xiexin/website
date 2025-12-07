@@ -107,7 +107,7 @@
     <div
       bind:this={panelRef}
       transition:scale|local={{ duration: 150 }}
-      class="fixed inset-x-4 bottom-20 top-20 z-50 origin-center rounded-2xl ring-1 ring-muted bg-card shadow-xl overflow-hidden flex flex-col"
+      class="fixed left-1/2 bottom-20 top-20 z-50 w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 origin-center rounded-2xl ring-1 ring-muted bg-card shadow-xl overflow-hidden flex flex-col"
       use:clickOutside
     >
       <div class="flex flex-row-reverse items-center justify-between p-4 border-b border-muted shrink-0 bg-card/60 backdrop-blur">
