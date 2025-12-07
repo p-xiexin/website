@@ -1,6 +1,6 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import hashlib
 import yaml
 import re
@@ -62,6 +62,11 @@ def parse_frontmatter(content):
 
     return metadata
 
+
+def beijing_now():
+    """Return current time in Beijing (UTC+8)."""
+    return datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=8)))
+
 def extract_title(content, filename):
     """
     Return the first level-1 heading (# ) as title; fallback to filename (sans extension).
@@ -107,7 +112,9 @@ def generate_slug(post_metadata, title):
     return slug, title
 
 def get_posts():
+    today_cn = beijing_now().date()
     posts = []
+    scheduled = 0
     for filename in os.listdir(POSTS_DIR):
         if filename.endswith('.md'):
             filepath = os.path.join(POSTS_DIR, filename)
@@ -120,16 +127,39 @@ def get_posts():
             meta['slug'] = slug
             meta['title'] = title
             meta['file'] = filename
+
+            # Toggle unpublished for future-dated posts (Beijing time)
+            date_str = meta.get('date')
+            try:
+                post_date = datetime.fromisoformat(date_str).date() if date_str else None
+            except ValueError:
+                post_date = None
+            if post_date and post_date > today_cn:
+                meta['published'] = False
+                scheduled += 1
+
             posts.append(meta)
 
     posts.sort(key=lambda x: x.get('date', ''), reverse=True)
-    return posts
+    published_count = sum(1 for p in posts if p.get('published'))
+    stats = {
+        'total': len(posts),
+        'published': published_count,
+        'unpublished': len(posts) - published_count,
+        'scheduled': scheduled,
+    }
+    return posts, stats
 
 def save_posts(posts):
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(posts, f, indent=2, ensure_ascii=False)
 
 if __name__ == '__main__':
-    posts = get_posts()
+    posts, stats = get_posts()
     save_posts(posts)
-    print(f"✔Generated {OUTPUT_FILE} with {len(posts)} posts.")
+    print(f"✔Generated {OUTPUT_FILE} with {stats['total']} posts.")
+    print(
+        f"Published: {stats['published']} | "
+        f"Unpublished: {stats['unpublished']} | "
+        f"Scheduled (future date): {stats['scheduled']}"
+    )
