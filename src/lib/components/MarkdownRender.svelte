@@ -50,6 +50,10 @@
     let fontSize = 18;
     let lineHeight = 1.8;
     let showSettings = false;
+    
+    // DOM Elements for Click Outside Logic
+    let settingsPanel: HTMLElement;
+    let settingsButton: HTMLElement;
 
     // Preprocess content to fix common Markdown syntax issues
     function preprocessContent(text: string) {
@@ -182,13 +186,22 @@
         enhanceCodeBlocks();
     }
     
+    function handleClickOutside(event: MouseEvent) {
+        if (showSettings && settingsPanel && !settingsPanel.contains(event.target as Node) && settingsButton && !settingsButton.contains(event.target as Node)) {
+            showSettings = false;
+        }
+    }
+    
     $: content && processContent();
 </script>
+
+<svelte:window on:click={handleClickOutside} />
 
 <div class="relative w-full max-w-none group/page">
     <!-- Reader Settings Toggle & Panel -->
     <div class="absolute -top-1 right-0 z-20 print:hidden flex flex-col items-end">
         <button 
+            bind:this={settingsButton}
             on:click={() => showSettings = !showSettings}
             class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-500 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
             title="Appearance Settings"
@@ -198,16 +211,17 @@
 
         {#if showSettings}
             <div 
+                bind:this={settingsPanel}
                 transition:slide={{ duration: 200, axis: 'y' }}
-                class="mt-2 w-72 p-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl space-y-4"
+                class="mt-2 w-72 p-4 bg-white/95 dark:bg-[#252526]/95 backdrop-blur-md border border-gray-200 dark:border-[#333333] rounded-xl shadow-2xl space-y-4"
             >
                 <!-- Font Size Control -->
                 <div class="space-y-2">
-                    <div class="flex justify-between text-xs text-gray-500 uppercase tracking-wider font-semibold">
+                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">
                         <span>Font Size</span>
                         <span>{fontSize}px</span>
                     </div>
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
                         <span class="text-xs">A</span>
                         <input 
                             type="range" 
@@ -222,12 +236,12 @@
                 </div>
 
                 <!-- Line Height Control -->
-                <div class="space-y-2 border-t border-gray-100 dark:border-gray-800 pt-3">
-                    <div class="flex justify-between text-xs text-gray-500 uppercase tracking-wider font-semibold">
+                <div class="space-y-2 border-t border-gray-100 dark:border-[#333333] pt-3">
+                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">
                         <span>Line Height</span>
                         <span>{lineHeight}</span>
                     </div>
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
                         <svg class="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                         <input 
                             type="range" 
