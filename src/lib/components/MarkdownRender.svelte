@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount, tick } from "svelte";
     import FloatingCatalog from "./FloatingCatalog.svelte";
+    import ReaderSettings from "./ReaderSettings.svelte";
     import { slide } from "svelte/transition";
     
     // Unified / Remark / Rehype ecosystem
@@ -44,16 +45,12 @@
 
     let catalog: { title: string; slug: string; children?: { title: string; slug: string }[] }[] = [];
     let renderedContent: string = "";
+    let extractedTitle: string = "";
     let containerElement: HTMLDivElement;
 
     // Reader Settings
     let fontSize = 18;
     let lineHeight = 1.8;
-    let showSettings = false;
-    
-    // DOM Elements for Click Outside Logic
-    let settingsPanel: HTMLElement;
-    let settingsButton: HTMLElement;
 
     // Preprocess content to fix common Markdown syntax issues
     function preprocessContent(text: string) {
@@ -87,6 +84,19 @@
     async function renderMarkdown(text: string) {
         const processedText = preprocessContent(text);
         
+        // Extract Title (H1) manually to render it alongside the settings button
+        const titleRegex = /^#\s+(.+)$/m;
+        const titleMatch = processedText.match(titleRegex);
+        let contentBody = processedText;
+
+        if (titleMatch) {
+            extractedTitle = titleMatch[1];
+            // Remove the title from the body so it isn't rendered twice
+            contentBody = processedText.replace(titleRegex, '');
+        } else {
+            extractedTitle = "";
+        }
+        
         const file = await unified()
             .use(remarkParse)
             .use(remarkMath)
@@ -99,8 +109,9 @@
             })
             .use(rehypeSlug)
             .use(rehypeStringify, { allowDangerousHtml: true })
-            .process(processedText);
+            .process(contentBody);
         
+        // Generate catalog from the full processed text to maintain heading hierarchy logic
         catalog = generateCatalog(processedText);
         return String(file);
     }
@@ -188,77 +199,30 @@
         enhanceCodeBlocks();
     }
     
-    function handleClickOutside(event: MouseEvent) {
-        if (showSettings && settingsPanel && !settingsPanel.contains(event.target as Node) && settingsButton && !settingsButton.contains(event.target as Node)) {
-            showSettings = false;
-        }
-    }
-    
     $: content && processContent();
 </script>
 
-<svelte:window on:click={handleClickOutside} />
 
 <div class="relative w-full max-w-none group/page">
-    <!-- Reader Settings Toggle & Panel -->
-    <div class="absolute -top-1 right-0 z-20 print:hidden flex flex-col items-end">
-        <button 
-            bind:this={settingsButton}
-            on:click={() => showSettings = !showSettings}
-            class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-500 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors cursor-pointer"
-            title="Appearance Settings"
-        >
-            <span class="text-base font-serif">Aa</span>
-        </button>
-
-        {#if showSettings}
-            <div 
-                bind:this={settingsPanel}
-                transition:slide={{ duration: 200, axis: 'y' }}
-                class="mt-2 w-72 p-4 bg-white/95 dark:bg-[#252526]/95 backdrop-blur-md border border-gray-200 dark:border-[#333333] rounded-xl shadow-2xl space-y-4"
-            >
-                <!-- Font Size Control -->
-                <div class="space-y-2">
-                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">
-                        <span>Font Size</span>
-                        <span>{fontSize}px</span>
-                    </div>
-                    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                        <span class="text-xs">A</span>
-                        <input 
-                            type="range" 
-                            min="14" 
-                            max="24" 
-                            step="1" 
-                            bind:value={fontSize}
-                            class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-blue-600"
-                        >
-                        <span class="text-lg">A</span>
-                    </div>
-                </div>
-
-                <!-- Line Height Control -->
-                <div class="space-y-2 border-t border-gray-100 dark:border-[#333333] pt-3">
-                    <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">
-                        <span>Line Height</span>
-                        <span>{lineHeight}</span>
-                    </div>
-                    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                        <svg class="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                        <input 
-                            type="range" 
-                            min="1.4" 
-                            max="2.2" 
-                            step="0.1" 
-                            bind:value={lineHeight}
-                            class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-blue-600"
-                        >
-                        <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </div>
-                </div>
+    <!-- Header Section with Settings and Title -->
+    {#if extractedTitle}
+        <!-- Flex layout: Button on left, Title on right. 
+             This ensures the button is "inline" with the title but stays independent in layout 
+             so wrapping titles don't cover it. -->
+        <div class="flex items-start gap-3 mb-8">
+            <div class="mt-1 shrink-0 print:hidden">
+                <ReaderSettings bind:fontSize bind:lineHeight align="left" />
             </div>
-        {/if}
-    </div>
+            <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white m-0 leading-tight">
+                {@html extractedTitle}
+            </h1>
+        </div>
+    {:else}
+        <!-- Fallback if no H1 found: Button just sits at top -->
+        <div class="flex justify-start mb-4 print:hidden">
+            <ReaderSettings bind:fontSize bind:lineHeight align="left" />
+        </div>
+    {/if}
 
     <!-- Main Content -->
     <div 
