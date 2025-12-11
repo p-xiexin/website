@@ -58,8 +58,10 @@
     // Preprocess content to fix common Markdown syntax issues
     function preprocessContent(text: string) {
         if (!text) return "";
-        // Remove spaces inside bold markers if present (fixes common input errors)
-        return text.replace(/\*\*\s+([^\*]+?)\s+\*\*/g, '**$1**');
+        // Force replace **text** with <strong>text</strong>.
+        // This effectively bypasses CommonMark's strict flanking/punctuation rules which often fail
+        // for CJK text mixtures (e.g. bold ending with punctuation followed by CJK character).
+        return text.replace(/\*\*\s*([^\*]+?)\s*\*\*/g, '<strong>$1</strong>');
     }
 
     function generateCatalog(markdownText: string) {
