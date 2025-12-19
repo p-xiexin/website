@@ -151,6 +151,21 @@
     "file": "MRAC.md"
   },
   {
+    "description": "解释说明射击法与配点法的优劣以及实际应用",
+    "date": "2025-08-15",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "column": {
+      "name": "最优控制"
+    },
+    "slug": "2cff3f383aa0c258f3ba80a0b3ef8632",
+    "title": "从 PMP 到配点法：协态消失之后，结构是否仍然存在？",
+    "file": "从pmp到配点法：协态恢复与数值最优控制.md"
+  },
+  {
     "description": "进制转换判断方法和01背包法",
     "date": "2025-08-14",
     "author": "pxx",
