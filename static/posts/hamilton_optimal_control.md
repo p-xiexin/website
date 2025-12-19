@@ -66,7 +66,7 @@ column:
 
 ### 2.1 从四轮到两轮的简化
 
-![阿克曼转向](https://i-blog.csdnimg.cn/blog_migrate/70afa43a19b76ae020a2c7fb02bc5e18.png)
+![阿克曼转向](./res/70afa43a19b76ae020a2c7fb02bc5e18.png)
 
 1817年，德国工程师阿克曼设计了著名的转向几何。对于四轮车辆，内侧车轮和外侧车轮必须满足不同的转角关系：
 

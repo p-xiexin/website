@@ -1,5 +1,29 @@
 [
   {
+    "description": "从并发与操作系统的学习视角出发，介绍网页运行中“看似多线程”的原因，并解释浏览器与 JavaScript 之间的真实协作方式。",
+    "date": "2025-12-08",
+    "author": "pxx",
+    "categories": [
+      "Web"
+    ],
+    "published": true,
+    "slug": "f4a91738cc21caa381da019261d18675",
+    "title": "为什么网页看起来像多线程",
+    "file": "light_web_thread_blog.md"
+  },
+  {
+    "description": "从代码语义、运行时行为到外设事件流的三个层面系统解析嵌入式系统可预测性的构建方法",
+    "date": "2025-12-07",
+    "author": "pxx",
+    "categories": [
+      "MCU"
+    ],
+    "published": true,
+    "slug": "f288db3166d581e60879306c3cefa0ab",
+    "title": "嵌入式系统的可预测性",
+    "file": "embedded_determinism_blog.md"
+  },
+  {
     "description": "围绕在学习操作系统之前对硬件体系结构、指令集、内存模型等概念产生的核心疑问进行系统梳理.",
     "date": "2025-12-06",
     "author": "pxx",
