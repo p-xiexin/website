@@ -437,5 +437,17 @@
     "slug": "83365f5bcfee05b7988d29ad1d6a713f",
     "title": "C++多线程技术在大学生智能汽车竞赛中的应用与优化",
     "file": "cpp_multithreading_blog.md"
+  },
+  {
+    "description": "shell美化方案",
+    "date": "2023-08-04",
+    "author": "pxx",
+    "categories": [
+      "Linux"
+    ],
+    "published": true,
+    "slug": "144e3e165a041ebc730cacf3a27ad27f",
+    "title": "install_zsh",
+    "file": "install_zsh.md"
   }
 ]
