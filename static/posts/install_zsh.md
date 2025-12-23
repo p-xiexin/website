@@ -7,9 +7,9 @@ categories:
 published: true
 ---
 
-## Zsh 安装与配置指南
+# Zsh 安装与配置指南
 
-### 1. 安装 Zsh
+## 1. 安装 Zsh
 
 在 Ubuntu 系统上，通过以下命令安装 Zsh：
 
@@ -23,7 +23,7 @@ sudo apt-get install zsh
 cat /etc/shells
 ```
 
-### 2. 设置 Zsh 为默认 Shell
+## 2. 设置 Zsh 为默认 Shell
 
 使用以下命令设置 Zsh 为默认 shell：
 
@@ -37,7 +37,7 @@ chsh -s /bin/zsh
 echo $SHELL
 ```
 
-### 3. 安装 Oh My Zsh
+## 3. 安装 Oh My Zsh
 
 确保已安装 git，然后使用以下命令安装 Oh My Zsh：
 
@@ -47,7 +47,7 @@ sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O 
 
 安装完成后，同意使用 Oh My Zsh 的配置模板覆盖已有的 `.zshrc` 文件。
 
-### 4. 配置 Zsh
+## 4. 配置 Zsh
 
 打开配置文件：
 
@@ -55,7 +55,7 @@ sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O 
 vim ~/.zshrc
 ```
 
-#### 4.1 添加插件
+### 4.1 添加插件
 
 在 `~/.zshrc` 文件中添加插件：
 
@@ -63,11 +63,11 @@ vim ~/.zshrc
 plugins=(git command-not-found)
 ```
 
-#### 4.2 修改主题
+### 4.2 修改主题
 
 Oh My Zsh 提供了多种内置主题，您可以选择并修改它们。
 
-##### 1. ys 主题
+#### 1. ys 主题
 
 找到并修改配置文件中的主题行：
 
@@ -81,7 +81,7 @@ ZSH_THEME="ys"
 source ~/.zshrc
 ```
 
-##### 2. Powerlevel10k 主题
+#### 2. Powerlevel10k 主题
 
 首先，使用 git 克隆 Powerlevel10k 主题：
 
@@ -103,9 +103,9 @@ source ~/.zshrc
 
 根据提示配置主题。
 
-### 5. 配置插件
+## 5. 配置插件
 
-#### 5.1 自动补全插件：zsh-autosuggestions
+### 5.1 自动补全插件：zsh-autosuggestions
 
 使用以下命令安装 zsh-autosuggestions 插件：
 
@@ -117,4 +117,5 @@ git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugi
 
 ```bash
 plugins=(git zsh-autosuggestions)
+
 ```
