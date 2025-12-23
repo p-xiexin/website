@@ -427,6 +427,18 @@
     "file": "variational_autoencoder.md"
   },
   {
+    "description": "RNN简单推导及理解",
+    "date": "2024-03-07",
+    "author": "pxx",
+    "categories": [
+      "Deep Learning"
+    ],
+    "published": true,
+    "slug": "124068163bc2b058c17b5773a4a5a134",
+    "title": "rnn_model",
+    "file": "rnn_model.md"
+  },
+  {
     "description": "C++ RAII 在工程中的三大硬伤与应对",
     "date": "2023-11-18",
     "author": "pxx",
