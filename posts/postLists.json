@@ -48,6 +48,18 @@
     "file": "xv6_vs_osdev_blog.md"
   },
   {
+    "description": "简单分析李群上微分模型和扰动模型的差异",
+    "date": "2025-12-04",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "7a42fc0c00270600fa48b4996203e883",
+    "title": "SO(3) 上的求导与扰动模型区别解析",
+    "file": "SO(3) 上的微分模型和扰动模型.md"
+  },
+  {
     "description": "ROS 官方 GPG 密钥过期问题的完整解决方案与多架构迁移指南",
     "date": "2025-12-01",
     "author": "pxx",
