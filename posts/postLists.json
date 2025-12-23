@@ -439,6 +439,18 @@
     "file": "cpp_multithreading_blog.md"
   },
   {
+    "description": "usbipd工具的使用",
+    "date": "2023-08-14",
+    "author": "pxx",
+    "categories": [
+      "Linux"
+    ],
+    "published": true,
+    "slug": "f2046ee3e01b852d2061334996a9ff63",
+    "title": "wsl2挂载usb设备",
+    "file": "wsl2挂载usb设备.md"
+  },
+  {
     "description": "shell美化方案",
     "date": "2023-08-04",
     "author": "pxx",
