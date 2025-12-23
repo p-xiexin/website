@@ -415,6 +415,18 @@
     "file": "GRAG调研.md"
   },
   {
+    "description": "VAE(Variational Autoencoder)简单推导及理解",
+    "date": "2024-03-12",
+    "author": "pxx",
+    "categories": [
+      "Deep Learning"
+    ],
+    "published": true,
+    "slug": "9a43d48aa35a52f23d40f3d760fbb192",
+    "title": "变分自编码器（VAE）",
+    "file": "variational_autoencoder.md"
+  },
+  {
     "description": "C++ RAII 在工程中的三大硬伤与应对",
     "date": "2023-11-18",
     "author": "pxx",
