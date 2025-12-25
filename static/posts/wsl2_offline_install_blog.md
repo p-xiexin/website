@@ -5,12 +5,13 @@ author: 'pxx'
 categories:
   - 其他
 published: true
+
 ---
 
 # 完全离线环境下安装和使用 WSL2
 
 > 本文记录如何在 **完全无法联网的 Windows 系统**中成功安装和使用 WSL2，包括解决 Docker Desktop 报错 `Your version of WSL is too old` 的问题。
->  整体过程亲测有效，适用于公司内网、断网环境或安全隔离场景。
+> 整体过程亲测有效，适用于公司内网、断网环境或安全隔离场景。
 
 ## 什么是 WSL2？
 
@@ -117,7 +118,7 @@ wsl -d Ubuntu22
 
 现在就可以在**完全离线环境中启动了一个真正的 WSL2 Linux 环境**！
 
-## Docker Desktop 提示 `Your version of WSL is too old`
+### Docker Desktop 提示 `Your version of WSL is too old`
 
 虽然使用 rootfs 成功安装了 WSL2，但当运行 Docker Desktop 时，仍然可能会看到这个报错：
 
@@ -131,7 +132,7 @@ wsl -d Ubuntu22
 - Windows 默认附带的是老版本内核（如 4.x 或 5.10.16.3）；
 - Docker 需要的是更高版本（如 5.15+）才能运行容器引擎。
 
-### 解决方法：离线升级 WSL2 内核
+**解决方法：离线升级 WSL2 内核**
 
 1. 前往 GitHub 官方项目下载最新内核二进制：
 
@@ -141,3 +142,67 @@ wsl -d Ubuntu22
 
 3. 重启 WSL，再次打开 Docker Desktop 即可。
 
+## 方法三：在联网电脑上安装后导出
+
+首先在microsoft store中直接下载，完成后打开命令行：
+
+```powershell
+wsl -l -v
+```
+
+假设叫：`Ubuntu`，导出为 tar 包
+
+```powershell
+wsl --export Ubuntu D:\wsl-backup\ubuntu.tar
+```
+
+卸载当前 WSL（释放 C 盘空间）
+
+```powershell
+wsl --unregister Ubuntu
+```
+
+然后再需要安装wsl的电脑上：
+
+```powershell
+mkdir D:\WSL\Ubuntu
+```
+
+导入：
+
+```powershell
+wsl --import Ubuntu D:\WSL\Ubuntu D:\wsl-backup\ubuntu.tar
+```
+
+启动并验证
+
+```powershell
+wsl -d Ubuntu
+wsl --set-default Ubuntu #设置默认Ubuntu
+```
+
+导入后进如wsl是 `root`用户，可以通过以下方式修改：
+
+```bash
+whoami
+```
+
+如果是 `root`，编辑：
+
+```bash
+sudo nano /etc/wsl.conf
+```
+
+写入：
+
+```ini
+[user]
+default=你的用户名
+```
+
+然后：
+
+```powershell
+wsl --shutdown
+wsl -d Ubuntu
+```
