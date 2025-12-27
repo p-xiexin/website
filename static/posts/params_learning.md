@@ -1,3 +1,14 @@
+---
+description: 介绍参数辨识与零空间的基本概念与联系
+date: '2025-12-27'
+author: 'pxx'
+categories:
+  - Optimal Control
+published: true
+column:
+  name: 参数学习
+---
+
 # 参数辨识 & 参数学习
 
 ## 1. 引言
