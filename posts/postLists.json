@@ -1,5 +1,20 @@
 [
   {
+    "description": "介绍参数辨识与零空间的基本概念与联系",
+    "date": "2025-12-27",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "column": {
+      "name": "参数学习"
+    },
+    "slug": "818f676facc38b2148cef0e70a751931",
+    "title": "参数辨识 & 参数学习",
+    "file": "params_learning.md"
+  },
+  {
     "description": "从并发与操作系统的学习视角出发，介绍网页运行中“看似多线程”的原因，并解释浏览器与 JavaScript 之间的真实协作方式。",
     "date": "2025-12-08",
     "author": "pxx",
@@ -485,10 +500,5 @@
     "slug": "1f3902a14e22e7badd09ea1bfe8356c6",
     "title": "Zsh 安装与配置指南",
     "file": "install_zsh.md"
-  },
-  {
-    "slug": "6549b7f13c6f370c77df69e1c27a6a2a",
-    "title": "参数辨识 & 参数学习",
-    "file": "params_learning.md"
   }
 ]
