@@ -485,5 +485,10 @@
     "slug": "1f3902a14e22e7badd09ea1bfe8356c6",
     "title": "Zsh 安装与配置指南",
     "file": "install_zsh.md"
+  },
+  {
+    "slug": "6549b7f13c6f370c77df69e1c27a6a2a",
+    "title": "参数辨识 & 参数学习",
+    "file": "params_learning.md"
   }
 ]
