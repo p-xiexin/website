@@ -73,26 +73,26 @@ git config --global core.quotepath false
 * 创建仓库命令
 
   ```shell
-  git init			   	   #初始化git本地仓库
+  git init			   	#初始化git本地仓库
   git clone			    #拷贝一份远程仓库，也就是下载一个项目。
   ```
 
 * 提交与修改
 
   ```shell
-  git add					#添加文件到暂存区
-  git status			   #查看仓库当前的状态，显示有变更的文件。
-  git diff				 #比较文件的不同，即暂存区和工作区的差异。
+  git add				#添加文件到暂存区
+  git status			#查看仓库当前的状态，显示有变更的文件。
+  git diff			#比较文件的不同，即暂存区和工作区的差异。
   git commit 			#提交暂存区到本地仓库。
-  git reset 			   #回退版本。
-  git rm				   #将文件从暂存区和工作区中删除。
-  git mv				  #移动或重命名工作区文件。
+  git reset 			#回退版本。
+  git rm				#将文件从暂存区和工作区中删除。
+  git mv				#移动或重命名工作区文件。
   ```
 
 * 提交日志
 
   ```shell
-  git log						#查看历史提交记录
+  git log				#查看历史提交记录
   git blame <file>	 #以列表形式查看指定文件的历史修改记录
   ```
 
@@ -100,9 +100,9 @@ git config --global core.quotepath false
 
   ```shell
   git remote				#远程仓库操作
-  git fetch 				  #从远程获取代码库
-  git pull				   #下载远程代码并合并
-  git push				 #	上传远程代码并合并
+  git fetch 				#从远程获取代码库
+  git pull				#下载远程代码并合并
+  git push				#上传远程代码并合并
   ```
 
 ## 建立本地仓库
@@ -211,8 +211,120 @@ git config --global core.quotepath false
 * 合并分支
 
   ```shell
-  git merge [dev01]			#把dev01分支合并到当前分支
+  git merge [dev01]			#把dev01分支合并到当前分支，保留分叉历史
+  git rebase []               #把提交放到最新 main 后面，提交历史是 一条直线
   ```
+
+### 规范的分支开发
+
+> - feature 分支：可以 rebase / reset
+> - main 分支：只允许 merge / revert
+> - PR 前必须同步 main
+> - 公共分支的安全性 > 操作便利性
+
+**1）从 main 拉出功能分支**
+
+```bash
+# 从 main 拉出功能分支
+git checkout main
+git pull origin main
+git checkout -b feature/xxx
+
+# 在 feature 分支上开发并提交
+# 只提交与当前功能相关的改动, 不在 feature 中顺手修 main 的历史问题
+git add .
+git commit -m "feat: xxx"
+
+# 提 PR 前，同步最新 main（重点！）
+git fetch origin
+git rebase origin/main
+# 或（团队不允许 rebase 时）
+git merge origin/main
+
+# 解决冲突 & 本地自查
+git status
+# 解决冲突后
+git add .
+# rebase 场景
+git rebase --continue
+
+# 推送并创建 PR
+git push -f origin feature/xxx   # rebase 后需要 -f
+
+# 合并 main 并清理分支，由管理者 / Reviewer 操作
+git merge feature/xxx
+
+git branch -d feature/xxx
+git push origin --delete feature/xxx
+```
+
+### merge 之后发现问题时的正确回退流程
+
+> 以下流程仅适用于：**merge 已 push 到远程 main** 的场景。
+>
+> 绝不要 reset 公共分支， 唯一正确选项是使用**revert**
+
+```bash
+git log --oneline --graph
+git revert -m 1 M0
+```
+
+```text
+*   M0 Merge pull request
+|\
+| * feature commits
+|/
+```
+
+**情况一：工作区不干净**
+
+```text
+error: Your local changes would be overwritten
+```
+
+处理：
+
+```bash
+git status
+git commit   # 或 git stash
+```
+
+**情况二：未跟踪文件阻塞**
+
+```text
+untracked working tree files would be overwritten
+```
+
+处理：
+
+```bash
+rm <file>
+# 或 git clean -f
+```
+
+**情况三：modify / delete 冲突**
+
+含义：
+
+- 当前 main 与被 revert 的历史在语义上不一致
+- Git 无法替用户做决定
+
+处理原则：
+
+- **以 merge 之后的主线意图为准**
+
+```bash
+git rm <file>
+git revert --continue
+```
+
+**最后推送回退结果**
+
+```bash
+git push origin main
+```
+
+此时原 merge 仍在历史中，但其业务影响已被完整抵消，对其他协作者不会产生影响
 
 ## SSH密钥
 
@@ -296,9 +408,7 @@ ssh: connect to host github.com port 22: Connection timed out
 fatal: Could not read from remote repository.
 ```
 
-网上搜索这个报错，发现很多人遇到这个问题，大概有2个原因和对应解决方案，这里针对自己的问题写出一种
-
-### 使用GitHub的443端口
+网上搜索这个报错，发现很多人遇到这个问题，大概有2个原因和对应解决方案，这里针对自己的问题写出一种：**使用GitHub的443端口**
 
 22端口可能被防火墙屏蔽了，可以尝试连接GitHub的443端口。
 
