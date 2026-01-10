@@ -1,0 +1,504 @@
+[
+  {
+    "description": "介绍参数辨识与零空间的基本概念与联系",
+    "date": "2025-12-27",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "column": {
+      "name": "参数学习"
+    },
+    "slug": "818f676facc38b2148cef0e70a751931",
+    "title": "参数辨识 & 参数学习",
+    "file": "params_learning.md"
+  },
+  {
+    "description": "从并发与操作系统的学习视角出发，介绍网页运行中“看似多线程”的原因，并解释浏览器与 JavaScript 之间的真实协作方式。",
+    "date": "2025-12-08",
+    "author": "pxx",
+    "categories": [
+      "Web"
+    ],
+    "published": true,
+    "slug": "f4a91738cc21caa381da019261d18675",
+    "title": "为什么网页看起来像多线程",
+    "file": "light_web_thread_blog.md"
+  },
+  {
+    "description": "从代码语义、运行时行为到外设事件流的三个层面系统解析嵌入式系统可预测性的构建方法",
+    "date": "2025-12-07",
+    "author": "pxx",
+    "categories": [
+      "MCU"
+    ],
+    "published": true,
+    "slug": "f288db3166d581e60879306c3cefa0ab",
+    "title": "嵌入式系统的可预测性",
+    "file": "embedded_determinism_blog.md"
+  },
+  {
+    "description": "围绕在学习操作系统之前对硬件体系结构、指令集、内存模型等概念产生的核心疑问进行系统梳理.",
+    "date": "2025-12-06",
+    "author": "pxx",
+    "categories": [
+      "Operating Systems"
+    ],
+    "published": true,
+    "slug": "6e36c4a5570efc82bd3f5ec74800c736",
+    "title": "芯片架构、ISA、授权模式与内存模型",
+    "file": "cpu_isa_mm_blog.md"
+  },
+  {
+    "description": "最小操作系统入门项目的选择",
+    "date": "2025-12-05",
+    "author": "pxx",
+    "categories": [
+      "Operating Systems"
+    ],
+    "published": true,
+    "slug": "cd8439c9ddedf17c454cfbf0b41a4d8e",
+    "title": "xv6-public 与 OSDev 对比：操作系统入门者该如何选择？",
+    "file": "xv6_vs_osdev_blog.md"
+  },
+  {
+    "description": "简单分析李群上微分模型和扰动模型的差异",
+    "date": "2025-12-04",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "7a42fc0c00270600fa48b4996203e883",
+    "title": "SO(3) 上的求导与扰动模型区别解析",
+    "file": "SO(3) 上的微分模型和扰动模型.md"
+  },
+  {
+    "description": "ROS 官方 GPG 密钥过期问题的完整解决方案与多架构迁移指南",
+    "date": "2025-12-01",
+    "author": "pxx",
+    "categories": [
+      "ROS"
+    ],
+    "published": true,
+    "slug": "fed4026984738cb4b10bcb365e00ba90",
+    "title": "ROS 官方 GPG 密钥过期与迁移指南",
+    "file": "ros_gpg_guide.md"
+  },
+  {
+    "description": "从嵌入式经验出发理解操作系统，通过 CPU 寄存器模型、ELF/BIN/HEX 程序格式、以及微内核与单体内核架构差异，为开发者构建一条完整的系统理解路径。",
+    "date": "2025-11-26",
+    "author": "pxx",
+    "categories": [
+      "Operating Systems"
+    ],
+    "published": true,
+    "slug": "465b89f9186d82900dd3813381dd2310",
+    "title": "从嵌入式经验出发理解操作系统",
+    "file": "cpu_to_os.md"
+  },
+  {
+    "description": "stm32链接脚本",
+    "date": "2025-11-20",
+    "author": "pxx",
+    "categories": [
+      "MCU"
+    ],
+    "published": true,
+    "column": {
+      "name": "STM32"
+    },
+    "slug": "f93e6b3f9cfef2aeedb88100d6b32cf9",
+    "title": "了解STM32链接脚本：从代码到硬件的桥梁",
+    "file": "stm32_linker_blog.md"
+  },
+  {
+    "description": "cross compile tools introduction",
+    "date": "2025-11-16",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "b7d2cd9d7bdc557dee629498401b6696",
+    "title": "交叉编译器介绍",
+    "file": "cross_compiler_blog.md"
+  },
+  {
+    "description": "魔改openai api协议说明",
+    "date": "2025-11-04",
+    "author": "pxx",
+    "categories": [
+      "LLM",
+      "RAG"
+    ],
+    "published": false,
+    "slug": "0a44b37dcf15799abd5860a34579fa15",
+    "title": "API 使用说明文档",
+    "file": "api_documentation.md"
+  },
+  {
+    "description": "Model-Based Diffusion论文解读",
+    "date": "2025-09-24",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "c93e2484724b3379c5efe5ed08a7fbdf",
+    "title": "论文《Model-Based Diffusion for Trajectory Optimization》代码实现解析",
+    "file": "mbd_diffusion_blog.md"
+  },
+  {
+    "description": "流形上旋转误差的选取思路与推导",
+    "date": "2025-08-26",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "47120aaf895f20c61e4bbdbe6487ba83",
+    "title": "旋转误差函数定义的选择依据",
+    "file": "rotation_error_blog.md"
+  },
+  {
+    "description": "MRAC学习记录",
+    "date": "2025-08-16",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "column": {
+      "name": "最优控制"
+    },
+    "slug": "0e800603378524ca15d7f7ce55d02b77",
+    "title": "模型参考自适应控制方法",
+    "file": "MRAC.md"
+  },
+  {
+    "description": "解释说明射击法与配点法的优劣以及实际应用",
+    "date": "2025-08-15",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "column": {
+      "name": "最优控制"
+    },
+    "slug": "2cff3f383aa0c258f3ba80a0b3ef8632",
+    "title": "从 PMP 到配点法：协态消失之后，结构是否仍然存在？",
+    "file": "从pmp到配点法：协态恢复与数值最优控制.md"
+  },
+  {
+    "description": "进制转换判断方法和01背包法",
+    "date": "2025-08-14",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": false,
+    "slug": "9d12644cb26d11a65662a8a6ffc6f3ac",
+    "title": "判断一个数字是否可以表示成三的幂的和（LeetCode 1780）",
+    "file": "Leetcode_1780_判断一个数字是否可以表示成三的幂的和.md"
+  },
+  {
+    "description": "如何在完全无法联网的 Windows 系统中成功安装和使用 WSL2",
+    "date": "2025-08-06",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "3ee15064f23850529a6054ff89701c63",
+    "title": "完全离线环境下安装和使用 WSL2",
+    "file": "wsl2_offline_install_blog.md"
+  },
+  {
+    "description": "FreeRTOS 内存管理概述",
+    "date": "2025-08-04",
+    "author": "pxx",
+    "categories": [
+      "Operating Systems"
+    ],
+    "published": true,
+    "slug": "6635e2903169605ee0ccc841ec9a22a7",
+    "title": "FreeRTOS 内存管理",
+    "file": "FreeRTOS_heap.md"
+  },
+  {
+    "description": "stm32启动过程详解",
+    "date": "2025-07-28",
+    "author": "pxx",
+    "categories": [
+      "MCU"
+    ],
+    "published": true,
+    "column": {
+      "name": "STM32"
+    },
+    "slug": "ad7db0c738e7b687def4b60c936be5d2",
+    "title": "STM32启动过程详解：从上电到main()的完整历程",
+    "file": "stm32_startup_analysis.md"
+  },
+  {
+    "description": "初识Linux内核",
+    "date": "2025-07-27",
+    "author": "pxx",
+    "categories": [
+      "Linux"
+    ],
+    "published": true,
+    "slug": "8a561a710285ebacaf1d88411a6e84af",
+    "title": "初步了解Linux内核：从基础概念到核心机制",
+    "file": "Linux内核.md"
+  },
+  {
+    "description": "哈密顿函数与最优控制",
+    "date": "2025-07-23",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "column": {
+      "name": "最优控制"
+    },
+    "slug": "b2b6c0f506c6fd76ca9def6939fc269d",
+    "title": "哈密顿函数与最优控制",
+    "file": "hamilton_optimal_control.md"
+  },
+  {
+    "description": "从拉格朗日力学到最优控制",
+    "date": "2025-07-21",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "column": {
+      "name": "最优控制"
+    },
+    "slug": "f5f0c57f202b990a7f4e61e733ce930e",
+    "title": "从拉格朗日力学到最优控制",
+    "file": "从拉格朗日力学到最优控制.md"
+  },
+  {
+    "description": "算法题\"找出有效子序列的最大长度 I\"",
+    "date": "2025-07-16",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": false,
+    "slug": "ded0ff0521672d570a0d988815086153",
+    "title": "3201. 找出有效子序列的最大长度 I",
+    "file": "Leetcode_3201_找出有效子序列的最大长度 I.md"
+  },
+  {
+    "description": "算法题\"寻找两个正序数组的中位数\"",
+    "date": "2025-07-12",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": false,
+    "slug": "f5bea64e500fe47bc4f02a687108fab3",
+    "title": "4. 寻找两个正序数组的中位数",
+    "file": "Leetcode_4_寻找两个在正序数组的中位数.md"
+  },
+  {
+    "description": "让用户把你的网站像原生 App 一样，直接从主屏幕启动，并且带上自定义图标和启动页体验。",
+    "date": "2025-07-12",
+    "author": "pxx",
+    "categories": [
+      "Web"
+    ],
+    "published": true,
+    "slug": "e09ab976ad462d7ff22b3c176c12dcec",
+    "title": "如何让你的 SvelteKit 网站完美适配 GitHub Pages 和 iOS 主屏幕",
+    "file": "ios网页适配.md"
+  },
+  {
+    "description": "算法题\"无需开会的工作日\"",
+    "date": "2025-07-11",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": false,
+    "slug": "75c8a1b417b3a0845e4d515decfd534e",
+    "title": "3169. 无需开会的工作日",
+    "file": "Leetcode_3169_无需开会的工作日.md"
+  },
+  {
+    "description": "算法题\"无重复字符的最长子串\"",
+    "date": "2025-07-10",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": false,
+    "slug": "21c5cfd4e0aac92e2008d059947b0ce5",
+    "title": "Leetcode 3： 无重复字符的最长子串",
+    "file": "Leetcode_3_无重复字符的最长字串.md"
+  },
+  {
+    "description": "算法题\"两数相加\"",
+    "date": "2025-07-09",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": false,
+    "slug": "6dd60498c8ba864e5db4871be9965dca",
+    "title": "Leetcode 2：两数相加",
+    "file": "Leetcode_2_两数相加.md"
+  },
+  {
+    "description": "SQLAlchemy数据库Schema的学习记录",
+    "date": "2025-05-27",
+    "author": "pxx",
+    "categories": [
+      "SQL"
+    ],
+    "published": true,
+    "slug": "35fdb47ef903e09a6a4fce302ef1be9c",
+    "title": "SQLAlchemy数据库Schema定义",
+    "file": "python中数据库的使用.md"
+  },
+  {
+    "description": "自定义构建vllm镜像，并解决环境依赖问题.",
+    "date": "2025-04-23",
+    "author": "pxx",
+    "categories": [
+      "LLM"
+    ],
+    "published": true,
+    "slug": "b47962387855749e366a2b296abea650",
+    "title": "vllm+5090部署大模型应用",
+    "file": "vllm+5090部署大模型.md"
+  },
+  {
+    "description": "在ubuntu上设置自定义的分辨率",
+    "date": "2025-04-22",
+    "author": "pxx",
+    "categories": [
+      "Linux"
+    ],
+    "published": true,
+    "slug": "171d0ac99bc119c67eeca0200e62ca7c",
+    "title": "自定义ubuntu显示器分辨率",
+    "file": "自定义ubuntu显示器分辨率.md"
+  },
+  {
+    "description": "解读lightrag后端相关api，适配自己的网页",
+    "date": "2025-04-21",
+    "author": "pxx",
+    "categories": [
+      "RAG"
+    ],
+    "published": true,
+    "slug": "eb30f1c40c0e3925ccd73d7d87c34e79",
+    "title": "知识库后端架构",
+    "file": "Lightrag后端解读.md"
+  },
+  {
+    "description": "使用svelte以及github pages 自动化托管自己的个人网站，解决子域名404问题.",
+    "date": "2025-04-20",
+    "author": "pxx",
+    "categories": [
+      "Web"
+    ],
+    "published": true,
+    "slug": "067758f96375ea622dec7ef6f89b040e",
+    "title": "gh-pages 个人博客",
+    "file": "构建一个自己的博客网站.md"
+  },
+  {
+    "description": "调研最新的GRAG方法.",
+    "date": "2025-03-14",
+    "author": "pxx",
+    "categories": [
+      "RAG"
+    ],
+    "published": true,
+    "slug": "c03a139d9618e268554d91d5c653ea68",
+    "title": "GRAG技术调研",
+    "file": "GRAG调研.md"
+  },
+  {
+    "description": "VAE(Variational Autoencoder)简单推导及理解",
+    "date": "2024-03-12",
+    "author": "pxx",
+    "categories": [
+      "Deep Learning"
+    ],
+    "published": true,
+    "slug": "9a43d48aa35a52f23d40f3d760fbb192",
+    "title": "变分自编码器（VAE）",
+    "file": "variational_autoencoder.md"
+  },
+  {
+    "description": "RNN简单推导及理解",
+    "date": "2024-03-07",
+    "author": "pxx",
+    "categories": [
+      "Deep Learning"
+    ],
+    "published": true,
+    "slug": "124068163bc2b058c17b5773a4a5a134",
+    "title": "rnn_model",
+    "file": "rnn_model.md"
+  },
+  {
+    "description": "C++ RAII 在工程中的三大硬伤与应对",
+    "date": "2023-11-18",
+    "author": "pxx",
+    "categories": [
+      "Program"
+    ],
+    "published": true,
+    "slug": "8465608fd93cc31c0e6f3ade482d11d6",
+    "title": "C++ RAII 的两个结构性缺陷",
+    "file": "cpp_raii_defects.md"
+  },
+  {
+    "description": "百度完全模型组智能车竞赛调度方案",
+    "date": "2023-08-27",
+    "author": "pxx",
+    "categories": [
+      "其他"
+    ],
+    "published": true,
+    "slug": "83365f5bcfee05b7988d29ad1d6a713f",
+    "title": "C++多线程技术在大学生智能汽车竞赛中的应用与优化",
+    "file": "cpp_multithreading_blog.md"
+  },
+  {
+    "description": "usbipd工具的使用",
+    "date": "2023-08-14",
+    "author": "pxx",
+    "categories": [
+      "Linux"
+    ],
+    "published": true,
+    "slug": "f2046ee3e01b852d2061334996a9ff63",
+    "title": "wsl2挂载usb设备",
+    "file": "wsl2挂载usb设备.md"
+  },
+  {
+    "description": "shell美化方案",
+    "date": "2023-08-04",
+    "author": "pxx",
+    "categories": [
+      "Linux"
+    ],
+    "published": true,
+    "slug": "1f3902a14e22e7badd09ea1bfe8356c6",
+    "title": "Zsh 安装与配置指南",
+    "file": "install_zsh.md"
+  }
+]
