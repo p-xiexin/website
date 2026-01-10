@@ -3,7 +3,7 @@ import { derived } from 'svelte/store';
 import { dictionary, init, locale as $locale } from 'svelte-i18n';
 import type Education from './components/Education.svelte';
 
-const DEFAULT_LOCALE = 'en';
+const DEFAULT_LOCALE = 'zh';
 const STORAGE_KEY = 'locale';
 
 const messages = {
