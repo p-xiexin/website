@@ -8,13 +8,13 @@ const resolveLocale = (locale?: string): SupportedLocale =>
   locale?.toLowerCase() === 'en' ? 'en' : FALLBACK_LOCALE;
 
 const EN_NOTES: Array<Note> = [
-  {
-    name: 'CMake',
-    description: 'Learn the basics of CMake and build a simple C++ project.',
-    slug: 'CMake',
-    tags: ['cmake', 'cpp'],
-    published: true,
-  },
+  // {
+  //   name: 'CMake',
+  //   description: 'Learn the basics of CMake and build a simple C++ project.',
+  //   slug: 'CMake',
+  //   tags: ['cmake', 'cpp'],
+  //   published: true,
+  // },
   {
     name: 'Git',
     description: 'How to use Git for version control.',
@@ -32,13 +32,13 @@ const EN_NOTES: Array<Note> = [
 ];
 
 const ZH_NOTES: Array<Note> = [
-  {
-    name: 'CMake',
-    description: '学习 CMake 的基本使用方法，并构建一个简单的 C++ 工程。',
-    slug: 'CMake',
-    tags: ['cmake', 'cpp'],
-    published: true,
-  },
+  // {
+  //   name: 'CMake',
+  //   description: '学习 CMake 的基本使用方法，并构建一个简单的 C++ 工程。',
+  //   slug: 'CMake',
+  //   tags: ['cmake', 'cpp'],
+  //   published: true,
+  // },
   {
     name: 'Git',
     description: 'Git 版本控制工具的使用。',
