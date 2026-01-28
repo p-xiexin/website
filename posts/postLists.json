@@ -1,5 +1,17 @@
 [
   {
+    "description": "四旋翼无人机L1自适应控制律推导",
+    "date": "2026-01-27",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "slug": "728132b68f6305333bc4a3ff9aeec47b",
+    "title": "基于推力–力矩输入的 L1 自适应控制律推导（NED 坐标系）",
+    "file": "基于无人机推力_力矩输入的_L1_自适应控制律推导.md"
+  },
+  {
     "description": "WSL 共享 Windows SSH 密钥",
     "date": "2026-01-26",
     "author": "pxx",
