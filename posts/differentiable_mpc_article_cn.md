@@ -7,6 +7,7 @@ categories:
 published: true
 column:
   name: 最优控制
+
 ---
 
 
@@ -27,34 +28,34 @@ column:
 
 理解 DMPC，最自然的入口其实不是非线性 MPC，而是有限时域 LQR。因为 LQR 本质上是一个带线性动力学约束的凸二次规划。将状态与控制拼成阶段变量
 
-\[
+$$
 \tau_t = \begin{bmatrix}x_t \\ u_t\end{bmatrix},
-\]
+$$
 
 则 LQR 可写为
 
-\[
+$$
 \min_{\{\tau_t\}_{t=1}^T} \sum_{t=1}^T \left( \frac12 \tau_t^\top C_t \tau_t + c_t^\top \tau_t \right)
-\]
+$$
 
 并满足线性动力学约束
 
-\[
+$$
 x_{t+1} = F_t \tau_t + f_t, \qquad x_1 = x_{\text{init}}.
-\]
+$$
 
 由于目标是凸二次型、约束是线性的，这个问题的最优解由 KKT 条件唯一刻画。进一步看，经典的 Riccati 递推并不只是一个“控制算法技巧”，它本质上等价于高效求解这个稀疏 KKT 线性系统。
 
-对每个动力学约束引入对偶变量（拉格朗日乘子）\(\lambda_t\)。拉格朗日函数可写成（论文式 (4)）：
+对每个动力学约束引入对偶变量（拉格朗日乘子）$\lambda_t$。拉格朗日函数可写成（论文式 (4)）：
 $$
 \mathcal L(\tau,\lambda)=\sum_{t=1}^T \frac12 \tau_t^\top C_t \tau_t
 +\sum_{t=0}^{T-1}\lambda_t^\top\left(F_t\tau_t+f_t-x_{t+1}\right).
 $$
-最优解 \((\tau^\star,\lambda^\star)\) 必须满足：
+最优解 $(\tau^\star,\lambda^\star)$ 必须满足：
 
 1) 原始可行性：动力学约束成立  
 2) 对偶可行性（这里都是等式约束所以没额外不等式条件）  
-3) 驻点条件（对 \(\tau_t\) 的梯度为零）：
+3) 驻点条件（对 $\tau_t$ 的梯度为零）：
 
 $$
 \nabla_{\tau_t}\mathcal L(\tau^\star,\lambda^\star)=0,
@@ -85,17 +86,17 @@ $$
 
 ## 3. LQR 为什么可微：反向传播等价于“再解一次 LQR”
 
-设外部任务损失为 \(\ell(\tau^\star_{1:T})\)，我们真正关心的是
+设外部任务损失为 $\ell(\tau^\star_{1:T})$，我们真正关心的是
 
-\[
+$$
 \frac{\partial \ell}{\partial \theta}
 = \frac{\partial \ell}{\partial \tau^\star}
 \frac{\partial \tau^\star}{\partial \theta},
-\]
+$$
 
-其中 \(\theta = \{C,c,F,f\}\) 表示 LQR 的参数。难点在于，\(\tau^\star\) 不是显式函数，而是“解优化问题得到的结果”。
+其中 $\theta = \{C,c,F,f\}$ 表示 LQR 的参数。难点在于，$\tau^\star$ 不是显式函数，而是“解优化问题得到的结果”。
 
-解决方法是：对 KKT 条件隐式求导，引入反向变量 \((d^\star\tau, d^\star\lambda)\)。
+解决方法是：对 KKT 条件隐式求导，引入反向变量 $(d^\star\tau, d^\star\lambda)$。
 
 把 KKT 系统抽象成
 $$
@@ -106,7 +107,7 @@ $$
 \frac{\partial g}{\partial z}\,dz + \frac{\partial g}{\partial \theta}\,d\theta=0.
 $$
 
-如果直接算 \(d\tau^\star/d\theta\) 会很麻烦。更常见的做法是引入“伴随变量/反向量”，最后会落到论文里的结论：只要解下面这个线性系统就能拿到需要的反向量 \((d^\star\tau, d^\star\lambda)\)：
+如果直接算 $d\tau^\star/d\theta$ 会很麻烦。更常见的做法是引入“伴随变量/反向量”，最后会落到论文里的结论：只要解下面这个线性系统就能拿到需要的反向量 $(d^\star\tau, d^\star\lambda)$：
 $$
 K
 \begin{bmatrix}
@@ -125,14 +126,14 @@ d^\star\lambda_t\\
 $$
 这就是论文式 (9)。
 
-注意看：左边还是同一个 \(K\)！  
-所以它**等价于再解一次 LQR**：把原来 LQR 里的线性项 \(c_t\) 替换成 \(\nabla_{\tau_t^\star}\ell\)，把 \(f_t\) 置零
+注意看：左边还是同一个 $K$！  
+所以它**等价于再解一次 LQR**：把原来 LQR 里的线性项 $c_t$ 替换成 $\nabla_{\tau_t^\star}\ell$，把 $f_t$ 置零
 
-> - 正向：解 LQR 得到 \(\tau^\star\)。  
-> - 反向：把“外部损失对轨迹的梯度”当成新的线性项，再解一次“同结构”的 LQR，得到 \(d^\star\tau\)、\(d^\star\lambda\)。  
+> - 正向：解 LQR 得到 $\tau^\star$。  
+> - 反向：把“外部损失对轨迹的梯度”当成新的线性项，再解一次“同结构”的 LQR，得到 $d^\star\tau$、$d^\star\lambda$。  
 >   这就像“优化层”的反向传播。
 
-有了 \(d^\star\tau,d^\star\lambda\)，梯度对各参数怎么写？论文给出了直接公式（式 (8)）：
+有了 $d^\star\tau,d^\star\lambda$，梯度对各参数怎么写？论文给出了直接公式（式 (8)）：
 $$
 \nabla_{C_t}\ell=\frac12\left(d^\star\tau_t\otimes\tau_t^\star+\tau_t^\star\otimes d^\star\tau_t\right),\quad
 \nabla_{c_t}\ell=d^\star\tau_t
@@ -147,12 +148,12 @@ $$
 $$
 \nabla_{x_{\text{init}}}\ell=d^\star\lambda_0.
 $$
-这里 \(\otimes\) 是外积（得到矩阵梯度）。这些式子本质上是：  
+这里 $\otimes$ 是外积（得到矩阵梯度）。这些式子本质上是：  
 
-- \(C_t,c_t\) 出现在目标里 → 梯度由“最优轨迹”和“反向轨迹”组合出来；  
-- \(F_t,f_t\) 出现在约束里 → 梯度涉及对偶变量 \(\lambda^\star\) 与反向对偶 \(d^\star\lambda\)。
+- $C_t,c_t$ 出现在目标里 → 梯度由“最优轨迹”和“反向轨迹”组合出来；  
+- $F_t,f_t$ 出现在约束里 → 梯度涉及对偶变量 $\lambda^\star$ 与反向对偶 $d^\star\lambda$。
 
-因为反向那一步解的是**同一个 KKT 结构**（同一个 \(K\)），所以：
+因为反向那一步解的是**同一个 KKT 结构**（同一个 $K$），所以：
 
 - 可以复用正向 Riccati 分解/因子分解；
 - 反向开销接近再跑一次 LQR，而不是“展开很多步迭代再反传”。
@@ -163,15 +164,15 @@ $$
 
 真实 MPC 问题通常不是 LQR，而是
 
-\[
+$$
 \tau^*_{1:T} = \arg\min_{\tau_{1:T}} \sum_{t=1}^T C_{\theta,t}(\tau_t)
-\]
+$$
 
 满足
 
-\[
+$$
 x_1 = x_{\text{init}}, \qquad x_{t+1} = f_{\theta,t}(\tau_t), \qquad \underline u \le u_t \le \overline u.
-\]
+$$
 
 这里既有非线性代价，也有非线性动力学，还存在控制输入的 box 约束。因此这个问题一般是非凸的，无法像 LQR 那样一次性得到一个全局可微的闭式结构。
 
@@ -207,16 +208,16 @@ $$
 F_t^i = \nabla_{\tau_t} f_{\theta,t}(\tau_t^i)
 $$
 
-若第 \(i\) 次迭代轨迹为 \(\tau^i\)，则可构造局部近似
-\[
+若第 $i$ 次迭代轨迹为 $\tau^i$，则可构造局部近似
+$$
 \tilde C^i_{\theta,t}(\tau_t), \qquad \tilde f^i_{\theta,t}(\tau_t),
-\]
+$$
 
 并求解对应的局部 QP。若迭代最终收敛到固定点
 
-\[
+$$
 \tau^{i+1} = \tau^i = \tau^\star,
-\]
+$$
 
 那么该固定点处的局部凸近似，就精确刻画了原始非线性 MPC 在这一点附近的局部最优结构。于是，原问题的微分可以转化为“对固定点处的局部 QP 做隐式微分”。
 
@@ -224,13 +225,13 @@ $$
 
 为了处理控制饱和，论文先研究一个更一般的 box-QP：
 
-\[
+$$
 x^* = \arg\min_x \frac12 x^\top Qx + p^\top x
 \quad
 \text{s.t. } Ax=b,\; \underline x \le x \le \overline x.
-\]
+$$
 
-在最优点处，如果某些不等式约束被激活，那么这些激活的不等式可以等价写成等式约束 \(\tilde Gx = \tilde h\)。
+在最优点处，如果某些不等式约束被激活，那么这些激活的不等式可以等价写成等式约束 $\tilde Gx = \tilde h$。
 
 对 box 约束来说，$\tilde G$ 很简单：
 
@@ -258,16 +259,16 @@ $$
 
 更重要的是，对这个 KKT 系统做隐式微分后，可以得到一个与正向同结构的反向线性系统。这个反向系统等价于一个新的二次规划：
 
-\[
+$$
 d_x^* = \arg\min_{d_x}
 \frac12 d_x^\top Q d_x + (\nabla_{x^*}\ell)^\top d_x
-\]
+$$
 
 满足
 
-\[
+$$
 A d_x = 0, \qquad d_{x,i} = 0 \;\; \text{if } x_i^* \text{ 位于边界}.
-\]
+$$
 
 这句话的物理意义非常清楚：**如果某一维在正向求解中已经顶到了边界，那么在反向扰动中，这一维就不能再变化。** 也就是说，激活的 box 约束在反向传播中会把对应方向“冻结”起来。
 
@@ -275,9 +276,9 @@ A d_x = 0, \qquad d_{x,i} = 0 \;\; \text{if } x_i^* \text{ 位于边界}.
 
 把前面的 box-QP 结论代回固定点处的 MPC，就得到整篇论文最漂亮的一步：反向传播等价于求解一个 zero-constrained LQR。
 
-具体来说，在固定点处，局部二次代价 Hessian \(H_t^n\) 对应于 box-QP 中的 \(Q\)，线性化动力学 \(F_t^n\) 对应于等式约束矩阵 \(A\)，而轨迹变量则对应于整段 \(\tau_{1:T}\)。于是反向问题可以写成
+具体来说，在固定点处，局部二次代价 Hessian $H_t^n$ 对应于 box-QP 中的 $Q$，线性化动力学 $F_t^n$ 对应于等式约束矩阵 $A$，而轨迹变量则对应于整段 $\tau_{1:T}$。于是反向问题可以写成
 
-\[
+$$
 d\tau^*_{1:T}
 = \arg\min_{d\tau_{1:T}}
 \sum_{t=1}^T
@@ -285,19 +286,19 @@ d\tau^*_{1:T}
 \frac12 d\tau_t^\top H_t^n d\tau_t
 + (\nabla_{\tau_t^*}\ell)^\top d\tau_t
 \right)
-\]
+$$
 
 满足
 
-\[
+$$
 dx_1 = 0, \qquad dx_{t+1} = F_t^n d\tau_t,
-\]
+$$
 
 以及
 
-\[
+$$
 du_{t,i} = 0 \quad \text{若 } u_{t,i}^* \text{ 在边界上}.
-\]
+$$
 
 这就是所谓的 **zero-constrained LQR**：它本质上仍然是一个 LQR，只不过那些在正向中饱和的控制维度，在反向中被置零。于是，MPC 的反向传播再次回到了“再解一次结构化 LQR”的框架中。
 
