@@ -1,5 +1,20 @@
 [
   {
+    "description": "可微分模型预测控制方法的梯度推导",
+    "date": "2026-02-03",
+    "author": "pxx",
+    "categories": [
+      "Optimal Control"
+    ],
+    "published": true,
+    "column": {
+      "name": "最优控制"
+    },
+    "slug": "1221171d5f77e26c81cae33e3e810bc1",
+    "title": "可微分MPC的推导逻辑：从 KKT 隐式微分到 Zero-Constrained LQR",
+    "file": "differentiable_mpc_article_cn.md"
+  },
+  {
     "description": "四旋翼无人机L1自适应控制律推导",
     "date": "2026-01-27",
     "author": "pxx",
@@ -322,18 +337,6 @@
     "file": "Leetcode_3201_找出有效子序列的最大长度 I.md"
   },
   {
-    "description": "算法题\"寻找两个正序数组的中位数\"",
-    "date": "2025-07-12",
-    "author": "pxx",
-    "categories": [
-      "Algorithms"
-    ],
-    "published": false,
-    "slug": "f5bea64e500fe47bc4f02a687108fab3",
-    "title": "4. 寻找两个正序数组的中位数",
-    "file": "Leetcode_4_寻找两个在正序数组的中位数.md"
-  },
-  {
     "description": "让用户把你的网站像原生 App 一样，直接从主屏幕启动，并且带上自定义图标和启动页体验。",
     "date": "2025-07-12",
     "author": "pxx",
@@ -344,6 +347,18 @@
     "slug": "e09ab976ad462d7ff22b3c176c12dcec",
     "title": "如何让你的 SvelteKit 网站完美适配 GitHub Pages 和 iOS 主屏幕",
     "file": "ios网页适配.md"
+  },
+  {
+    "description": "算法题\"寻找两个正序数组的中位数\"",
+    "date": "2025-07-12",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": false,
+    "slug": "f5bea64e500fe47bc4f02a687108fab3",
+    "title": "4. 寻找两个正序数组的中位数",
+    "file": "Leetcode_4_寻找两个在正序数组的中位数.md"
   },
   {
     "description": "算法题\"无需开会的工作日\"",
