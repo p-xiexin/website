@@ -1,5 +1,17 @@
 [
   {
+    "description": "dp解决字串匹配问题",
+    "date": "2026-03-20",
+    "author": "pxx",
+    "categories": [
+      "Algorithms"
+    ],
+    "published": false,
+    "slug": "7932979101deb4f7b0281a12e73d0695",
+    "title": "正则表达式匹配（LeetCode 10）",
+    "file": "LeetCode _10_正则表达式匹配.md"
+  },
+  {
     "description": "可微分模型预测控制方法的梯度推导",
     "date": "2026-02-03",
     "author": "pxx",
