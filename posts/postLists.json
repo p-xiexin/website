@@ -1,13 +1,13 @@
 [
   {
     "description": "CodeAgent配置教程以及常见问题解决方案",
-    "date": "2026-06-30",
+    "date": "2026-05-30",
     "author": "pxx",
     "categories": [
       "Agent"
     ],
-    "published": false,
-    "slug": "1f60635950bbaabe35577f0e83b9c04c",
+    "published": true,
+    "slug": "9a77db7b0ea19868353531818d6b9fd2",
     "title": "内网环境下CodeAgent配置",
     "file": "code-agent.md"
   },

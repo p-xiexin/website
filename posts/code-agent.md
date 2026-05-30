@@ -1,6 +1,6 @@
 ---
 description: CodeAgent配置教程以及常见问题解决方案
-date: '2026-06-30'
+date: '2026-05-30'
 author: 'pxx'
 categories:
   - Agent
