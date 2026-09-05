@@ -22,7 +22,7 @@
     if ($page.url.pathname !== `${base}/`) return;
 
     const header = document.querySelector('.academic-header');
-    const threshold = (header?.getBoundingClientRect().bottom ?? 72) + 16;
+    const threshold = Math.max((header?.getBoundingClientRect().bottom ?? 72) + 16, 96);
     let currentSection = 'about';
 
     for (const key of sectionKeys) {
