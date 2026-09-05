@@ -278,7 +278,7 @@
     <header><h2 id="publications-title">{cv.labels.publications}</h2><span>Publications</span></header>
     <div class="publication-list">
       {#each cv.publications as publication}
-        <article class="publication-entry">
+        <article class="publication-entry" id="publication-metatune">
           <time>{publication.year}</time>
           <div>
             <h3>{publication.title}</h3>
@@ -314,8 +314,8 @@
   <section class="cv-section" aria-labelledby="experience-title">
     <header><h2 id="experience-title">{cv.labels.experience}</h2><span>Experience</span></header>
     <div class="entry-list">
-      {#each cv.experience as entry}
-        <article class="cv-entry">
+      {#each cv.experience as entry, index}
+        <article class="cv-entry" id={index === 0 ? 'experience-huawei' : 'experience-badminton'}>
           <time>{entry.period}</time>
           <div>
             <h3>{entry.title}</h3>
@@ -330,8 +330,8 @@
   <section class="cv-section" aria-labelledby="honors-title">
     <header><h2 id="honors-title">{cv.labels.honors}</h2><span>Competitions</span></header>
     <div class="entry-list">
-      {#each cv.honors as honor}
-        <article class="cv-entry competition-entry">
+      {#each cv.honors as honor, index}
+        <article class="cv-entry competition-entry" id={['competition-smart-car', 'competition-robomaster', 'competition-electronic-design'][index]}>
           <time>{honor.period}</time>
           <div>
             <h3>{honor.name}</h3>
@@ -391,6 +391,7 @@
   .competition-entry nav { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 7px; }
   .competition-entry a { color: hsl(var(--primary)); font-size: 10px; font-weight: 650; text-decoration: none; }
   .competition-entry a:hover { text-decoration: underline; }
+  .publication-entry, .cv-entry { scroll-margin-top: 82px; }
 
   @media (max-width: 700px) {
     .about-intro { grid-template-columns: 1fr; gap: 24px; }

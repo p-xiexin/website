@@ -11,6 +11,7 @@
       methods: 'LQR · Dynamics · Trajectory tracking',
       href: 'https://www.bilibili.com/video/BV1hx4y1r7qY/',
       linkLabel: 'Video',
+      detailHref: `${base}/about#competition-robomaster`,
     },
     {
       year: '2023',
@@ -19,6 +20,7 @@
       methods: 'OpenCV · Preview PID · MPCC · Multithreading',
       href: 'https://www.bilibili.com/video/BV1ep421R7LV/',
       linkLabel: 'Video',
+      detailHref: `${base}/about#competition-smart-car`,
     },
   ];
 
@@ -29,6 +31,7 @@
       organization: '华为 2012 黎曼实验室',
       description: '扩展 Pi3x 的 LiDAR 视觉多模态能力，并结合 Matching Head、模型蒸馏和结构剪枝推进流式匹配与端侧部署。',
       methods: 'Pi3x · LiDAR-Vision · Matching · Model Compression',
+      detailHref: `${base}/about#experience-huawei`,
     },
     {
       period: '2026.03 — 2026.06',
@@ -36,33 +39,7 @@
       organization: '浙江深辰凯动科技有限公司',
       description: '负责固定时域 MPC、羽毛球飞行与碰撞建模、轨迹预测及实机击球实验，击球成功率约 92%。',
       methods: 'MPC · System Identification · Trajectory Optimization · RL',
-    },
-  ];
-
-  const writing = [
-    {
-      date: '2025.08',
-      title: '从 PMP 到配点法',
-      description: '协态消失之后，结构是否仍然存在',
-      href: `${base}/blogs/2cff3f383aa0c258f3ba80a0b3ef8632`,
-    },
-    {
-      date: '2025.08',
-      title: '模型参考自适应控制方法',
-      description: 'MRAC 的建模、控制律与稳定性记录',
-      href: `${base}/blogs/0e800603378524ca15d7f7ce55d02b77`,
-    },
-    {
-      date: '2025.07',
-      title: '从拉格朗日力学到最优控制',
-      description: '动力学结构与控制问题的连续视角',
-      href: `${base}/blogs/f5f0c57f202b990a7f4e61e733ce930e`,
-    },
-    {
-      date: '2025.07',
-      title: '哈密顿函数与最优控制',
-      description: '哈密顿函数在最优控制问题中的基本结构',
-      href: `${base}/blogs/b2b6c0f506c6fd76ca9def6939fc269d`,
+      detailHref: `${base}/about#experience-badminton`,
     },
   ];
 
@@ -117,6 +94,7 @@
             <span class="publication-meta">2026 · Accepted</span>
           </p>
           <div class="publication-links" aria-label="MetaTune resources">
+            <a href={`${base}/about#publication-metatune`}>[Details]</a>
             <a href="https://arxiv.org/abs/2603.27313" target="_blank" rel="noreferrer">[Paper]</a>
             <a href="https://github.com/p-xiexin/px4_ctrl" target="_blank" rel="noreferrer">[Code]</a>
             <a href="https://www.bilibili.com/video/BV1gJd5BwEsa/" target="_blank" rel="noreferrer">[Video]</a>
@@ -139,6 +117,7 @@
               <p>{item.description}</p>
               <small>{item.methods}</small>
             </div>
+            <a class="entry-action-link" href={item.detailHref}>Details <ArrowUpRight size={13} /></a>
           </article>
         {/each}
       </div>
@@ -158,32 +137,15 @@
               <p>{project.description}</p>
               <small>{project.methods}</small>
             </div>
-            <a href={project.href} target="_blank" rel="noreferrer" aria-label={`查看${project.title}`}>
-              {project.linkLabel} <ArrowUpRight size={13} />
-            </a>
+            <nav class="entry-actions" aria-label={`${project.title} links`}>
+              <a class="entry-action-link" href={project.detailHref}>Details <ArrowUpRight size={13} /></a>
+              <a class="entry-action-link" href={project.href} target="_blank" rel="noreferrer">
+                {project.linkLabel} <ArrowUpRight size={13} />
+              </a>
+            </nav>
           </article>
         {/each}
       </div>
-    </section>
-
-    <section class="cv-section" id="writing" aria-labelledby="writing-title">
-      <header class="section-heading">
-        <h2 id="writing-title">研究笔记</h2>
-        <span>Technical writing</span>
-      </header>
-      <ol class="writing-list">
-        {#each writing as article, index}
-          <li>
-            <span class="item-number">{index + 1}.</span>
-            <div>
-              <a href={article.href}>{article.title}</a>
-              <span class="item-description">{article.description}</span>
-            </div>
-            <time>{article.date}</time>
-          </li>
-        {/each}
-      </ol>
-      <a class="more-link" href={`${base}/blogs`}>全部文章 <ArrowUpRight size={13} /></a>
     </section>
 
     <section class="cv-section" id="background" aria-labelledby="background-title">
@@ -384,7 +346,7 @@
   .entry-list { border-top: 1px solid var(--light-rule); }
   .experience-entry {
     display: grid;
-    grid-template-columns: 112px 1fr;
+    grid-template-columns: 112px 1fr auto;
     gap: 14px;
     padding: 9px 0;
     border-bottom: 1px solid var(--light-rule);
@@ -405,8 +367,7 @@
   .cv-entry h3 { font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 13px; font-weight: 650; }
   .cv-entry p { margin-top: 2px; color: var(--muted); font-size: 11px; line-height: 1.5; }
   .cv-entry small { display: block; margin-top: 3px; color: var(--faint); font-size: 9px; }
-  .cv-entry > a,
-  .more-link {
+  .entry-action-link {
     display: inline-flex;
     align-items: center;
     gap: 2px;
@@ -415,23 +376,8 @@
     font-weight: 600;
     text-decoration: none;
   }
-  .cv-entry > a:hover, .more-link:hover { text-decoration: underline; }
-
-  .writing-list { margin: 0; padding: 0; border-top: 1px solid var(--light-rule); list-style: none; }
-  .writing-list li {
-    display: grid;
-    grid-template-columns: 28px 1fr 58px;
-    gap: 8px;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--light-rule);
-    line-height: 1.4;
-  }
-  .item-number, .writing-list time { color: var(--faint); font-family: Georgia, serif; font-size: 10px; }
-  .writing-list time { text-align: right; }
-  .writing-list a { color: var(--accent); font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 12px; font-weight: 650; text-decoration: none; }
-  .writing-list a:hover { text-decoration: underline; }
-  .item-description { margin-left: 8px; color: var(--muted); font-size: 10px; }
-  .more-link { margin-top: 8px; }
+  .entry-action-link:hover { text-decoration: underline; }
+  .entry-actions { display: flex; align-items: flex-start; gap: 10px; }
 
   .background-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
   .background-column > h3 {
@@ -471,10 +417,9 @@
     .identity-block h1 span { display: block; margin: 3px 0 0; font-size: 15px; }
     .experience-entry { grid-template-columns: 1fr; gap: 4px; }
     .experience-entry h3 span { display: block; margin: 2px 0 0; }
+    .experience-entry > .entry-action-link { grid-column: 1; }
     .cv-entry { grid-template-columns: 46px 1fr; gap: 8px; }
-    .cv-entry > a { grid-column: 2; }
-    .writing-list li { grid-template-columns: 22px 1fr auto; }
-    .item-description { display: block; margin: 2px 0 0; }
+    .entry-actions { grid-column: 2; }
     .publication-entry { grid-template-columns: 36px 1fr; gap: 6px; }
   }
 </style>
