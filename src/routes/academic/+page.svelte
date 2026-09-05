@@ -13,36 +13,12 @@
       linkLabel: 'Video',
     },
     {
-      year: '2024',
-      title: 'RoboMaster 视觉实验平台',
-      description: '使用 C++ 与 Eigen 实现相机建模和多坐标系转换，并通过 Foxglove Studio 组织算法实验与数据流。',
-      methods: 'C++ · Camera model · Coordinate transforms',
-      href: 'https://github.com/p-xiexin/foxglove_websocket_cpp',
-      linkLabel: 'Code',
-    },
-    {
       year: '2023',
       title: '全国大学生智能汽车竞赛',
       description: '构建视觉自主赛车的车道线检测、参考轨迹生成与高速循迹控制链路，带队获得完全模型组全国一等奖。',
       methods: 'OpenCV · Preview PID · MPCC · Multithreading',
       href: 'https://www.bilibili.com/video/BV1ep421R7LV/',
       linkLabel: 'Video',
-    },
-    {
-      year: '2023',
-      title: '全国大学生电子设计竞赛',
-      description: '设计双云台协同跟踪策略，完成视觉测量、步进电机角度指令标定与时序同步，获得湖北省一等奖。',
-      methods: 'Vision tracking · Dual gimbal · Stepper motor',
-      href: 'https://www.bilibili.com/video/BV12P33eFEit/',
-      linkLabel: 'Video',
-    },
-    {
-      year: '2025',
-      title: '结构化知识库问答系统',
-      description: '面向领域知识组织与检索的问答系统实践，探索结构化知识、检索流程与语言模型之间的连接。',
-      methods: 'Graph RAG · LLM · Knowledge retrieval',
-      href: 'https://mp.weixin.qq.com/s/1IoqA9wj-9pDBECPOFOOfQ',
-      linkLabel: 'Article',
     },
   ];
 
