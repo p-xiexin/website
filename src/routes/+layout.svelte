@@ -1,14 +1,17 @@
 <script lang="ts">
     import Footer from "$lib/components/Footer.svelte";
 	import Header from "$lib/components/Header.svelte";
+    import { page } from "$app/state";
     import { onMount } from "svelte";
     import { setupI18n } from "$lib/i18n";
 	import "../app.css";
 
 	let { children } = $props();
+    let isAcademicRoute = $derived(page.route.id?.startsWith('/academic') ?? false);
 
     const setSideSpacingVars = () => {
-        const content = document.querySelector('.max-w-7xl') as HTMLElement;
+        const content = document.querySelector('.max-w-7xl') as HTMLElement | null;
+        if (!content) return;
         const sideSpace = (window.innerWidth - content.offsetWidth) / 2;
         document.documentElement.style.setProperty('--side-space', `${sideSpace}px`);
     };
@@ -25,6 +28,9 @@
 <svelte:body />
 
 
+{#if isAcademicRoute}
+    <main class="min-h-screen">{@render children()}</main>
+{:else}
 <div class="flex w-full">
     <!-- 背景容器 - 保持固定 -->
     <div class="fixed inset-0 flex justify-center sm:px-8 pointer-events-none">
@@ -44,4 +50,5 @@
         </div>
     </div>
 </div>
+{/if}
 
