@@ -1,41 +1,28 @@
 <script lang="ts">
   import { fade, scale } from 'svelte/transition';
   import { t } from 'svelte-i18n';
-  
+
   export let catalog: {
     title: string;
     slug: string;
     children?: { title: string; slug: string }[];
   }[] = [];
-  
+
   let showMobileCatalog = false;
-  let panelRef: HTMLDivElement;
-  
+
   function scrollToSlug(slug: string) {
-    const el = document.getElementById(slug);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(slug);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       showMobileCatalog = false;
-    } else {
-      console.log(`element ${slug} not found`);
     }
   }
-  
-  function toggleMobileCatalog() {
-    showMobileCatalog = !showMobileCatalog;
-  }
-  
-  function closeMobileCatalog() {
-    showMobileCatalog = false;
-  }
-  
+
   function clickOutside(node: HTMLElement) {
     const handleClick = (event: MouseEvent) => {
-      if (!node.contains(event.target as Node)) {
-        showMobileCatalog = false;
-      }
+      if (!node.contains(event.target as Node)) showMobileCatalog = false;
     };
-    
+
     document.addEventListener('click', handleClick, true);
     return {
       destroy() {
@@ -45,405 +32,279 @@
   }
 </script>
 
-<div
-  class="fixed z-30 hidden w-80 text-sm 2xl:block group"
-  style="top: 50%; right: var(--side-space); transform: translate(100%, -50%);"
->
-  <div class="catalog-container rounded-xl">
-    <div class="catalog-header">
-      <div class="catalog-pill">
-        <span>{$t('ui.contents')}</span>
-      </div>
-    </div>
-    <div class="catalog-list">
+<aside class="desktop-catalog" aria-label={$t('ui.contents')}>
+  <div class="catalog-container">
+    <header class="catalog-header">
+      <span>{$t('ui.contents')}</span>
+      <small>{catalog.length}</small>
+    </header>
+
+    <nav class="catalog-list" aria-label={$t('ui.contents')}>
       {#each catalog as item}
         <div class="catalog-block">
-          <button
-            type="button"
-            class="catalog-item"
-            on:click={() => scrollToSlug(item.slug)}
-          >
-            <div class="dot dot-main"></div>
-            <span>{item.title}</span>
+          <button type="button" class="catalog-item" on:click={() => scrollToSlug(item.slug)}>
+            {item.title}
           </button>
 
-          {#if item.children}
+          {#if item.children?.length}
             <div class="sub-list">
               {#each item.children as subitem}
-                <button
-                  type="button"
-                  class="sub-item"
-                  on:click={() => scrollToSlug(subitem.slug)}
-                >
-                  <div class="dot dot-sub"></div>
-                  <div>{subitem.title}</div>
+                <button type="button" class="sub-item" on:click={() => scrollToSlug(subitem.slug)}>
+                  {subitem.title}
                 </button>
               {/each}
             </div>
           {/if}
         </div>
       {/each}
-    </div>
+    </nav>
   </div>
-</div>
+</aside>
 
-<div class="relative pointer-events-auto 2xl:hidden">
+<div class="mobile-catalog">
   <button
-    class="group flex items-center rounded-full px-4 py-2 text-sm font-medium shadow-lg ring-1 ring-muted backdrop-blur fixed bottom-6 right-6 z-40 bg-card hover:bg-card/90 transition-colors"
-    on:click={toggleMobileCatalog}
+    type="button"
+    class="catalog-trigger"
+    aria-expanded={showMobileCatalog}
+    on:click={() => (showMobileCatalog = !showMobileCatalog)}
   >
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
-      <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
     </svg>
-    {$t('ui.contents')}
+    <span>{$t('ui.contents')}</span>
   </button>
 
   {#if showMobileCatalog}
-    <div 
-      transition:fade 
-      class="fixed inset-0 z-40 backdrop-blur-sm bg-background/80"
-    ></div>
-
-    <div
-      bind:this={panelRef}
-      transition:scale|local={{ duration: 150 }}
-      class="fixed left-1/2 bottom-20 top-20 z-50 w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 origin-center rounded-2xl ring-1 ring-muted bg-card shadow-xl overflow-hidden flex flex-col"
+    <div transition:fade={{ duration: 120 }} class="catalog-backdrop"></div>
+    <section
+      transition:scale|local={{ duration: 140, start: 0.98 }}
+      class="catalog-dialog"
+      aria-label={$t('ui.contents')}
       use:clickOutside
     >
-      <div class="flex flex-row-reverse items-center justify-between p-4 border-b border-muted shrink-0 bg-card/60 backdrop-blur">
-        <button 
-          aria-label="close menu" 
-          class="-m-1 p-1 hover:bg-muted/50 rounded-lg transition-colors" 
-          on:click={closeMobileCatalog}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-muted-foreground">
-            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <div class="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <div class="pill-soft">{$t('ui.contents')}</div>
+      <header class="dialog-header">
+        <div>
+          <strong>{$t('ui.contents')}</strong>
+          <span>{catalog.length} sections</span>
         </div>
-      </div>
-      
-      <div class="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-transparent via-card/40 to-card">
-        <div class="space-y-0.5 mobile-catalog">
-          {#each catalog as item}
-            <div class="catalog-block">
-              <button
-                type="button"
-                class="catalog-item"
-                on:click={() => scrollToSlug(item.slug)}
-              >
-                <div class="dot dot-main"></div>
-                <span>{item.title}</span>
-              </button>
-              
-              {#if item.children}
-                <div class="sub-list">
-                  {#each item.children as subitem}
-                    <button
-                      type="button"
-                      class="sub-item"
-                      on:click={() => scrollToSlug(subitem.slug)}
-                    >
-                      <div class="dot dot-sub"></div>
-                      <div>{subitem.title}</div>
-                    </button>
-                  {/each}
-                </div>
-              {/if}
-            </div>
-          {/each}
-        </div>
-      </div>
-    </div>
+        <button type="button" aria-label="close menu" on:click={() => (showMobileCatalog = false)}>×</button>
+      </header>
+
+      <nav class="dialog-list" aria-label={$t('ui.contents')}>
+        {#each catalog as item}
+          <div class="catalog-block">
+            <button type="button" class="catalog-item" on:click={() => scrollToSlug(item.slug)}>
+              {item.title}
+            </button>
+
+            {#if item.children?.length}
+              <div class="sub-list">
+                {#each item.children as subitem}
+                  <button type="button" class="sub-item" on:click={() => scrollToSlug(subitem.slug)}>
+                    {subitem.title}
+                  </button>
+                {/each}
+              </div>
+            {/if}
+          </div>
+        {/each}
+      </nav>
+    </section>
   {/if}
 </div>
 
 <style>
+  .desktop-catalog {
+    position: fixed;
+    top: 96px;
+    right: max(20px, calc((100vw - 1440px) / 2));
+    z-index: 30;
+    display: none;
+    width: 250px;
+  }
+
   .catalog-container {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 14px 50px rgba(15, 23, 42, 0.08);
-    backdrop-filter: blur(14px);
-    padding: 14px 16px;
-    max-height: calc(100vh - 120px);
+    max-height: calc(100vh - 132px);
     overflow-y: auto;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    padding-left: 16px;
+    border-left: 1px solid hsl(var(--border));
   }
 
-  .catalog-container:hover {
-    box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .catalog-container {
-      background: linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(24, 24, 27, 0.88));
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
-    }
-  }
-  
-  :global(.dark) .catalog-container {
-    background: linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(24, 24, 27, 0.88));
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+  .catalog-header,
+  .dialog-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid hsl(var(--border));
   }
 
   .catalog-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 7px;
+    padding: 0 0 8px;
   }
 
-  .catalog-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0;
-    border-radius: 0;
-    background: transparent;
-    color: #0f172a;
+  .catalog-header span,
+  .dialog-header strong {
+    color: hsl(var(--primary));
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.01em;
+    letter-spacing: .08em;
+    text-transform: uppercase;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .catalog-pill {
-      background: transparent;
-      color: #f1f5f9;
-    }
-  }
-  
-  :global(.dark) .catalog-pill {
-    background: transparent;
-    color: #f1f5f9;
+  .catalog-header small,
+  .dialog-header span {
+    color: hsl(var(--muted-foreground));
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    letter-spacing: .04em;
   }
 
-  .catalog-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.02rem;
-  }
-  
-  .dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 9999px;
-    flex-shrink: 0;
-  }
-
-  .dot-main {
-    background-color: #4f46e5;
-  }
-  
-  .dot-sub {
-    background-color: #a855f7;
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    .dot-main {
-      background-color: #60a5fa;
-    }
-    
-    .dot-sub {
-      background-color: #f472b6;
-    }
-  }
-  
-  :global(.dark) .dot-main {
-    background-color: #60a5fa;
-  }
-  
-  :global(.dark) .dot-sub {
-    background-color: #f472b6;
+  .catalog-list,
+  .dialog-list {
+    display: grid;
   }
 
   .catalog-block {
-    padding: 0.12rem 0.3rem;
-    border-radius: 0.9rem;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    border-bottom: 1px solid hsl(var(--border) / .58);
   }
 
-  .catalog-block:hover {
-    background-color: rgba(59, 130, 246, 0.06);
-    transform: translateX(-2px);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .catalog-block:hover {
-      background-color: rgba(59, 130, 246, 0.16);
-    }
-  }
-  
-  :global(.dark) .catalog-block:hover {
-    background-color: rgba(59, 130, 246, 0.16);
+  .catalog-item,
+  .sub-item {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: hsl(var(--muted-foreground));
+    text-align: left;
+    cursor: pointer;
+    transition: color 120ms ease, border-color 120ms ease;
   }
 
   .catalog-item {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    width: 100%;
-    background: transparent;
-    border: none;
-    padding: 0.25rem 0.1rem;
-    cursor: pointer;
-    color: #0f172a;
-    font-weight: 600;
-    text-align: left;
-    letter-spacing: 0.01em;
+    padding: 7px 2px 6px;
+    font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.42;
   }
 
-  .catalog-item:hover {
-    color: #2563eb;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .catalog-item {
-      color: #f1f5f9;
-    }
-
-    .catalog-item:hover {
-      color: #bfdbfe;
-    }
-  }
-  
-  :global(.dark) .catalog-item {
-    color: #f1f5f9;
-  }
-
-  :global(.dark) .catalog-item:hover {
-    color: #bfdbfe;
+  .catalog-item:hover,
+  .sub-item:hover {
+    color: hsl(var(--primary));
   }
 
   .sub-list {
-    margin-top: 0.1rem;
-    margin-left: 0.8rem;
-    padding-left: 0.6rem;
-    border-left: 1px dashed rgba(15, 23, 42, 0.12);
     display: grid;
-    gap: 0.12rem;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .sub-list {
-      border-left: 1px dashed rgba(148, 163, 184, 0.28);
-    }
-  }
-  
-  :global(.dark) .sub-list {
-    border-left: 1px dashed rgba(148, 163, 184, 0.28);
+    margin: 0 0 6px 4px;
+    border-left: 1px solid hsl(var(--border));
   }
 
   .sub-item {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-    background: transparent;
-    border: none;
-    padding: 0.2rem 0.05rem;
-    cursor: pointer;
-    color: #4b5563;
-    text-align: left;
-    transition: color 0.2s ease;
+    padding: 3px 0 3px 10px;
+    border-left: 2px solid transparent;
+    font-size: 10px;
+    line-height: 1.4;
   }
 
   .sub-item:hover {
-    color: #2563eb;
+    border-left-color: hsl(var(--primary));
   }
 
-  @media (prefers-color-scheme: dark) {
-    .sub-item {
-      color: #cbd5e1;
-    }
-
-    .sub-item:hover {
-      color: #bfdbfe;
-    }
-  }
-  
-  :global(.dark) .sub-item {
-    color: #cbd5e1;
-  }
-
-  :global(.dark) .sub-item:hover {
-    color: #bfdbfe;
-  }
-
-  /* Tighter spacing on mobile drawer */
   .mobile-catalog {
+    position: relative;
+    z-index: 40;
+  }
+
+  .catalog-trigger {
+    position: fixed;
+    right: 16px;
+    bottom: 18px;
+    z-index: 42;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 2px;
+    background: hsl(var(--background));
+    color: hsl(var(--primary));
+    box-shadow: 0 2px 8px rgb(0 0 0 / 7%);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+  }
+
+  .catalog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgb(15 23 42 / 24%);
+  }
+
+  .catalog-dialog {
+    position: fixed;
+    top: 78px;
+    right: 14px;
+    bottom: 58px;
+    left: 14px;
+    z-index: 41;
     display: flex;
     flex-direction: column;
-    gap: 0.01rem;
+    max-width: 620px;
+    margin-left: auto;
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    border-radius: 2px;
+    background: hsl(var(--background));
+    box-shadow: 0 12px 36px rgb(0 0 0 / 14%);
   }
 
-  .mobile-catalog .catalog-block {
-    padding: 0.1rem 0.28rem;
+  .dialog-header {
+    flex: none;
+    padding: 12px 14px 10px;
   }
 
-  .mobile-catalog .catalog-item {
-    padding: 0.14rem 0.06rem;
-    gap: 0.45rem;
-    font-size: 0.92rem;
+  .dialog-header > div {
+    display: grid;
+    gap: 2px;
   }
 
-  .mobile-catalog .sub-list {
-    margin-top: 0.08rem;
-    margin-left: 0.75rem;
-    padding-left: 0.55rem;
-    gap: 0.1rem;
+  .dialog-header button {
+    padding: 0 2px;
+    color: hsl(var(--muted-foreground));
+    font-family: Georgia, serif;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
   }
 
-  .mobile-catalog .sub-item {
-    padding: 0.12rem 0.04rem;
-    gap: 0.4rem;
-    font-size: 0.9rem;
+  .dialog-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 14px 16px;
   }
 
-  .pill-soft {
-    padding: 0.2rem 0.65rem;
-    border-radius: 999px;
+  .dialog-list .catalog-item {
+    padding-top: 8px;
+    font-size: 12px;
   }
 
-  .overflow-y-auto::-webkit-scrollbar {
+  .catalog-container::-webkit-scrollbar,
+  .dialog-list::-webkit-scrollbar {
     width: 4px;
   }
-  
-  .overflow-y-auto::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    .overflow-y-auto::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-    }
+
+  .catalog-container::-webkit-scrollbar-thumb,
+  .dialog-list::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
   }
 
-  /* desktop catalog scrollbar */
-  .catalog-container::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  .catalog-container::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .catalog-container::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.18);
-    border-radius: 3px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .catalog-container::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.18);
-    }
+  @media (min-width: 1536px) {
+    .desktop-catalog { display: block; }
+    .mobile-catalog { display: none; }
   }
 </style>
