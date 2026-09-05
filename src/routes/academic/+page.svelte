@@ -22,6 +22,23 @@
     },
   ];
 
+  const experience = [
+    {
+      period: '2026.06 — 至今',
+      role: '前馈式三维重建',
+      organization: '华为 2012 黎曼实验室',
+      description: '基于 Pi3X 构建稠密匹配模型，并扩展 MASt3R-Fusion 的多帧关联、SfM 后端与跨窗口几何对齐。',
+      methods: '3D Reconstruction · Dense Matching · SfM · Bundle Adjustment',
+    },
+    {
+      period: '2026.03 — 2026.06',
+      role: '羽毛球运动机器人',
+      organization: '浙江深辰凯动科技有限公司',
+      description: '负责固定时域 MPC、羽毛球飞行与碰撞建模、轨迹预测及实机击球实验，击球成功率约 92%。',
+      methods: 'MPC · System Identification · Trajectory Optimization · RL',
+    },
+  ];
+
   const writing = [
     {
       date: '2025.08',
@@ -106,6 +123,25 @@
           </div>
         </div>
       </article>
+    </section>
+
+    <section class="cv-section" id="experience" aria-labelledby="experience-title">
+      <header class="section-heading">
+        <h2 id="experience-title">实习经历</h2>
+        <span>Research and industry experience</span>
+      </header>
+      <div class="entry-list experience-list">
+        {#each experience as item}
+          <article class="experience-entry">
+            <time>{item.period}</time>
+            <div>
+              <h3>{item.role}<span>{item.organization}</span></h3>
+              <p>{item.description}</p>
+              <small>{item.methods}</small>
+            </div>
+          </article>
+        {/each}
+      </div>
     </section>
 
     <section class="cv-section" id="projects" aria-labelledby="projects-title">
@@ -346,6 +382,18 @@
   .publication-links a:hover { text-decoration: underline; }
 
   .entry-list { border-top: 1px solid var(--light-rule); }
+  .experience-entry {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 14px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--light-rule);
+  }
+  .experience-entry > time { color: var(--faint); font-family: Georgia, serif; font-size: 10px; }
+  .experience-entry h3 { font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 13px; font-weight: 650; }
+  .experience-entry h3 span { margin-left: 9px; color: var(--accent); font-family: Arial, "Noto Sans SC", sans-serif; font-size: 10px; font-weight: 600; }
+  .experience-entry p { margin-top: 2px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+  .experience-entry small { display: block; margin-top: 3px; color: var(--faint); font-size: 9px; }
   .cv-entry {
     display: grid;
     grid-template-columns: 58px 1fr auto;
@@ -421,6 +469,8 @@
     .cv-page { width: calc(100% - 24px); }
     .identity-block h1 { font-size: 24px; }
     .identity-block h1 span { display: block; margin: 3px 0 0; font-size: 15px; }
+    .experience-entry { grid-template-columns: 1fr; gap: 4px; }
+    .experience-entry h3 span { display: block; margin: 2px 0 0; }
     .cv-entry { grid-template-columns: 46px 1fr; gap: 8px; }
     .cv-entry > a { grid-column: 2; }
     .writing-list li { grid-template-columns: 22px 1fr auto; }
