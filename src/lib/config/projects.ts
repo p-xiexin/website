@@ -37,7 +37,7 @@ const AWARDS_EN: Array<ActivityItemType> = [
   },
   {
     name: 'RoboMaster University League (RMUL)',
-    description: 'Third Prize, Shanghai Division',
+    description: 'Second Prize, Shanghai Division',
     date: '2023',
     location: 'SUES, Shanghai',
     link: 'https://www.bilibili.com/video/BV1Zm4y1h7Pb/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
@@ -61,7 +61,7 @@ const AWARDS_ZH: Array<ActivityItemType> = [
   },
   {
     name: '机甲大师高校联盟赛',
-    description: '上海赛区三等奖。',
+    description: '上海站二等奖。',
     date: '2023',
     location: '上海工程技术大学，上海',
     link: 'https://www.bilibili.com/video/BV1Zm4y1h7Pb/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301',
