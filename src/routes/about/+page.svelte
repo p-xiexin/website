@@ -311,7 +311,7 @@
     </div>
   </section>
 
-  <section class="cv-section" aria-labelledby="experience-title">
+  <section class="cv-section" id="experience" aria-labelledby="experience-title">
     <header><h2 id="experience-title">{cv.labels.experience}</h2><span>Experience</span></header>
     <div class="entry-list">
       {#each cv.experience as entry, index}
@@ -327,7 +327,7 @@
     </div>
   </section>
 
-  <section class="cv-section" aria-labelledby="honors-title">
+  <section class="cv-section" id="competitions" aria-labelledby="honors-title">
     <header><h2 id="honors-title">{cv.labels.honors}</h2><span>Competitions</span></header>
     <div class="entry-list">
       {#each cv.honors as honor, index}
@@ -391,7 +391,7 @@
   .competition-entry nav { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 7px; }
   .competition-entry a { color: hsl(var(--primary)); font-size: 10px; font-weight: 650; text-decoration: none; }
   .competition-entry a:hover { text-decoration: underline; }
-  .publication-entry, .cv-entry { scroll-margin-top: 82px; }
+  .cv-section, .publication-entry, .cv-entry { scroll-margin-top: 82px; }
 
   @media (max-width: 700px) {
     .about-intro { grid-template-columns: 1fr; gap: 24px; }

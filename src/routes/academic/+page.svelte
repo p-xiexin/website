@@ -11,7 +11,6 @@
       methods: 'LQR · Dynamics · Trajectory tracking',
       href: 'https://www.bilibili.com/video/BV1hx4y1r7qY/',
       linkLabel: 'Video',
-      detailHref: `${base}/about#competition-robomaster`,
     },
     {
       year: '2023',
@@ -20,7 +19,6 @@
       methods: 'OpenCV · Preview PID · MPCC · Multithreading',
       href: 'https://www.bilibili.com/video/BV1ep421R7LV/',
       linkLabel: 'Video',
-      detailHref: `${base}/about#competition-smart-car`,
     },
   ];
 
@@ -31,7 +29,6 @@
       organization: '华为 2012 黎曼实验室',
       description: '扩展 Pi3x 的 LiDAR 视觉多模态能力，并结合 Matching Head、模型蒸馏和结构剪枝推进流式匹配与端侧部署。',
       methods: 'Pi3x · LiDAR-Vision · Matching · Model Compression',
-      detailHref: `${base}/about#experience-huawei`,
     },
     {
       period: '2026.03 — 2026.06',
@@ -39,7 +36,6 @@
       organization: '浙江深辰凯动科技有限公司',
       description: '负责固定时域 MPC、羽毛球飞行与碰撞建模、轨迹预测及实机击球实验，击球成功率约 92%。',
       methods: 'MPC · System Identification · Trajectory Optimization · RL',
-      detailHref: `${base}/about#experience-badminton`,
     },
   ];
 
@@ -106,16 +102,14 @@
       <header class="section-heading">
         <h2 id="experience-title">实习经历</h2>
         <span>Research and industry experience</span>
+        <a class="section-detail-link" href={`${base}/about#experience`}>Details <ArrowUpRight size={11} /></a>
       </header>
       <div class="entry-list experience-list">
         {#each experience as item}
           <article class="experience-entry">
             <time>{item.period}</time>
             <div>
-              <h3>
-                {item.role}<span>{item.organization}</span>
-                <a class="title-detail-link" href={item.detailHref}>Details <ArrowUpRight size={11} /></a>
-              </h3>
+              <h3>{item.role}<span>{item.organization}</span></h3>
               <p>{item.description}</p>
               <small>{item.methods}</small>
             </div>
@@ -128,16 +122,14 @@
       <header class="section-heading">
         <h2 id="projects-title">代表项目</h2>
         <span>Selected projects</span>
+        <a class="section-detail-link" href={`${base}/about#competitions`}>Details <ArrowUpRight size={11} /></a>
       </header>
       <div class="entry-list project-list">
         {#each projects as project}
           <article class="cv-entry project-entry">
             <time>{project.year}</time>
             <div>
-              <h3>
-                {project.title}
-                <a class="title-detail-link" href={project.detailHref}>Details <ArrowUpRight size={11} /></a>
-              </h3>
+              <h3>{project.title}</h3>
               <p>{project.description}</p>
               <small>{project.methods}</small>
             </div>
@@ -357,19 +349,18 @@
   .experience-entry h3 span { margin-left: 9px; color: var(--accent); font-family: Arial, "Noto Sans SC", sans-serif; font-size: 10px; font-weight: 600; }
   .experience-entry p { margin-top: 2px; color: var(--muted); font-size: 11px; line-height: 1.5; }
   .experience-entry small { display: block; margin-top: 3px; color: var(--faint); font-size: 9px; }
-  .title-detail-link {
+  .section-detail-link {
     display: inline-flex;
     align-items: center;
     gap: 1px;
-    margin-left: 8px;
+    margin-left: auto;
     color: var(--accent);
     font-family: Arial, "Noto Sans SC", sans-serif;
     font-size: 9px;
     font-weight: 600;
     text-decoration: none;
-    vertical-align: 1px;
   }
-  .title-detail-link:hover { text-decoration: underline; }
+  .section-detail-link:hover { text-decoration: underline; }
   .cv-entry {
     display: grid;
     grid-template-columns: 58px 1fr auto;
@@ -430,7 +421,6 @@
     .identity-block h1 span { display: block; margin: 3px 0 0; font-size: 15px; }
     .experience-entry { grid-template-columns: 1fr; gap: 4px; }
     .experience-entry h3 span { display: block; margin: 2px 0 0; }
-    .experience-entry h3 .title-detail-link { margin: 4px 0 0; }
     .cv-entry { grid-template-columns: 46px 1fr; gap: 8px; }
     .cv-entry > .entry-action-link { grid-column: 2; }
     .publication-entry { grid-template-columns: 36px 1fr; gap: 6px; }
