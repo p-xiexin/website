@@ -4,7 +4,7 @@ date: '2025-04-21'
 author: 'pxx'
 categories:
   - RAG
-published: true
+published: false
 ---
 
 # 知识库后端架构

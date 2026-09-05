@@ -4,7 +4,7 @@ date: '2025-05-27'
 author: 'pxx'
 categories:
   - SQL
-published: true
+published: false
 ---
 
 # SQLAlchemy数据库Schema定义

@@ -4,7 +4,7 @@ date: '2025-12-05'
 author: 'pxx'
 categories:
   - Operating Systems
-published: true
+published: false
 ---
 
 # xv6-public 与 OSDev 对比：操作系统入门者该如何选择？

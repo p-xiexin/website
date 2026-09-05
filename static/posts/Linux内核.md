@@ -4,7 +4,7 @@ date: '2025-07-27'
 author: 'pxx'
 categories:
   - Linux
-published: true
+published: false
 ---
 
 

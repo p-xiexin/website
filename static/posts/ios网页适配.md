@@ -4,7 +4,7 @@ date: '2025-07-12'
 author: 'pxx'
 categories:
   - Web
-published: true
+published: false
 ---
 
 # 如何让你的 SvelteKit 网站完美适配 GitHub Pages 和 iOS 主屏幕

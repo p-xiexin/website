@@ -4,7 +4,7 @@ date: '2023-08-04'
 author: 'pxx'
 categories:
   - Linux
-published: true
+published: false
 ---
 
 # Zsh 安装与配置指南

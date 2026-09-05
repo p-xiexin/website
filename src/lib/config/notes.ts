@@ -20,7 +20,7 @@ const EN_NOTES: Array<Note> = [
     description: 'How to use Git for version control.',
     slug: 'Git',
     tags: ['git'],
-    published: true,
+    published: false,
   },
   {
     name: 'SLAM',
@@ -44,7 +44,7 @@ const ZH_NOTES: Array<Note> = [
     description: 'Git 版本控制工具的使用。',
     slug: 'Git',
     tags: ['git'],
-    published: true,
+    published: false,
   },
   {
     name: 'SLAM',
@@ -61,7 +61,7 @@ export const noteListByLocale: Record<SupportedLocale, Array<Note>> = {
 };
 
 export const getNotesByLocale = (locale?: string): Array<Note> =>
-  noteListByLocale[resolveLocale(locale)];
+  noteListByLocale[resolveLocale(locale)].filter((note) => note.published);
 
 // 保留向后兼容性
-export const noteList: Array<Note> = noteListByLocale[FALLBACK_LOCALE];
+export const noteList: Array<Note> = getNotesByLocale(FALLBACK_LOCALE);

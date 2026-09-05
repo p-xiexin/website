@@ -4,7 +4,7 @@ date: "2025-11-26"
 author: "pxx"
 categories:
   - Operating Systems
-published: true
+published: false
 ---
 
 # 从嵌入式经验出发理解操作系统

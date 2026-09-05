@@ -6,7 +6,7 @@
     "categories": [
       "Agent"
     ],
-    "published": true,
+    "published": false,
     "slug": "9a77db7b0ea19868353531818d6b9fd2",
     "title": "内网环境下CodeAgent配置",
     "file": "code-agent.md"
@@ -57,7 +57,7 @@
     "categories": [
       "其他"
     ],
-    "published": true,
+    "published": false,
     "slug": "f0209624283f2a8e519d0a85315df042",
     "title": "WSL 共享 Windows SSH 密钥",
     "file": "wsl_share_sshKey.md"
@@ -84,7 +84,7 @@
     "categories": [
       "Web"
     ],
-    "published": true,
+    "published": false,
     "slug": "f4a91738cc21caa381da019261d18675",
     "title": "为什么网页看起来像多线程",
     "file": "light_web_thread_blog.md"
@@ -96,7 +96,7 @@
     "categories": [
       "MCU"
     ],
-    "published": true,
+    "published": false,
     "slug": "f288db3166d581e60879306c3cefa0ab",
     "title": "嵌入式系统的可预测性",
     "file": "embedded_determinism_blog.md"
@@ -108,7 +108,7 @@
     "categories": [
       "Operating Systems"
     ],
-    "published": true,
+    "published": false,
     "slug": "6e36c4a5570efc82bd3f5ec74800c736",
     "title": "芯片架构、ISA、授权模式与内存模型",
     "file": "cpu_isa_mm_blog.md"
@@ -120,7 +120,7 @@
     "categories": [
       "Operating Systems"
     ],
-    "published": true,
+    "published": false,
     "slug": "cd8439c9ddedf17c454cfbf0b41a4d8e",
     "title": "xv6-public 与 OSDev 对比：操作系统入门者该如何选择？",
     "file": "xv6_vs_osdev_blog.md"
@@ -144,7 +144,7 @@
     "categories": [
       "ROS"
     ],
-    "published": true,
+    "published": false,
     "slug": "fed4026984738cb4b10bcb365e00ba90",
     "title": "ROS 官方 GPG 密钥过期与迁移指南",
     "file": "ros_gpg_guide.md"
@@ -156,7 +156,7 @@
     "categories": [
       "Operating Systems"
     ],
-    "published": true,
+    "published": false,
     "slug": "465b89f9186d82900dd3813381dd2310",
     "title": "从嵌入式经验出发理解操作系统",
     "file": "cpu_to_os.md"
@@ -168,7 +168,7 @@
     "categories": [
       "MCU"
     ],
-    "published": true,
+    "published": false,
     "column": {
       "name": "STM32"
     },
@@ -183,7 +183,7 @@
     "categories": [
       "其他"
     ],
-    "published": true,
+    "published": false,
     "slug": "b7d2cd9d7bdc557dee629498401b6696",
     "title": "交叉编译器介绍",
     "file": "cross_compiler_blog.md"
@@ -274,7 +274,7 @@
     "categories": [
       "其他"
     ],
-    "published": true,
+    "published": false,
     "slug": "3ee15064f23850529a6054ff89701c63",
     "title": "完全离线环境下安装和使用 WSL2",
     "file": "wsl2_offline_install_blog.md"
@@ -286,7 +286,7 @@
     "categories": [
       "Operating Systems"
     ],
-    "published": true,
+    "published": false,
     "slug": "6635e2903169605ee0ccc841ec9a22a7",
     "title": "FreeRTOS 内存管理",
     "file": "FreeRTOS_heap.md"
@@ -298,7 +298,7 @@
     "categories": [
       "MCU"
     ],
-    "published": true,
+    "published": false,
     "column": {
       "name": "STM32"
     },
@@ -313,7 +313,7 @@
     "categories": [
       "Linux"
     ],
-    "published": true,
+    "published": false,
     "slug": "8a561a710285ebacaf1d88411a6e84af",
     "title": "初步了解Linux内核：从基础概念到核心机制",
     "file": "Linux内核.md"
@@ -367,7 +367,7 @@
     "categories": [
       "Web"
     ],
-    "published": true,
+    "published": false,
     "slug": "e09ab976ad462d7ff22b3c176c12dcec",
     "title": "如何让你的 SvelteKit 网站完美适配 GitHub Pages 和 iOS 主屏幕",
     "file": "ios网页适配.md"
@@ -427,7 +427,7 @@
     "categories": [
       "SQL"
     ],
-    "published": true,
+    "published": false,
     "slug": "35fdb47ef903e09a6a4fce302ef1be9c",
     "title": "SQLAlchemy数据库Schema定义",
     "file": "python中数据库的使用.md"
@@ -439,7 +439,7 @@
     "categories": [
       "LLM"
     ],
-    "published": true,
+    "published": false,
     "slug": "b47962387855749e366a2b296abea650",
     "title": "vllm+5090部署大模型应用",
     "file": "vllm+5090部署大模型.md"
@@ -451,7 +451,7 @@
     "categories": [
       "Linux"
     ],
-    "published": true,
+    "published": false,
     "slug": "171d0ac99bc119c67eeca0200e62ca7c",
     "title": "自定义ubuntu显示器分辨率",
     "file": "自定义ubuntu显示器分辨率.md"
@@ -463,7 +463,7 @@
     "categories": [
       "RAG"
     ],
-    "published": true,
+    "published": false,
     "slug": "eb30f1c40c0e3925ccd73d7d87c34e79",
     "title": "知识库后端架构",
     "file": "Lightrag后端解读.md"
@@ -475,7 +475,7 @@
     "categories": [
       "Web"
     ],
-    "published": true,
+    "published": false,
     "slug": "067758f96375ea622dec7ef6f89b040e",
     "title": "gh-pages 个人博客",
     "file": "构建一个自己的博客网站.md"
@@ -523,7 +523,7 @@
     "categories": [
       "Program"
     ],
-    "published": true,
+    "published": false,
     "slug": "8465608fd93cc31c0e6f3ade482d11d6",
     "title": "C++ RAII 的两个结构性缺陷",
     "file": "cpp_raii_defects.md"
@@ -547,7 +547,7 @@
     "categories": [
       "Linux"
     ],
-    "published": true,
+    "published": false,
     "slug": "f2046ee3e01b852d2061334996a9ff63",
     "title": "wsl2挂载usb设备",
     "file": "wsl2挂载usb设备.md"
@@ -559,7 +559,7 @@
     "categories": [
       "Linux"
     ],
-    "published": true,
+    "published": false,
     "slug": "1f3902a14e22e7badd09ea1bfe8356c6",
     "title": "Zsh 安装与配置指南",
     "file": "install_zsh.md"

@@ -5,7 +5,7 @@ author: 'pxx'
 categories:
   - ROS
 
-published: true
+published: false
 ---
 
 # ROS 官方 GPG 密钥过期与迁移指南

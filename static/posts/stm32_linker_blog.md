@@ -4,7 +4,7 @@ date: '2025-11-20'
 author: 'pxx'
 categories:
   - MCU
-published: true
+published: false
 column:
   name: STM32
 ---

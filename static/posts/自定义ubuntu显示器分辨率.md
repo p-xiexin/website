@@ -4,7 +4,7 @@ date: '2025-04-22'
 author: 'pxx'
 categories:
   - Linux
-published: true
+published: false
 ---
 
 > 起因是我在使用sunshine+moonlight进行串流的时候，ipad上的界面无法覆盖整个屏幕
