@@ -86,6 +86,20 @@ export const awardsByLocale: Record<SupportedLocale, Array<ActivityItemType>> = 
 
 const PROJECTS_EN: Array<ProjectItemType> = [
   {
+    name: 'Vision-Based Autonomous Racing',
+    description:
+      'A lane perception, trajectory generation, and high-speed tracking stack developed for the 18th National University Students Intelligent Car Race, where the team won First Prize in the Baidu End-to-End Modeling Track.',
+    link: { href: 'https://www.bilibili.com/video/BV1ep421R7LV/', label: 'Video' },
+    tags: ['OpenCV', 'Preview PID', 'MPCC', 'Multithreading'],
+  },
+  {
+    name: 'Dual-Gimbal Visual Tracking System',
+    description:
+      'A coordinated dual-gimbal tracking system developed for the 2023 National Undergraduate Electronic Design Contest, covering visual measurement, stepper-motor command calibration, and timing synchronization.',
+    link: { href: 'https://www.bilibili.com/video/BV12P33eFEit/', label: 'Video' },
+    tags: ['Vision Tracking', 'Dual Gimbal', 'Stepper Motor'],
+  },
+  {
     name: 'Knowledge Base Question Answering System.',
     description: 'An intelligent QA system grounded in structured domain knowledge repositories.',
     link: { href: 'https://mp.weixin.qq.com/s/1IoqA9wj-9pDBECPOFOOfQ', label: 'LLM' },
@@ -94,6 +108,20 @@ const PROJECTS_EN: Array<ProjectItemType> = [
 ];
 
 const PROJECTS_ZH: Array<ProjectItemType> = [
+  {
+    name: '智能车视觉自主竞速系统',
+    description:
+      '面向第十八届全国大学生智能汽车竞赛，构建车道线检测、参考轨迹生成与高速循迹控制链路，团队获得百度完全模型组全国一等奖。',
+    link: { href: 'https://www.bilibili.com/video/BV1ep421R7LV/', label: '视频' },
+    tags: ['OpenCV', '预瞄 PID', 'MPCC', '多线程'],
+  },
+  {
+    name: '双云台视觉协同跟踪系统',
+    description:
+      '面向 2023 年全国大学生电子设计竞赛，设计双云台协同跟踪策略，完成视觉测量、步进电机角度指令标定与时序同步。',
+    link: { href: 'https://www.bilibili.com/video/BV12P33eFEit/', label: '视频' },
+    tags: ['视觉跟踪', '双云台', '步进电机'],
+  },
   {
     name: '知识库问答系统',
     description: '基于结构化领域知识库的智能问答系统。',
