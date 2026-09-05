@@ -13,9 +13,11 @@
   };
 
   type Honor = {
-    year: string;
+    period: string;
     name: string;
     result: string;
+    details: string[];
+    links: { label: string; href: string }[];
   };
 
   type Publication = {
@@ -37,7 +39,7 @@
         publications: '论文发表',
         education: '教育经历',
         experience: '科研与实习经历',
-        honors: '主要荣誉',
+        honors: '竞赛经历',
         profile: '学术档案',
         affiliation: '所在院校',
         location: '所在地'
@@ -76,8 +78,9 @@
           title: '前馈式三维重建',
           organization: '华为 2012 黎曼实验室',
           details: [
-            '设计几何一致性监督生成流程并构建多源 3D 训练数据集，基于 Pi3X 训练稠密匹配解码器，预测 dense warp、匹配置信度与多视图 tracks。',
-            '将 MASt3R-Fusion 从双帧匹配扩展至多帧输入，重新设计跨帧关联与 SfM 后端，并融合 IMU 完成跨窗口 Sim(3) 对齐与联合 BA。'
+            '解析相机内参、位姿、深度图、点图与标注，完成几何对齐和质量检查，构建统一的多源 3D 数据加载流程。',
+            '基于 Pi3X 设计并训练稠密匹配解码器，预测参考视图到多目标视图的 dense warp 与匹配置信度，并生成多视图 tracks。',
+            '将 MASt3R-Fusion 从双帧匹配扩展至多帧输入，重新设计跨帧关联与 SfM 后端，融合 IMU 完成跨窗口 Sim(3) 对齐与联合 BA。'
           ]
         },
         {
@@ -85,16 +88,52 @@
           title: '羽毛球运动机器人',
           organization: '浙江深辰凯动科技有限公司',
           details: [
-            '设计并实现 Fix-Horizon MPC，缓解滚动时域中的参考轨迹缩短、接触相位漂移与动作被动追赶问题，实机击球成功率约 92%。',
+            '设计并实现 Fix-Horizon MPC，缓解滚动时域中的参考轨迹缩短、接触相位漂移与动作被动追赶问题，提升动作一致性与实机调参效率。',
             '构建羽毛球飞行与碰撞模型，基于实测数据辨识空气阻力和初始状态，轨迹预测 RMSE 约 6.6 cm，MAE 约 5.4 cm。',
+            '设计两阶段轨迹预测方法，提前触发底盘与机械臂运动，面向高速来球的实机击球成功率约 92%。',
             '基于轨迹优化生成多技能击球数据集，预训练物理一致的动作隐空间表示，并通过强化学习完成闭环策略后训练。'
           ]
         }
       ],
       honors: [
-        { year: '2023', name: '全国大学生智能汽车竞赛', result: '完全模型组全国一等奖 · 队长' },
-        { year: '2023', name: 'RoboMaster 高校联盟赛', result: '上海站二等奖 · 电控组组长' },
-        { year: '2023', name: '全国大学生电子设计竞赛', result: '湖北省一等奖' }
+        {
+          period: '2023.02 — 2023.08',
+          name: '第十八届全国大学生智能汽车竞赛',
+          result: '队长 · 完全模型组全国一等奖',
+          details: [
+            '构建轻量级车道线检测与轨迹跟踪链路，通过逐行搜索、边缘连通约束与逆透视变换生成参考轨迹。',
+            '对比优化预瞄 PID、LQR 与 MPCC，并以多线程解耦感知、识别和控制。主控周期由 36 ms 以上降至 8 ms 内，平均圈速约 3.8 m/s，弯道舵机饱和占比降低约 25%。'
+          ],
+          links: [
+            { label: 'GitHub', href: 'https://github.com/p-xiexin/icar-pd' },
+            { label: 'Video', href: 'https://www.bilibili.com/video/BV1ep421R7LV/' }
+          ]
+        },
+        {
+          period: '2022.10 — 2024.07',
+          name: 'RoboMaster 2023 机甲大师高校联盟赛',
+          result: '电控组组长 · 上海站二等奖',
+          details: [
+            '建立轮腿机器人二阶倒立摆与腿部运动学、动力学模型，结合 LQR、VMC 与地形姿态补偿实现鲁棒姿态控制，并部署至 STM32 与 FreeRTOS。',
+            '针对感知延迟与目标运动不确定性，构建装甲板识别、EKF 状态预测与弹道补偿闭环。'
+          ],
+          links: [
+            { label: 'GitHub', href: 'https://github.com/leancamel/RM' },
+            { label: 'Video', href: 'https://www.bilibili.com/video/BV1hx4y1r7qY/' }
+          ]
+        },
+        {
+          period: '2023.07 — 2023.08',
+          name: '2023 年全国大学生电子设计竞赛',
+          result: '队员 · 湖北省一等奖',
+          details: [
+            '设计双云台协同跟踪策略，完成视觉测量到步进电机角度指令的标定映射与时序同步，实现目标连续锁定。'
+          ],
+          links: [
+            { label: 'GitHub', href: 'https://github.com/p-xiexin/rm-vision-foxglove-simulator' },
+            { label: 'Video', href: 'https://www.bilibili.com/video/BV12P33eFEit/' }
+          ]
+        }
       ]
     },
     en: {
@@ -102,7 +141,7 @@
         publications: 'Publications',
         education: 'Education',
         experience: 'Research and Industry Experience',
-        honors: 'Selected Honors',
+        honors: 'Competition Experience',
         profile: 'Academic Profile',
         affiliation: 'Affiliation',
         location: 'Location'
@@ -141,7 +180,8 @@
           title: 'Feed-forward 3D Reconstruction',
           organization: 'Huawei 2012 Laboratories · Riemann Lab',
           details: [
-            'Designed a geometry-consistent supervision pipeline and multi-source 3D training data, then trained a Pi3X-based dense matching decoder for dense warps, confidence, and multi-view tracks.',
+            'Prepared multi-source 3D datasets by parsing camera parameters, poses, depth and point maps, and annotations, followed by geometry alignment, quality checks, and unified data loading.',
+            'Designed and trained a Pi3X-based dense matching decoder to predict reference-to-target dense warps and confidence, producing multi-view tracks.',
             'Extended MASt3R-Fusion from pairwise to multi-view input, redesigned cross-frame association and the SfM backend, and combined IMU-based Sim(3) window alignment with joint bundle adjustment.'
           ]
         },
@@ -150,16 +190,52 @@
           title: 'Badminton Robot',
           organization: '浙江深辰凯动科技有限公司',
           details: [
-            'Designed Fix-Horizon MPC to address shrinking references, contact-phase drift, and reactive motion in receding-horizon optimization, reaching approximately 92% hitting success on hardware.',
+            'Designed Fix-Horizon MPC to address shrinking references, contact-phase drift, and reactive motion lag in receding-horizon optimization, improving motion consistency and on-robot tuning efficiency.',
             'Built shuttlecock flight and collision models and identified drag and initial states from measurements, achieving approximately 6.6 cm RMSE and 5.4 cm MAE.',
+            'Designed a two-stage trajectory predictor that triggers chassis and arm motion early for high-speed incoming shots, reaching approximately 92% hitting success on hardware.',
             'Generated a multi-skill striking dataset through trajectory optimization, pretrained a physics-consistent latent action representation, and post-trained a closed-loop policy with reinforcement learning.'
           ]
         }
       ],
       honors: [
-        { year: '2023', name: 'National University Intelligent Vehicle Competition', result: 'National First Prize · Team Leader' },
-        { year: '2023', name: 'RoboMaster University League', result: 'Shanghai Second Prize · Control Team Lead' },
-        { year: '2023', name: 'National Undergraduate Electronics Design Contest', result: 'Hubei First Prize' }
+        {
+          period: 'Feb 2023 — Aug 2023',
+          name: '18th National University Students Intelligent Car Race',
+          result: 'Team Leader · National First Prize, Baidu End-to-End Modeling Track',
+          details: [
+            'Developed an OpenCV-based lane perception and trajectory generation stack using row-wise search, connectivity constraints, and inverse-perspective mapping.',
+            'Compared Preview PID, LQR, and MPCC and built a multithreaded architecture that reduced the control cycle from over 36 ms to under 8 ms, reached about 3.8 m/s average lap speed, and reduced corner steering saturation by about 25%.'
+          ],
+          links: [
+            { label: 'GitHub', href: 'https://github.com/p-xiexin/icar-pd' },
+            { label: 'Video', href: 'https://www.bilibili.com/video/BV1ep421R7LV/' }
+          ]
+        },
+        {
+          period: 'Oct 2022 — Jul 2024',
+          name: 'RoboMaster 2023 University League',
+          result: 'Control Team Lead · Shanghai Second Prize',
+          details: [
+            'Modeled the wheel-legged robot as a second-order inverted pendulum and designed LQR and VMC control with terrain attitude compensation, deploying the controller on STM32 with FreeRTOS.',
+            'Built an armor detection, EKF state prediction, and ballistic compensation loop for perception latency and target-motion uncertainty.'
+          ],
+          links: [
+            { label: 'GitHub', href: 'https://github.com/leancamel/RM' },
+            { label: 'Video', href: 'https://www.bilibili.com/video/BV1hx4y1r7qY/' }
+          ]
+        },
+        {
+          period: 'Jul 2023 — Aug 2023',
+          name: '2023 National Undergraduate Electronic Design Contest',
+          result: 'Team Member · Hubei Provincial First Prize',
+          details: [
+            'Designed a coordinated dual-gimbal tracking strategy and calibrated the mapping and timing synchronization from visual measurements to stepper-motor angle commands for continuous target lock.'
+          ],
+          links: [
+            { label: 'GitHub', href: 'https://github.com/p-xiexin/rm-vision-foxglove-simulator' },
+            { label: 'Video', href: 'https://www.bilibili.com/video/BV12P33eFEit/' }
+          ]
+        }
       ]
     }
   };
@@ -246,14 +322,22 @@
   </section>
 
   <section class="cv-section" aria-labelledby="honors-title">
-    <header><h2 id="honors-title">{cv.labels.honors}</h2><span>Honors</span></header>
-    <div class="honor-list">
+    <header><h2 id="honors-title">{cv.labels.honors}</h2><span>Competitions</span></header>
+    <div class="entry-list">
       {#each cv.honors as honor}
-        <div class="honor-entry">
-          <time>{honor.year}</time>
-          <strong>{honor.name}</strong>
-          <span>{honor.result}</span>
-        </div>
+        <article class="cv-entry competition-entry">
+          <time>{honor.period}</time>
+          <div>
+            <h3>{honor.name}</h3>
+            <p class="organization">{honor.result}</p>
+            <ul>{#each honor.details as detail}<li>{detail}</li>{/each}</ul>
+            <nav aria-label={`${honor.name} links`}>
+              {#each honor.links as link}
+                <a href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>
+              {/each}
+            </nav>
+          </div>
+        </article>
       {/each}
     </div>
   </section>
@@ -278,7 +362,7 @@
   .cv-section > header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
   .cv-section h2 { margin: 0; color: hsl(var(--primary)); font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 17px; font-weight: 650; }
   .cv-section > header span { color: hsl(var(--muted-foreground)); font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-  .entry-list, .honor-list, .publication-list { border-top: 1px solid hsl(var(--border)); }
+  .entry-list, .publication-list { border-top: 1px solid hsl(var(--border)); }
   .publication-entry { display: grid; grid-template-columns: 70px 1fr; gap: 18px; padding: 12px 0 14px; border-bottom: 1px solid hsl(var(--border)); }
   .publication-entry time { color: hsl(var(--muted-foreground)); font-family: Georgia, serif; font-size: 10px; }
   .publication-entry h3 { margin: 0; color: hsl(var(--foreground)); font-family: Georgia, "Times New Roman", serif; font-size: 14px; font-weight: 650; line-height: 1.35; }
@@ -288,22 +372,20 @@
   .publication-entry a { color: hsl(var(--primary)); font-size: 10px; font-weight: 650; text-decoration: none; }
   .publication-entry a:hover { text-decoration: underline; }
   .cv-entry { display: grid; grid-template-columns: 145px 1fr; gap: 18px; padding: 12px 0 13px; border-bottom: 1px solid hsl(var(--border)); }
-  .cv-entry time, .honor-entry time { color: hsl(var(--muted-foreground)); font-family: Georgia, serif; font-size: 10px; }
+  .cv-entry time { color: hsl(var(--muted-foreground)); font-family: Georgia, serif; font-size: 10px; }
   .cv-entry h3 { margin: 0; color: hsl(var(--foreground)); font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 13px; font-weight: 650; }
   .organization { margin: 2px 0 0; color: hsl(var(--primary)); font-size: 11px; font-weight: 600; }
   ul { margin: 7px 0 0; padding-left: 16px; color: hsl(var(--muted-foreground)); }
   li { padding-left: 2px; font-size: 11px; line-height: 1.6; }
   li + li { margin-top: 3px; }
-  .honor-entry { display: grid; grid-template-columns: 70px 1.15fr 1fr; gap: 16px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid hsl(var(--border)); }
-  .honor-entry strong { font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 11px; font-weight: 650; }
-  .honor-entry span { color: hsl(var(--muted-foreground)); font-size: 10px; }
+  .competition-entry nav { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 7px; }
+  .competition-entry a { color: hsl(var(--primary)); font-size: 10px; font-weight: 650; text-decoration: none; }
+  .competition-entry a:hover { text-decoration: underline; }
 
   @media (max-width: 700px) {
     .about-intro { grid-template-columns: 1fr; gap: 24px; }
     aside { width: min(280px, 100%); border-top: 1px solid hsl(var(--border)); border-left: 0; padding: 18px 0 0; }
     .publication-entry { grid-template-columns: 1fr; gap: 5px; }
     .cv-entry { grid-template-columns: 1fr; gap: 5px; }
-    .honor-entry { grid-template-columns: 48px 1fr; gap: 5px 10px; }
-    .honor-entry span { grid-column: 2; }
   }
 </style>
