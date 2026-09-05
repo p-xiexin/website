@@ -91,6 +91,28 @@
       </div>
     </section>
 
+    <section class="cv-section publications-section" id="publications" aria-labelledby="publications-title">
+      <header class="section-heading">
+        <h2 id="publications-title">论文发表</h2>
+        <span>Publications</span>
+      </header>
+      <article class="publication-entry">
+        <span class="publication-index">[C1]</span>
+        <div>
+          <p class="publication-citation">
+            <strong>P. Xiexin</strong> et al. <span class="publication-title">MetaTune: Adjoint-based Meta-tuning via Robotic Differentiable Dynamics.</span>
+            <em>IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</em>,
+            <span class="publication-meta">2026 · Accepted</span>
+          </p>
+          <div class="publication-links" aria-label="MetaTune resources">
+            <a href="https://arxiv.org/abs/2603.27313" target="_blank" rel="noreferrer">[Paper]</a>
+            <a href="https://github.com/p-xiexin/px4_ctrl" target="_blank" rel="noreferrer">[Code]</a>
+            <a href="https://www.bilibili.com/video/BV1gJd5BwEsa/" target="_blank" rel="noreferrer">[Video]</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
     <section class="cv-section" id="projects" aria-labelledby="projects-title">
       <header class="section-heading">
         <h2 id="projects-title">代表项目</h2>
@@ -290,6 +312,44 @@
     text-transform: uppercase;
   }
 
+  .publications-section { padding-bottom: 18px; }
+  .publication-entry {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 10px;
+    padding: 8px 0 7px;
+    border-top: 1px solid var(--light-rule);
+    border-bottom: 1px solid var(--light-rule);
+  }
+  .publication-index {
+    color: var(--faint);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 11px;
+    line-height: 1.55;
+  }
+  .publication-citation {
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .publication-citation strong { font-weight: 700; }
+  .publication-title { margin-left: 2px; }
+  .publication-citation em { font-style: italic; }
+  .publication-meta { color: #b45309; white-space: nowrap; }
+  :global(.dark) .publication-meta { color: #f0a45d; }
+  .publication-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 2px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .publication-links a { color: var(--accent); text-decoration: none; }
+  .publication-links a:hover { text-decoration: underline; }
+
   .entry-list { border-top: 1px solid var(--light-rule); }
   .cv-entry {
     display: grid;
@@ -370,5 +430,6 @@
     .cv-entry > a { grid-column: 2; }
     .writing-list li { grid-template-columns: 22px 1fr auto; }
     .item-description { display: block; margin: 2px 0 0; }
+    .publication-entry { grid-template-columns: 36px 1fr; gap: 6px; }
   }
 </style>
