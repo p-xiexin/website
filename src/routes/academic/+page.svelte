@@ -27,8 +27,8 @@
       period: '2026.06 — 至今',
       role: '前馈式三维重建',
       organization: '华为 2012 黎曼实验室',
-      description: '基于 Pi3X 构建稠密匹配模型，并扩展 MASt3R-Fusion 的多帧关联、SfM 后端与跨窗口几何对齐。',
-      methods: '3D Reconstruction · Dense Matching · SfM · Bundle Adjustment',
+      description: '扩展 Pi3x 的 LiDAR 视觉多模态能力，并结合 Matching Head、模型蒸馏和结构剪枝推进流式匹配与端侧部署。',
+      methods: 'Pi3x · LiDAR-Vision · Matching · Model Compression',
     },
     {
       period: '2026.03 — 2026.06',
@@ -87,7 +87,7 @@
           <p>控制科学与工程硕士研究生 · 华中科技大学</p>
         </div>
         <address>
-          <a href="mailto:xiexinpi@gmail.com">xiexinpi@gmail.com</a>
+          <a href="mailto:p-xiexin@outlook.com">p-xiexin@outlook.com</a>
           <a href="https://github.com/p-xiexin" target="_blank" rel="noreferrer">github.com/p-xiexin</a>
           <span>Wuhan, China</span>
         </address>

@@ -6,7 +6,7 @@ export * from './notes'
 // personal info
 export const name = 'Peng Xiexin'
 
-export const email = 'xiexinpi@gmail.com'
+export const email = 'p-xiexin@outlook.com'
 export const githubUsername = 'p-xiexin'
 
 // social links

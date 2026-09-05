@@ -49,7 +49,7 @@
           year: '2026',
           title: 'MetaTune: Adjoint-based Meta-tuning via Robotic Differentiable Dynamics',
           venue: 'IROS 2026 · 已录用 · 第一作者',
-          summary: '面向控制器与扰动观测器联合调参，构建基于可微动力学和伴随灵敏度分析的统一元调参框架。多扰动条件下轨迹跟踪误差降低 15%–20%，梯度计算加速超过 50%。'
+          summary: '面向控制器与扰动观测器联合调参，构建基于可微动力学和伴随灵敏度分析的统一元调参框架。模型与数据混合驱动的协同优化将梯度计算与参数维度解耦，跟踪误差降低超过 20%。'
         }
       ],
       education: [
@@ -78,8 +78,9 @@
           title: '前馈式三维重建',
           organization: '华为 2012 黎曼实验室',
           details: [
-            '解析相机内参、位姿、深度图、点图与标注，完成几何对齐和质量检查，构建统一的多源 3D 数据加载流程。',
-            '基于 Pi3X 设计并训练稠密匹配解码器，预测参考视图到多目标视图的 dense warp 与匹配置信度，并生成多视图 tracks。',
+            '设计几何一致性监督生成流程并构建多源 3D 训练数据集；基于 Pi3X 训练稠密匹配解码器，预测 dense warp、匹配置信度与多视图 tracks。',
+            '扩展 Pi3x 的 LiDAR 视觉多模态感知能力，场景点图重建误差由 0.057 m 降至 0.033 m；结合模型蒸馏与结构剪枝，将 32 帧 GPU 推理延迟由 6.334 s 降至 4.743 s，为后续端侧部署提供支持。',
+            '基于 Pi3 几何表征训练轻量级 Matching Head，并拓展至流式增量匹配与置信度建模，提升复杂场景关联鲁棒性，使匹配质量与后续 BA 和 Fusion 优化效果对齐。',
             '将 MASt3R-Fusion 从双帧匹配扩展至多帧输入，重新设计跨帧关联与 SfM 后端，融合 IMU 完成跨窗口 Sim(3) 对齐与联合 BA。'
           ]
         },
@@ -88,9 +89,9 @@
           title: '羽毛球运动机器人',
           organization: '浙江深辰凯动科技有限公司',
           details: [
-            '设计并实现 Fix-Horizon MPC，缓解滚动时域中的参考轨迹缩短、接触相位漂移与动作被动追赶问题，提升动作一致性与实机调参效率。',
+            '设计并实现 Fix-Horizon MPC，缓解滚动时域中的参考轨迹缩短、接触相位漂移与动作被动追赶问题，提升动作一致性与实机调参效率，实机击球成功率约 92%。',
             '构建羽毛球飞行与碰撞模型，基于实测数据辨识空气阻力和初始状态，轨迹预测 RMSE 约 6.6 cm，MAE 约 5.4 cm。',
-            '设计两阶段轨迹预测方法，提前触发底盘与机械臂运动，面向高速来球的实机击球成功率约 92%。',
+            '设计两阶段轨迹预测方法，面向高速来球提前触发底盘与机械臂运动，为击球动作保留更完整的响应时间。',
             '基于轨迹优化生成多技能击球数据集，预训练物理一致的动作隐空间表示，并通过强化学习完成闭环策略后训练。'
           ]
         }
@@ -114,8 +115,8 @@
           name: 'RoboMaster 2023 机甲大师高校联盟赛',
           result: '电控组组长 · 上海站二等奖',
           details: [
-            '建立轮腿机器人二阶倒立摆与腿部运动学、动力学模型，结合 LQR、VMC 与地形姿态补偿实现鲁棒姿态控制，并部署至 STM32 与 FreeRTOS。',
-            '针对感知延迟与目标运动不确定性，构建装甲板识别、EKF 状态预测与弹道补偿闭环。'
+            '建立轮腿机器人二阶倒立摆与腿部运动学、动力学模型，结合 LQR、VMC 与地形姿态补偿实现鲁棒姿态控制，并通过 MATLAB 代码生成部署至 STM32 与 FreeRTOS。',
+            '针对对抗场景中的感知延迟与目标运动不确定性，构建装甲板识别、EKF 状态预测与弹道补偿闭环。'
           ],
           links: [
             { label: 'GitHub', href: 'https://github.com/leancamel/RM' },
@@ -157,19 +158,19 @@
       education: [
         {
           period: 'Sep 2024 — Jun 2027',
-          title: 'Master’s Student in Control Science and Engineering',
-          organization: 'School of Artificial Intelligence and Automation · Huazhong University of Science and Technology',
+          title: 'M.S. in Control Science and Engineering',
+          organization: 'Huazhong University of Science and Technology',
           details: [
-            'GPA 84.98',
+            'Recommended for admission through the postgraduate recommendation program',
             'Patent · Dynamic-attention retrieval-augmented generation based on multi-level semantic hypergraphs'
           ]
         },
         {
           period: 'Sep 2020 — Jun 2024',
-          title: 'B.Eng. in Measurement and Control Technology',
-          organization: 'School of Mechanical and Electronic Engineering · Wuhan University of Technology',
+          title: 'B.E. in Measurement Control and Instrumentation',
+          organization: 'Wuhan University of Technology',
           details: [
-            'GPA 96.16 · Top 19.3% · CET-6',
+            'GPA 3.616/5.0 · Top 20%',
             'Thesis · Machine-learning-based fault diagnosis for rotary-wing UAVs'
           ]
         }
@@ -180,31 +181,35 @@
           title: 'Feed-forward 3D Reconstruction',
           organization: 'Huawei 2012 Laboratories · Riemann Lab',
           details: [
-            'Prepared multi-source 3D datasets by parsing camera parameters, poses, depth and point maps, and annotations, followed by geometry alignment, quality checks, and unified data loading.',
-            'Designed and trained a Pi3X-based dense matching decoder to predict reference-to-target dense warps and confidence, producing multi-view tracks.',
-            'Extended MASt3R-Fusion from pairwise to multi-view input, redesigned cross-frame association and the SfM backend, and combined IMU-based Sim(3) window alignment with joint bundle adjustment.'
+            'Built a multi-source 3D annotation pipeline with dynamic-region filtering, multi-model matching, camera and depth reconstruction, reprojection validation, and geometric quality control.',
+            'Trained a lightweight Matching Head on a frozen Pi3 backbone to extract explicit cross-frame correspondences from implicit geometry, improving robustness to complex scenes.',
+            'Extended Pi3x with LiDAR for multimodal perception, reducing scene point-map reconstruction error from 0.057 m to 0.033 m; applied model compression and distillation to cut 32-frame GPU inference latency from 6.334 s to 4.743 s.',
+            'Developed streaming incremental matching and optimization-aware confidence, reducing redundant chunk computation while aligning correspondences with downstream BA effectiveness.',
+            'Extended a MASt3R-Fusion-based visual SLAM pipeline from pairwise to multi-view input and aligned point maps across windows through IMU-assisted Sim(3) estimation and joint bundle adjustment.'
           ]
         },
         {
           period: 'Mar 2026 — Jun 2026',
           title: 'Badminton Robot',
-          organization: '浙江深辰凯动科技有限公司',
+          organization: 'Zhejiang Shenchen Kaidong Technology Co., Ltd. · Shaoxing, China',
           details: [
             'Designed Fix-Horizon MPC to address shrinking references, contact-phase drift, and reactive motion lag in receding-horizon optimization, improving motion consistency and on-robot tuning efficiency.',
+            'Accelerated MPC solving with a reduced-order bang-off-bang trajectory model, compressing dense control sequences into low-dimensional velocity-change and timing parameters.',
             'Built shuttlecock flight and collision models and identified drag and initial states from measurements, achieving approximately 6.6 cm RMSE and 5.4 cm MAE.',
-            'Designed a two-stage trajectory predictor that triggers chassis and arm motion early for high-speed incoming shots, reaching approximately 92% hitting success on hardware.',
+            'Designed a two-stage trajectory prediction method for early response to high-speed incoming shots, triggering chassis and arm motion in advance and reaching approximately 92% hitting success on hardware.',
             'Generated a multi-skill striking dataset through trajectory optimization, pretrained a physics-consistent latent action representation, and post-trained a closed-loop policy with reinforcement learning.'
           ]
         }
       ],
       honors: [
         {
-          period: 'Feb 2023 — Aug 2023',
-          name: '18th National University Students Intelligent Car Race',
+          period: 'Oct 2022 — Sep 2023',
+          name: 'Vision-Based Autonomous Racing',
           result: 'Team Leader · National First Prize, Baidu End-to-End Modeling Track',
           details: [
-            'Developed an OpenCV-based lane perception and trajectory generation stack using row-wise search, connectivity constraints, and inverse-perspective mapping.',
-            'Compared Preview PID, LQR, and MPCC and built a multithreaded architecture that reduced the control cycle from over 36 ms to under 8 ms, reached about 3.8 m/s average lap speed, and reduced corner steering saturation by about 25%.'
+            'Developed a modular vision and planning stack in OpenCV for lane search, inverse-perspective perception, and trajectory generation, achieving under 1 ms per-frame latency on an embedded ARM platform.',
+            'Compared and tuned Preview PID, Fuzzy PID, and MPCC for high-speed path tracking, achieving an average lap speed of approximately 3.8 m/s.',
+            'Built a multithreaded architecture that decoupled perception, landmark recognition, and control, reducing the control cycle from over 36 ms to under 8 ms and lowering corner steering saturation by approximately 25%.'
           ],
           links: [
             { label: 'GitHub', href: 'https://github.com/p-xiexin/icar-pd' },
@@ -212,12 +217,13 @@
           ]
         },
         {
-          period: 'Oct 2022 — Jul 2024',
-          name: 'RoboMaster 2023 University League',
+          period: 'Apr 2023 — Nov 2023',
+          name: 'Dynamic Control of a Wheel-Legged Robot',
           result: 'Control Team Lead · Shanghai Second Prize',
           details: [
-            'Modeled the wheel-legged robot as a second-order inverted pendulum and designed LQR and VMC control with terrain attitude compensation, deploying the controller on STM32 with FreeRTOS.',
-            'Built an armor detection, EKF state prediction, and ballistic compensation loop for perception latency and target-motion uncertainty.'
+            'Established a second-order inverted pendulum model in MATLAB and built a system-level simulation in Simulink and Simscape with embedded C code generation.',
+            'Designed a hierarchical LQR and VMC controller for end-effector force to joint-torque mapping, with phase-based jumping control implemented through a state machine.',
+            'Constructed a parameterized LQR controller with leg length as the scheduling variable and deployed it on STM32F4 with FreeRTOS.'
           ],
           links: [
             { label: 'GitHub', href: 'https://github.com/leancamel/RM' },
@@ -330,12 +336,16 @@
           <div>
             <h3>{honor.name}</h3>
             <p class="organization">{honor.result}</p>
-            <ul>{#each honor.details as detail}<li>{detail}</li>{/each}</ul>
-            <nav aria-label={`${honor.name} links`}>
-              {#each honor.links as link}
-                <a href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>
-              {/each}
-            </nav>
+            {#if honor.details.length}
+              <ul>{#each honor.details as detail}<li>{detail}</li>{/each}</ul>
+            {/if}
+            {#if honor.links.length}
+              <nav aria-label={`${honor.name} links`}>
+                {#each honor.links as link}
+                  <a href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>
+                {/each}
+              </nav>
+            {/if}
           </div>
         </article>
       {/each}
