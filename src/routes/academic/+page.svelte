@@ -67,21 +67,6 @@
 </svelte:head>
 
 <div class="cv-site">
-  <header class="cv-header">
-    <div class="header-row">
-      <a class="header-name" href={`${base}/academic`}>Peng Xiexin</a>
-      <nav aria-label="Academic CV navigation">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#writing">Writing</a>
-        <a href="#background">Background</a>
-      </nav>
-      <a class="header-school" href="https://www.hust.edu.cn/" target="_blank" rel="noreferrer">
-        HUST
-      </a>
-    </div>
-  </header>
-
   <main class="cv-page">
     <section class="cv-intro" id="about" aria-labelledby="cv-name">
       <div class="identity-block">
@@ -177,18 +162,6 @@
       </div>
     </section>
   </main>
-
-  <footer class="cv-footer">
-    <div>
-      <span>Peng Xiexin · Huazhong University of Science and Technology</span>
-      <nav aria-label="Footer navigation">
-        <a href="mailto:xiexinpi@gmail.com">Email</a>
-        <a href="https://github.com/p-xiexin" target="_blank" rel="noreferrer">GitHub</a>
-        <a href={`${base}/`}>Main site</a>
-      </nav>
-      <span>© {new Date().getFullYear()}</span>
-    </div>
-  </footer>
 </div>
 
 <style>
@@ -222,56 +195,9 @@
   h1, h2, h3, p { margin: 0; }
   a { color: inherit; }
 
-  .cv-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    border-top: 3px solid var(--accent);
-    border-bottom: 1px solid var(--rule);
-    background: color-mix(in srgb, var(--paper) 96%, transparent);
-    backdrop-filter: blur(10px);
-  }
-
-  .header-row,
-  .cv-page,
-  .cv-footer > div {
+  .cv-page {
     width: min(980px, calc(100% - 32px));
     margin: 0 auto;
-  }
-
-  .header-row {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    min-height: 48px;
-  }
-
-  .header-name {
-    color: var(--accent);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 15px;
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .header-row nav { display: flex; gap: 20px; }
-  .header-row nav a {
-    padding: 17px 0 14px;
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 600;
-    text-decoration: none;
-  }
-  .header-row nav a:hover { color: var(--accent); }
-
-  .header-school {
-    justify-self: end;
-    color: var(--accent);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-decoration: none;
   }
 
   .cv-page { padding: 30px 0 36px; }
@@ -426,25 +352,7 @@
   .compact-entry strong { font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 11px; font-weight: 650; }
   .compact-entry span { color: var(--muted); font-size: 10px; }
 
-  .cv-footer { border-top: 1px solid var(--rule); background: color-mix(in srgb, var(--paper) 95%, var(--accent)); }
-  .cv-footer > div {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    gap: 24px;
-    min-height: 46px;
-    color: var(--faint);
-    font-size: 9px;
-  }
-  .cv-footer nav { display: flex; gap: 14px; }
-  .cv-footer a { color: var(--accent); font-weight: 600; text-decoration: none; }
-  .cv-footer a:hover { text-decoration: underline; }
-
   @media (max-width: 700px) {
-    .header-row { grid-template-columns: 1fr auto; }
-    .header-row nav { grid-column: 1 / -1; grid-row: 2; gap: 16px; padding-bottom: 8px; }
-    .header-row nav a { padding: 0; }
-    .header-school { grid-column: 2; grid-row: 1; }
     .cv-page { padding-top: 22px; }
     .identity-block { flex-direction: column; gap: 10px; }
     address { grid-template-columns: auto; text-align: left; }
@@ -455,14 +363,12 @@
   }
 
   @media (max-width: 480px) {
-    .header-row, .cv-page, .cv-footer > div { width: calc(100% - 24px); }
+    .cv-page { width: calc(100% - 24px); }
     .identity-block h1 { font-size: 24px; }
     .identity-block h1 span { display: block; margin: 3px 0 0; font-size: 15px; }
     .cv-entry { grid-template-columns: 46px 1fr; gap: 8px; }
     .cv-entry > a { grid-column: 2; }
     .writing-list li { grid-template-columns: 22px 1fr auto; }
     .item-description { display: block; margin: 2px 0 0; }
-    .cv-footer > div { grid-template-columns: 1fr auto; gap: 10px; padding: 8px 0; }
-    .cv-footer nav { grid-column: 1 / -1; grid-row: 1; }
   }
 </style>

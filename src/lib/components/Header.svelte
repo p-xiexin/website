@@ -1,168 +1,161 @@
-<script lang='ts'>
-    import { onMount } from 'svelte';
-    import { Lock, Unlock } from 'lucide-svelte';
-    import { t } from 'svelte-i18n';
-    import GithubRepo from "./GithubRepo.svelte";
-    import MobileNavBar from "./MobileNavBar.svelte";
-    import NavBar from "./NavBar.svelte";
-    import ThemeToggle from "./themeToggle.svelte";
-    import LanguageToggle from "./LanguageToggle.svelte";
-    import LoginModal from './LoginModal.svelte';
-    import { authStore } from '$lib/stores/auth';
+<script lang="ts">
+  import { base } from '$app/paths';
+  import { page } from '$app/stores';
+  import { t } from 'svelte-i18n';
+  import { Lock, Unlock } from 'lucide-svelte';
+  import { navItems } from '$lib/config/siteConfig';
+  import { authStore } from '$lib/stores/auth';
+  import GithubRepo from './GithubRepo.svelte';
+  import LanguageToggle from './LanguageToggle.svelte';
+  import LoginModal from './LoginModal.svelte';
+  import ThemeToggle from './themeToggle.svelte';
 
-  let headerRef: HTMLDivElement;
-  let isInitial = true;
   let isLoginModalOpen = false;
-  let toastVisible = false;
-  let toastTimer: ReturnType<typeof setTimeout> | null = null;
-  let toastTop = 76;
 
-  function clamp(number: number, min: number, max: number) {
-    return Math.min(Math.max(number, min), max);
-  }
-
-  function setProperty(property: string, value: string) {
-    document.documentElement.style.setProperty(property, value);
-  }
-
-  function updateHeaderStyles() {
-    if (!headerRef) return;
-
-    const downDelay = 0;
-    const upDelay = 64;
-
-    const { top, height } = headerRef.getBoundingClientRect();
-    const scrollY = clamp(
-      window.scrollY,
-      0,
-      document.body.scrollHeight - window.innerHeight
-    );
-
-    if (isInitial) {
-      setProperty('--header-position', 'sticky');
-    }
-
-    setProperty('--content-offset', `${downDelay}px`);
-
-    if (isInitial || scrollY < downDelay) {
-      setProperty('--header-height', `${downDelay + height}px`);
-      setProperty('--header-mb', `${-downDelay}px`);
-    } else if (top + height < -upDelay) {
-      const offset = Math.max(height, scrollY - upDelay);
-      setProperty('--header-height', `${offset}px`);
-      setProperty('--header-mb', `${height - offset}px`);
-    } else if (top === 0) {
-      setProperty('--header-height', `${scrollY + height}px`);
-      setProperty('--header-mb', `${-scrollY}px`);
-    }
-  }
-
-  function updateStyles() {
-    updateHeaderStyles();
-    isInitial = false;
-  }
-
-  const handleResize = () => {
-    updateStyles();
-    toastTop = (headerRef?.getBoundingClientRect().height ?? 64) + 12;
-  };
-
-  onMount(() => {
-    updateStyles();
-    toastTop = (headerRef?.getBoundingClientRect().height ?? 64) + 12;
-    window.addEventListener('scroll', updateStyles, { passive: true });
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('scroll', updateStyles);
-      window.removeEventListener('resize', handleResize);
-    };
-  });
-
-  const toggleLogin = () => {
-    if ($authStore.isLoggedIn) {
-      return;
-    }
-    isLoginModalOpen = true;
-  };
-
-  const handleLoggedIn = () => {
-    isLoginModalOpen = false;
-    toastVisible = true;
-    if (toastTimer) {
-      clearTimeout(toastTimer);
-    }
-    toastTimer = setTimeout(() => {
-      toastVisible = false;
-    }, 3200);
+  const openLogin = () => {
+    if (!$authStore.isLoggedIn) isLoginModalOpen = true;
   };
 </script>
 
-<header 
-  class="pointer-events-none relative z-50 flex flex-none flex-col"
-  style="height: var(--header-height); margin-bottom: var(--header-mb);"
->
-    <div class="top-0 z-10 h-16 pt-6" bind:this={headerRef} style="position: var(--header-position);">
-        <div class="relative px-4 sm:px-8 lg:px-12">
-            <div class="mx-auto max-w-2xl lg:max-w-5xl">
-                <div class='relative flex gap-4'>
-                    <div class="flex flex-1 items-center pointer-events-auto">
-                      <button
-                        class="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm ring-1 ring-muted transition hover:bg-muted sm:text-sm disabled:cursor-not-allowed disabled:opacity-80"
-                        onclick={toggleLogin}
-                        disabled={$authStore.isLoggedIn}
-                        aria-pressed={$authStore.isLoggedIn}
-                      >
-                        {#if $authStore.isLoggedIn}
-                          <Unlock class="h-4 w-4" />
-                        {:else}
-                          <Lock class="h-4 w-4" />
-                          {$t('ui.login')}
-                        {/if}
-                      </button>
-                    </div>
-                    <div class="flex flex-1 justify-end md:justify-center">
-                        <NavBar />
-                        <MobileNavBar/>
-                    </div>
-                    <div class="flex justify-end md:flex-1">
-                        <div class="pointer-events-auto flex flex-row items-center gap-2 md:mr-2">
-                            <LanguageToggle />
-                            <ThemeToggle />
-                            <GithubRepo />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<header class="academic-header">
+  <div class="header-row">
+    <a class="header-name" href={`${base}/`}>
+      <strong>Peng Xiexin</strong>
+      <span>Academic profile</span>
+    </a>
+
+    <nav aria-label="Primary navigation">
+      {#each navItems as item}
+        <a class:active={$page.url.pathname === item.href} href={item.href}>
+          {$t(`nav.${item.key}`)}
+        </a>
+      {/each}
+    </nav>
+
+    <div class="header-actions">
+      <button
+        type="button"
+        class="login-button"
+        class:logged-in={$authStore.isLoggedIn}
+        onclick={openLogin}
+        disabled={$authStore.isLoggedIn}
+        aria-label={$t('ui.login')}
+      >
+        {#if $authStore.isLoggedIn}<Unlock size={14} />{:else}<Lock size={14} />{/if}
+        <span>{$authStore.isLoggedIn ? $t('ui.previewing') : $t('ui.login')}</span>
+      </button>
+      <LanguageToggle />
+      <ThemeToggle />
+      <GithubRepo />
+      <a class="school-mark" href="https://www.hust.edu.cn/" target="_blank" rel="noreferrer">HUST</a>
     </div>
+  </div>
 </header>
 
 <LoginModal
   open={isLoginModalOpen}
   on:close={() => (isLoginModalOpen = false)}
-  on:loggedin={handleLoggedIn}
+  on:loggedin={() => (isLoginModalOpen = false)}
 />
 
-{#if toastVisible}
-  <div
-    class="pointer-events-auto fixed z-50"
-    style={`right: calc(var(--side-space, 16px) + 16px); top: ${toastTop}px;`}
-  >
-    <div class="flex items-center gap-3 rounded-2xl bg-card px-4 py-3 text-sm font-semibold text-foreground shadow-lg ring-1 ring-muted">
-      <Unlock class="h-4 w-4 text-primary" />
-      <div class="flex flex-col">
-        <span>{$t('ui.previewUnlocked')}</span>
-        <span class="text-xs font-normal text-muted-foreground">{$t('ui.loginsuccess')}</span>
-      </div>
-    </div>
-  </div>
-{/if}
-
 <style>
-  :root {
-    --header-height: 0px;
-    --header-mb: 0px;
-    --header-position: sticky;
+  .academic-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-top: 3px solid hsl(var(--primary));
+    border-bottom: 1px solid hsl(var(--border));
+    background: color-mix(in srgb, hsl(var(--background)) 96%, transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  .header-row {
+    display: grid;
+    width: min(980px, calc(100% - 32px));
+    min-height: 48px;
+    margin: 0 auto;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .header-name { text-decoration: none; }
+  .header-name strong {
+    display: block;
+    color: hsl(var(--primary));
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+    line-height: 1.05;
+  }
+  .header-name span {
+    display: block;
+    margin-top: 2px;
+    color: hsl(var(--muted-foreground));
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  nav { display: flex; gap: 20px; }
+  nav a {
+    position: relative;
+    padding: 17px 0 14px;
+    color: hsl(var(--muted-foreground));
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  nav a:hover, nav a.active { color: hsl(var(--primary)); }
+  nav a.active::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: hsl(var(--primary));
+    content: '';
+  }
+
+  .header-actions {
+    display: flex;
+    justify-self: end;
+    align-items: center;
+    gap: 3px;
+  }
+  .login-button {
+    display: inline-flex;
+    height: 28px;
+    align-items: center;
+    gap: 4px;
+    padding: 0 6px;
+    color: hsl(var(--muted-foreground));
+    font-size: 9px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .login-button:hover, .login-button.logged-in { color: hsl(var(--primary)); }
+  .login-button:disabled { cursor: default; }
+  .school-mark {
+    margin-left: 5px;
+    padding-left: 8px;
+    border-left: 1px solid hsl(var(--border));
+    color: hsl(var(--primary));
+    font-family: Georgia, serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  @media (max-width: 760px) {
+    .header-row { grid-template-columns: 1fr auto; padding: 8px 0 7px; }
+    nav { grid-column: 1 / -1; grid-row: 2; gap: 16px; overflow-x: auto; }
+    nav a { flex: 0 0 auto; padding: 2px 0; }
+    .login-button span, .school-mark { display: none; }
+  }
+
+  @media (max-width: 420px) {
+    .header-row { width: calc(100% - 24px); }
+    nav { gap: 14px; }
   }
 </style>

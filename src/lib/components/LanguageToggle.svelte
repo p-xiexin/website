@@ -2,7 +2,6 @@
   import { browser } from '$app/environment';
   import { onMount } from 'svelte';
   import { locale } from 'svelte-i18n';
-  import Button from './Button.svelte';
   import { Languages, Globe2 } from 'lucide-svelte';
 
   let current = 'en';
@@ -28,17 +27,17 @@
 
 </script>
 
-<Button
-  variant="secondary"
-  class="group cursor-pointer inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+<button
+  type="button"
+  class="group inline-flex h-7 w-7 cursor-pointer items-center justify-center text-muted-foreground hover:text-primary"
   aria-label="Toggle language"
   on:click={toggle}
 >
   <span class="transition-colors group-hover:text-blue-500 dark:group-hover:text-blue-400">
     {#if current === 'en'}
-      <Globe2 class="h-4 w-4" />
+      <Globe2 class="h-3.5 w-3.5" />
     {:else}
-      <Languages class="h-4 w-4" />
+      <Languages class="h-3.5 w-3.5" />
     {/if}
   </span>
-</Button>
+</button>

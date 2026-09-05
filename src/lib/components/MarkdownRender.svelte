@@ -52,8 +52,8 @@
     let catalog: any[] = [];
     let containerElement: HTMLDivElement;
 
-    let fontSize = 18;
-    let lineHeight = 1.8;
+    let fontSize = 15;
+    let lineHeight = 1.7;
 
     function preprocessContent(text: string) {
         return text.replace(/\*\*\s*([^\*]+?)\s*\*\*/g, "<strong>$1</strong>");
@@ -119,11 +119,11 @@
 
         const wrapper = document.createElement("div");
         wrapper.className =
-            "code-block-wrapper my-6 rounded-xl overflow-hidden bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333333] shadow-sm";
+            "code-block-wrapper my-4 overflow-hidden bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333333]";
 
         const header = document.createElement("div");
         header.className =
-            "flex items-center justify-between px-4 py-2 bg-[#f6f8fa] dark:bg-[#252526] border-b border-gray-200 dark:border-[#333333]";
+            "flex items-center justify-between px-3 py-1.5 bg-[#f6f8fa] dark:bg-[#252526] border-b border-gray-200 dark:border-[#333333]";
 
         const label = document.createElement("span");
         label.className =
@@ -182,16 +182,16 @@
 
 <div class="relative w-full">
     {#if extractedTitle}
-        <div class="flex gap-3 mb-8">
+        <div class="flex gap-3 mb-4">
             <ReaderSettings bind:fontSize bind:lineHeight />
-            <h1 class="text-4xl font-bold">{@html extractedTitle}</h1>
+            <h1 class="text-2xl font-semibold text-primary">{@html extractedTitle}</h1>
         </div>
     {/if}
 
     <div
         bind:this={containerElement}
         style="--user-fs:{fontSize}px;--user-lh:{lineHeight}"
-        class="reader-content prose prose-lg dark:prose-invert max-w-none">
+        class="reader-content prose dark:prose-invert max-w-none">
         {@html renderedContent}
     </div>
 </div>
@@ -210,6 +210,21 @@
 :global(.reader-content blockquote) {
     font-size: var(--user-fs);
     line-height: var(--user-lh);
+}
+
+:global(.reader-content h2) {
+    margin-top: 1.65em;
+    margin-bottom: 0.55em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid hsl(var(--border));
+    color: hsl(var(--primary));
+    font-size: 1.35em;
+}
+
+:global(.reader-content h3) {
+    margin-top: 1.35em;
+    margin-bottom: 0.45em;
+    font-size: 1.12em;
 }
 
 /* 代码高亮背景由 wrapper 控制 */

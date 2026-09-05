@@ -1,23 +1,18 @@
 <script>
-    import { base } from '$app/paths';
-    import Button from '$lib/components/Button.svelte';
-    import Container from '$lib/components/container/Container.svelte'
-  </script>
-  
-  <Container class="flex h-full items-center pt-16 sm:pt-32">
-    <div class="flex flex-col items-center">
-      <p class="text-base font-semibold text-zinc-400 dark:text-zinc-500">
-        404
-      </p>
-      <h1 class="mt-4 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-        Page not found
-      </h1>
-      <p class="mt-4 text-base text-zinc-600 dark:text-zinc-400">
-        Sorry, we couldn’t find the page you’re looking for.
-      </p>
-      <Button href="{base}/" variant="secondary" class="mt-4">
-        Go back home
-      </Button>
-    </div>
-  </Container>
-  
+  import { base } from '$app/paths';
+</script>
+
+<div class="error-page">
+  <span>404</span>
+  <h1>Page not found</h1>
+  <p>Sorry, we could not find the page you requested.</p>
+  <a href={`${base}/`}>Return to homepage</a>
+</div>
+
+<style>
+  .error-page { width: min(980px, calc(100% - 32px)); margin: 0 auto; padding: 64px 0; border-bottom: 1px solid hsl(var(--border)); }
+  span { color: hsl(var(--muted-foreground)); font-family: Georgia, serif; font-size: 11px; }
+  h1 { margin: 8px 0 0; color: hsl(var(--primary)); font-family: Georgia, serif; font-size: 28px; }
+  p { margin: 8px 0 14px; color: hsl(var(--muted-foreground)); font-size: 12px; }
+  a { color: hsl(var(--primary)); font-size: 11px; font-weight: 600; }
+</style>

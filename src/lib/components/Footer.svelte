@@ -1,39 +1,41 @@
-<script>
-    import { t } from "svelte-i18n";
-    import { navItems } from "$lib/config/siteConfig";
-    import ThemeToggle from "./themeToggle.svelte";
-    import SocialLinks from "./SocialLinks.svelte";
-    import ContainerInner from "./container/ContainerInner.svelte";
-    import ContainerOuter from "./container/ContainerOuter.svelte";
-    import { name } from '../config/infoConfig';
-    import LanguageToggle from "./LanguageToggle.svelte";
-
+<script lang="ts">
+  import { base } from '$app/paths';
+  import { email, githubUsername, name } from '$lib/config/infoConfig';
 </script>
 
-<footer class="mt-32 flex-none">
-    <ContainerOuter>
-        <div class="border-t border-muted pb-16 pt-10">
-            <ContainerInner>
-                <div class="mx-auto max-w2xl lg:max-w-5xl">
-                    <div class="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-start">
-                    <div class="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm font-medium">
-                        {#each navItems as item}
-                            <a href={item.href} class="hover:text-teal-500 transition-colors ease-in-out">{($t(`nav.${item.key}`))}</a>
-                        {/each}
-                    </div>
-                    <div class='flex flex-col justify-center items-start'>
-                        <div class='flex flex-row justify-end items-center gap-2'>
-                        <p class="text-sm text-muted-foreground">
-                            &copy; {new Date().getFullYear()} {name}. {$t('ui.rights')}
-                        </p>
-                        <LanguageToggle />
-                        <ThemeToggle />
-                        </div>
-                        <SocialLinks/>
-                    </div>
-                    </div>
-                </div>
-            </ContainerInner>
-        </div>
-    </ContainerOuter>
+<footer class="academic-footer">
+  <div>
+    <span>{name} · Huazhong University of Science and Technology</span>
+    <nav aria-label="Footer navigation">
+      <a href={`mailto:${email}`}>Email</a>
+      <a href={`https://github.com/${githubUsername}`} target="_blank" rel="noreferrer">GitHub</a>
+      <a href={`${base}/blogs`}>Writing</a>
+    </nav>
+    <span>© {new Date().getFullYear()}</span>
+  </div>
 </footer>
+
+<style>
+  .academic-footer {
+    border-top: 1px solid hsl(var(--border));
+    background: color-mix(in srgb, hsl(var(--background)) 95%, hsl(var(--primary)));
+  }
+  .academic-footer > div {
+    display: grid;
+    width: min(980px, calc(100% - 32px));
+    min-height: 46px;
+    margin: 0 auto;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 24px;
+    color: hsl(var(--muted-foreground));
+    font-size: 9px;
+  }
+  nav { display: flex; gap: 14px; }
+  a { color: hsl(var(--primary)); font-weight: 600; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  @media (max-width: 540px) {
+    .academic-footer > div { width: calc(100% - 24px); grid-template-columns: 1fr auto; gap: 8px; padding: 8px 0; }
+    nav { grid-column: 1 / -1; grid-row: 1; }
+  }
+</style>

@@ -1,21 +1,25 @@
 <script>
-  import Container from "./container/Container.svelte";
-
   export let title = '';
   export let intro = '';
 </script>
 
-<Container class="mt-16 sm:mt-32">
-  <header class="max-w-2xl">
-    <h1 class="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-      {title}
-    </h1>
-    <p class="mt-3 text-base text-zinc-600 dark:text-zinc-400">
-      {intro}
-    </p>
+<div class="academic-page-shell">
+  <header class="page-heading">
+    <h1>{title}</h1>
+    {#if intro}<p>{intro}</p>{/if}
   </header>
-  
-  <div class="mt-10 sm:mt-12">
-    <slot></slot>
-  </div>
-</Container>
+  <div class="page-body"><slot></slot></div>
+</div>
+
+<style>
+  .academic-page-shell { width: min(980px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 36px; }
+  .page-heading { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding-bottom: 14px; border-bottom: 2px solid hsl(var(--primary)); }
+  h1 { color: hsl(var(--primary)); font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 26px; font-weight: 650; line-height: 1.2; }
+  p { align-self: end; margin: 0; color: hsl(var(--muted-foreground)); font-size: 12px; line-height: 1.55; }
+  .page-body { margin-top: 18px; }
+  @media (max-width: 600px) {
+    .academic-page-shell { width: calc(100% - 24px); padding-top: 22px; }
+    .page-heading { grid-template-columns: 1fr; gap: 6px; }
+    h1 { font-size: 23px; }
+  }
+</style>

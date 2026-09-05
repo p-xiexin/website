@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { PUBLIC_PREVIEW_TOKEN_HASH } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import { writable } from 'svelte/store';
 
 type AuthState = {
@@ -64,14 +64,7 @@ const hashToken = async (token: string): Promise<string> => {
     return toHex(digest);
   }
 
-  // SSR fallback
-  try {
-    const { createHash } = await import('crypto');
-    return createHash('sha256').update(token).digest('hex');
-  } catch (err) {
-    console.warn('[preview-auth] Failed to hash token', err);
-    return '';
-  }
+  return '';
 };
 
 /* -------------------------------------------------------
@@ -80,17 +73,13 @@ const hashToken = async (token: string): Promise<string> => {
  *  - fc5e03...
  *  - sha256:fc5e03...
  * -----------------------------------------------------*/
-let rawHash = (PUBLIC_PREVIEW_TOKEN_HASH || '').trim().toLowerCase();
+let rawHash = (env.PUBLIC_PREVIEW_TOKEN_HASH || '').trim().toLowerCase();
 
 if (rawHash.startsWith('sha256:')) {
   rawHash = rawHash.slice('sha256:'.length);
 }
 
 export const EXPECTED_HASH = rawHash || null;
-
-if (!EXPECTED_HASH) {
-  console.warn('[preview-auth] Missing PUBLIC_PREVIEW_TOKEN_HASH. Login will always fail.');
-}
 
 /* -------------------------------------------------------
  * Expiry (1 hour)

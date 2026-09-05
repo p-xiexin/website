@@ -5,7 +5,7 @@
     import FloatingCatalog from "$lib/components/FloatingCatalog.svelte";
 
     let html = '';
-    let catalog = [];
+    let catalog: any[] = [];
     let isLoading = true;
 
     onMount(async () => {
@@ -93,7 +93,6 @@
                 aspect-ratio: attr(width) / attr(height);
                 object-fit: contain;
                 /* 延迟加载 */
-                loading: lazy;
             }
             
             
