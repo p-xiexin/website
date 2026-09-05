@@ -14,6 +14,10 @@ export const navItems: Array<NavItemType> = [
     href: `${base}/#about`
   },
   {
+    key: 'education',
+    href: `${base}/#education`
+  },
+  {
     key: 'publications',
     href: `${base}/#publications`
   },
@@ -24,10 +28,6 @@ export const navItems: Array<NavItemType> = [
   {
     key: 'projects',
     href: `${base}/#projects`
-  },
-  {
-    key: 'education',
-    href: `${base}/#education`
   },
   {
     key: 'blogs',

@@ -281,6 +281,22 @@
     </aside>
   </div>
 
+  <section class="cv-section" id="education" aria-labelledby="education-title">
+    <header><h2 id="education-title">{cv.labels.education}</h2><span>Education</span></header>
+    <div class="entry-list">
+      {#each cv.education as entry}
+        <article class="cv-entry">
+          <time>{entry.period}</time>
+          <div>
+            <h3>{entry.title}</h3>
+            <p class="organization">{entry.organization}</p>
+            <ul>{#each entry.details as detail}<li>{detail}</li>{/each}</ul>
+          </div>
+        </article>
+      {/each}
+    </div>
+  </section>
+
   <section class="cv-section" id="publications" aria-labelledby="publications-title">
     <header><h2 id="publications-title">{cv.labels.publications}</h2><span>Publications</span></header>
     <div class="publication-list">
@@ -343,21 +359,6 @@
     </div>
   </section>
 
-  <section class="cv-section" id="education" aria-labelledby="education-title">
-    <header><h2 id="education-title">{cv.labels.education}</h2><span>Education</span></header>
-    <div class="entry-list">
-      {#each cv.education as entry}
-        <article class="cv-entry">
-          <time>{entry.period}</time>
-          <div>
-            <h3>{entry.title}</h3>
-            <p class="organization">{entry.organization}</p>
-            <ul>{#each entry.details as detail}<li>{detail}</li>{/each}</ul>
-          </div>
-        </article>
-      {/each}
-    </div>
-  </section>
 </SimpleLayout>
 </div>
 

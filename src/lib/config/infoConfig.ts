@@ -19,11 +19,6 @@ export type SocialLinkType = {
 
 export const socialLinks: Array<SocialLinkType> = [
   {
-    name: 'Tiktok',
-    icon: 'tiktok',
-    href: 'https://example.com/python-workshop',
-  },
-  {
     name: 'Bilibili',
     icon: 'bilibili',
     href: 'https://space.bilibili.com/283704238',
