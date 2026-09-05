@@ -30,6 +30,13 @@
   :global(.dark) .article-content { border-color: #3d444d; }
   :global(.dark) .back-link { color: #4493f8; }
   :global(.dark) header strong { color: #d29922; }
+  @media (min-width: 1180px) {
+    .article-shell {
+      width: min(900px, calc(100vw - 290px));
+      margin-right: 0;
+      margin-left: max(30px, calc((100vw - 1120px) / 2));
+    }
+  }
   @media (max-width: 640px) {
     .article-shell { width: calc(100% - 20px); padding-top: 16px; }
     article > header { padding: 9px 11px; }

@@ -117,10 +117,10 @@
   .desktop-catalog {
     position: fixed;
     top: 96px;
-    right: max(20px, calc((100vw - 1440px) / 2));
+    right: max(16px, calc((100vw - 1440px) / 2));
     z-index: 30;
     display: none;
-    width: 250px;
+    width: 220px;
   }
 
   .catalog-container {
@@ -303,7 +303,7 @@
     background: hsl(var(--border));
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1180px) {
     .desktop-catalog { display: block; }
     .mobile-catalog { display: none; }
   }
