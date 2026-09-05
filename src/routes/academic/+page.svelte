@@ -94,7 +94,6 @@
             <span class="publication-meta">2026 · Accepted</span>
           </p>
           <div class="publication-links" aria-label="MetaTune resources">
-            <a href={`${base}/about#publication-metatune`}>[Details]</a>
             <a href="https://arxiv.org/abs/2603.27313" target="_blank" rel="noreferrer">[Paper]</a>
             <a href="https://github.com/p-xiexin/px4_ctrl" target="_blank" rel="noreferrer">[Code]</a>
             <a href="https://www.bilibili.com/video/BV1gJd5BwEsa/" target="_blank" rel="noreferrer">[Video]</a>
@@ -113,11 +112,13 @@
           <article class="experience-entry">
             <time>{item.period}</time>
             <div>
-              <h3>{item.role}<span>{item.organization}</span></h3>
+              <h3>
+                {item.role}<span>{item.organization}</span>
+                <a class="title-detail-link" href={item.detailHref}>Details <ArrowUpRight size={11} /></a>
+              </h3>
               <p>{item.description}</p>
               <small>{item.methods}</small>
             </div>
-            <a class="entry-action-link" href={item.detailHref}>Details <ArrowUpRight size={13} /></a>
           </article>
         {/each}
       </div>
@@ -133,16 +134,16 @@
           <article class="cv-entry project-entry">
             <time>{project.year}</time>
             <div>
-              <h3>{project.title}</h3>
+              <h3>
+                {project.title}
+                <a class="title-detail-link" href={project.detailHref}>Details <ArrowUpRight size={11} /></a>
+              </h3>
               <p>{project.description}</p>
               <small>{project.methods}</small>
             </div>
-            <nav class="entry-actions" aria-label={`${project.title} links`}>
-              <a class="entry-action-link" href={project.detailHref}>Details <ArrowUpRight size={13} /></a>
-              <a class="entry-action-link" href={project.href} target="_blank" rel="noreferrer">
-                {project.linkLabel} <ArrowUpRight size={13} />
-              </a>
-            </nav>
+            <a class="entry-action-link" href={project.href} target="_blank" rel="noreferrer">
+              {project.linkLabel} <ArrowUpRight size={13} />
+            </a>
           </article>
         {/each}
       </div>
@@ -346,7 +347,7 @@
   .entry-list { border-top: 1px solid var(--light-rule); }
   .experience-entry {
     display: grid;
-    grid-template-columns: 112px 1fr auto;
+    grid-template-columns: 112px 1fr;
     gap: 14px;
     padding: 9px 0;
     border-bottom: 1px solid var(--light-rule);
@@ -356,6 +357,19 @@
   .experience-entry h3 span { margin-left: 9px; color: var(--accent); font-family: Arial, "Noto Sans SC", sans-serif; font-size: 10px; font-weight: 600; }
   .experience-entry p { margin-top: 2px; color: var(--muted); font-size: 11px; line-height: 1.5; }
   .experience-entry small { display: block; margin-top: 3px; color: var(--faint); font-size: 9px; }
+  .title-detail-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    margin-left: 8px;
+    color: var(--accent);
+    font-family: Arial, "Noto Sans SC", sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    text-decoration: none;
+    vertical-align: 1px;
+  }
+  .title-detail-link:hover { text-decoration: underline; }
   .cv-entry {
     display: grid;
     grid-template-columns: 58px 1fr auto;
@@ -377,7 +391,6 @@
     text-decoration: none;
   }
   .entry-action-link:hover { text-decoration: underline; }
-  .entry-actions { display: flex; align-items: flex-start; gap: 10px; }
 
   .background-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
   .background-column > h3 {
@@ -417,9 +430,9 @@
     .identity-block h1 span { display: block; margin: 3px 0 0; font-size: 15px; }
     .experience-entry { grid-template-columns: 1fr; gap: 4px; }
     .experience-entry h3 span { display: block; margin: 2px 0 0; }
-    .experience-entry > .entry-action-link { grid-column: 1; }
+    .experience-entry h3 .title-detail-link { margin: 4px 0 0; }
     .cv-entry { grid-template-columns: 46px 1fr; gap: 8px; }
-    .entry-actions { grid-column: 2; }
+    .cv-entry > .entry-action-link { grid-column: 2; }
     .publication-entry { grid-template-columns: 36px 1fr; gap: 6px; }
   }
 </style>
