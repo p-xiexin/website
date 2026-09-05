@@ -1,6 +1,8 @@
 <script lang="ts">
   import { base } from '$app/paths';
   import { page } from '$app/stores';
+  import { afterNavigate } from '$app/navigation';
+  import { onMount } from 'svelte';
   import { t } from 'svelte-i18n';
   import { Lock, Unlock } from 'lucide-svelte';
   import { navItems } from '$lib/config/siteConfig';
@@ -11,10 +13,48 @@
   import ThemeToggle from './themeToggle.svelte';
 
   let isLoginModalOpen = false;
+  let activeSection = 'about';
+  let scrollFrame = 0;
+
+  const sectionKeys = ['about', 'education', 'publications', 'experience', 'projects'];
+
+  const updateActiveSection = () => {
+    if ($page.url.pathname !== `${base}/`) return;
+
+    const header = document.querySelector('.academic-header');
+    const threshold = (header?.getBoundingClientRect().bottom ?? 72) + 16;
+    let currentSection = 'about';
+
+    for (const key of sectionKeys) {
+      const section = document.getElementById(key);
+      if (section && section.getBoundingClientRect().top <= threshold) currentSection = key;
+    }
+
+    activeSection = currentSection;
+  };
+
+  const scheduleSectionUpdate = () => {
+    cancelAnimationFrame(scrollFrame);
+    scrollFrame = requestAnimationFrame(updateActiveSection);
+  };
 
   const openLogin = () => {
     if (!$authStore.isLoggedIn) isLoginModalOpen = true;
   };
+
+  onMount(() => {
+    window.addEventListener('scroll', scheduleSectionUpdate, { passive: true });
+    window.addEventListener('resize', scheduleSectionUpdate);
+    scheduleSectionUpdate();
+
+    return () => {
+      cancelAnimationFrame(scrollFrame);
+      window.removeEventListener('scroll', scheduleSectionUpdate);
+      window.removeEventListener('resize', scheduleSectionUpdate);
+    };
+  });
+
+  afterNavigate(() => scheduleSectionUpdate());
 </script>
 
 <header class="academic-header">
@@ -28,8 +68,11 @@
       {#each navItems as item}
         <a
           class:active={item.key === 'blogs'
-            ? $page.url.pathname === `${base}/blogs`
-            : $page.url.pathname === `${base}/` && ($page.url.hash === `#${item.key}` || (item.key === 'about' && !$page.url.hash))}
+            ? $page.url.pathname.startsWith(`${base}/blogs`)
+            : $page.url.pathname === `${base}/` && activeSection === item.key}
+          aria-current={(item.key === 'blogs'
+            ? $page.url.pathname.startsWith(`${base}/blogs`)
+            : $page.url.pathname === `${base}/` && activeSection === item.key) ? 'location' : undefined}
           href={item.href}
         >
           {$t(`nav.${item.key}`)}
