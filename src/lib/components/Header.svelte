@@ -19,14 +19,19 @@
 
 <header class="academic-header">
   <div class="header-row">
-    <a class="header-name" href={`${base}/`}>
+    <a class="header-name" href={`${base}/#about`}>
       <strong>Peng Xiexin</strong>
       <span>Academic profile</span>
     </a>
 
     <nav aria-label="Primary navigation">
       {#each navItems as item}
-        <a class:active={$page.url.pathname === item.href} href={item.href}>
+        <a
+          class:active={item.key === 'blogs'
+            ? $page.url.pathname === `${base}/blogs`
+            : $page.url.pathname === `${base}/` && ($page.url.hash === `#${item.key}` || (item.key === 'about' && !$page.url.hash))}
+          href={item.href}
+        >
           {$t(`nav.${item.key}`)}
         </a>
       {/each}
@@ -97,7 +102,7 @@
     text-transform: uppercase;
   }
 
-  nav { display: flex; gap: 20px; }
+  nav { display: flex; gap: 14px; }
   nav a {
     position: relative;
     padding: 17px 0 14px;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AcademicProfile from './academic/+page.svelte';
+  import AcademicCV from './about/+page.svelte';
 </script>
 
-<AcademicProfile />
+<AcademicCV />

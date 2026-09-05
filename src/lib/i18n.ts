@@ -11,7 +11,10 @@ const messages = {
     nav: {
       home: 'Home',
       about: 'About',
+      publications: 'Publications',
+      experience: 'Experience',
       projects: 'Projects',
+      education: 'Education',
       blogs: 'Blogs',
     },
     ui: {
@@ -53,7 +56,10 @@ const messages = {
     nav: {
       home: '首页',
       about: '关于',
+      publications: '论文',
+      experience: '经历',
       projects: '项目',
+      education: '教育',
       blogs: '博客',
     },
     ui: {

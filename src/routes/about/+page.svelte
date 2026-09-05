@@ -39,7 +39,7 @@
         publications: '论文发表',
         education: '教育经历',
         experience: '科研与实习经历',
-        honors: '竞赛经历',
+        honors: '项目与竞赛',
         profile: '学术档案',
         affiliation: '所在院校',
         location: '所在地'
@@ -142,7 +142,7 @@
         publications: 'Publications',
         education: 'Education',
         experience: 'Research and Industry Experience',
-        honors: 'Competition Experience',
+        honors: 'Selected Projects and Competitions',
         profile: 'Academic Profile',
         affiliation: 'Affiliation',
         location: 'Location'
@@ -246,17 +246,24 @@
     }
   };
 
-  $: cv = cvContent[$locale?.toLowerCase().startsWith('en') ? 'en' : 'zh'];
+  $: isEnglish = $locale?.toLowerCase().startsWith('en') ?? false;
+  $: cv = cvContent[isEnglish ? 'en' : 'zh'];
+  $: heroTitle = isEnglish ? 'Peng Xiexin' : '彭谢昕 · Peng Xiexin';
+  $: heroIntro = isEnglish
+    ? 'M.S. student in Control Science and Engineering · Huazhong University of Science and Technology'
+    : '控制科学与工程硕士研究生 · 华中科技大学';
 </script>
 
 <svelte:head>
-  <title>{$uiContent.about.pageTitle}</title>
+  <title>Peng Xiexin · Academic CV</title>
   <meta name="description" content={$uiContent.about.paragraphs.join(' ')} />
 </svelte:head>
 
-<SimpleLayout title={$uiContent.about.pageTitle} intro={$uiContent.about.headline}>
+<div id="about" class="cv-root">
+<SimpleLayout title={heroTitle} intro={heroIntro}>
   <div class="about-intro">
     <div class="about-copy">
+      <h2>About</h2>
       {#each $uiContent.about.paragraphs as paragraph}
         <p>{paragraph}</p>
       {/each}
@@ -274,7 +281,7 @@
     </aside>
   </div>
 
-  <section class="cv-section" aria-labelledby="publications-title">
+  <section class="cv-section" id="publications" aria-labelledby="publications-title">
     <header><h2 id="publications-title">{cv.labels.publications}</h2><span>Publications</span></header>
     <div class="publication-list">
       {#each cv.publications as publication}
@@ -289,22 +296,6 @@
               <a href="https://github.com/p-xiexin/px4_ctrl" target="_blank" rel="noreferrer">GitHub ↗</a>
               <a href="https://www.bilibili.com/video/BV1gJd5BwEsa/" target="_blank" rel="noreferrer">Video ↗</a>
             </nav>
-          </div>
-        </article>
-      {/each}
-    </div>
-  </section>
-
-  <section class="cv-section" aria-labelledby="education-title">
-    <header><h2 id="education-title">{cv.labels.education}</h2><span>Education</span></header>
-    <div class="entry-list">
-      {#each cv.education as entry}
-        <article class="cv-entry">
-          <time>{entry.period}</time>
-          <div>
-            <h3>{entry.title}</h3>
-            <p class="organization">{entry.organization}</p>
-            <ul>{#each entry.details as detail}<li>{detail}</li>{/each}</ul>
           </div>
         </article>
       {/each}
@@ -327,8 +318,8 @@
     </div>
   </section>
 
-  <section class="cv-section" id="competitions" aria-labelledby="honors-title">
-    <header><h2 id="honors-title">{cv.labels.honors}</h2><span>Competitions</span></header>
+  <section class="cv-section" id="projects" aria-labelledby="honors-title">
+    <header><h2 id="honors-title">{cv.labels.honors}</h2><span>Projects &amp; Competitions</span></header>
     <div class="entry-list">
       {#each cv.honors as honor, index}
         <article class="cv-entry competition-entry" id={['competition-smart-car', 'competition-robomaster', 'competition-electronic-design'][index]}>
@@ -351,11 +342,31 @@
       {/each}
     </div>
   </section>
+
+  <section class="cv-section" id="education" aria-labelledby="education-title">
+    <header><h2 id="education-title">{cv.labels.education}</h2><span>Education</span></header>
+    <div class="entry-list">
+      {#each cv.education as entry}
+        <article class="cv-entry">
+          <time>{entry.period}</time>
+          <div>
+            <h3>{entry.title}</h3>
+            <p class="organization">{entry.organization}</p>
+            <ul>{#each entry.details as detail}<li>{detail}</li>{/each}</ul>
+          </div>
+        </article>
+      {/each}
+    </div>
+  </section>
 </SimpleLayout>
+</div>
 
 <style>
+  :global(html) { scroll-behavior: smooth; }
+  .cv-root { scroll-margin-top: 82px; }
   .about-intro { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 42px; padding-bottom: 22px; }
   .about-copy { max-width: 650px; }
+  .about-copy h2 { margin: 0 0 8px; color: hsl(var(--primary)); font-family: Georgia, serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
   .about-copy p { margin: 0; color: hsl(var(--muted-foreground)); font-family: "Noto Serif SC", "Songti SC", Georgia, serif; font-size: 13px; line-height: 1.8; }
   .about-copy p + p { margin-top: 10px; }
   aside { display: grid; grid-template-columns: 92px 1fr; gap: 0 14px; align-content: start; border-left: 1px solid hsl(var(--border)); padding-left: 20px; }
