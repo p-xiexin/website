@@ -5,25 +5,29 @@
   let { data } = $props();
 
   const processedContent = $derived(
-    data.content.replace(/!\[([^\]]*)\]\(\.\/icar-pd\/([^)]+)\)/g, `![$1](${base}/reports/icar-pd/$2)`)
+    data.content.replace(
+      /!\[([^\]]*)\]\(\.\/([^)]+)\)/g,
+      (_match: string, alt: string, path: string) => `![${alt}](${base}/reports/${path})`
+    )
   );
 </script>
 
 <svelte:head>
   <title>{data.report.title}</title>
-  <meta name="description" content={`${data.report.project}项目技术方案与代码实现摘要`} />
+  <meta name="description" content={`${data.report.project}技术方案与工程实现报告`} />
 </svelte:head>
 
 <div class="report-shell">
-  <a class="back-link" href={`${base}/#competition-smart-car`}>← 返回项目</a>
+  <a class="back-link" href={`${base}/#${data.report.backAnchor}`}>← 返回项目</a>
   <article>
     <header class="report-meta">
       <span>{data.report.project}</span>
-      <span>{data.report.role}</span>
+      {#if data.report.role}<span>{data.report.role}</span>{/if}
       <strong>{data.report.result}</strong>
       <nav aria-label="Project resources">
-        <a href={data.report.repository} target="_blank" rel="noreferrer">GitHub ↗</a>
-        <a href={data.report.video} target="_blank" rel="noreferrer">Video ↗</a>
+        {#each data.report.resources as resource}
+          <a href={resource.href} target="_blank" rel="noreferrer">{resource.label} ↗</a>
+        {/each}
       </nav>
     </header>
     <div class="report-content">
@@ -38,7 +42,7 @@
   .back-link:hover { text-decoration: underline; }
   .report-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 16px; padding: 10px 14px; border: 1px solid #d0d7de; border-radius: 6px 6px 0 0; color: #59636e; background: #f6f8fa; font-size: 12px; }
   .report-meta strong { color: #9a6700; font-size: 11px; }
-  .report-meta nav { display: flex; gap: 14px; margin-left: auto; }
+  .report-meta nav { display: flex; flex-wrap: wrap; gap: 14px; margin-left: auto; }
   .report-meta a { color: #0969da; font-size: 11px; font-weight: 600; text-decoration: none; }
   .report-meta a:hover { text-decoration: underline; }
   .report-content { padding: 28px 32px 36px; border: 1px solid #d0d7de; border-top: 0; border-radius: 0 0 6px 6px; background: hsl(var(--background)); }

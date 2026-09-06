@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import travelImage from '$lib/images/travel.jpg';
   import AboutLinks from '$lib/components/AboutLinks.svelte';
@@ -15,11 +14,13 @@
   };
 
   type Honor = {
+    anchor: string;
     period: string;
     name: string;
     result: string;
     details: string[];
     links: { label: string; href: string }[];
+    report?: string;
   };
 
   type Publication = {
@@ -100,6 +101,7 @@
       ],
       honors: [
         {
+          anchor: 'competition-smart-car',
           period: '2023.02 — 2023.08',
           name: '第十八届全国大学生智能汽车竞赛',
           result: '队长 · 完全模型组全国一等奖',
@@ -110,22 +112,26 @@
           links: [
             { label: 'GitHub', href: 'https://github.com/p-xiexin/icar-pd' },
             { label: 'Video', href: 'https://www.bilibili.com/video/BV1ep421R7LV/' }
-          ]
+          ],
+          report: 'icar-pd'
         },
         {
+          anchor: 'competition-robomaster',
           period: '2022.10 — 2024.07',
           name: 'RoboMaster 2023 机甲大师高校联盟赛',
           result: '电控组组长 · 上海站二等奖',
           details: [
-            '建立轮腿机器人二阶倒立摆与腿部运动学、动力学模型，结合 LQR、VMC 与地形姿态补偿实现鲁棒姿态控制，并通过 MATLAB 代码生成部署至 STM32 与 FreeRTOS。',
+            '建立轮腿机器人等效倒立摆与五连杆运动学模型，使用随腿长调度的 LQR、VMC、腿长和横滚反馈完成纵向平衡与关节力矩分配，并将离线生成的运动学和增益函数部署至 STM32F4 与 FreeRTOS。',
             '针对对抗场景中的感知延迟与目标运动不确定性，构建装甲板识别、EKF 状态预测与弹道补偿闭环。'
           ],
           links: [
             { label: 'GitHub', href: 'https://github.com/leancamel/RM' },
             { label: 'Video', href: 'https://www.bilibili.com/video/BV1hx4y1r7qY/' }
-          ]
+          ],
+          report: 'wheel-leg'
         },
         {
+          anchor: 'competition-electronic-design',
           period: '2023.07 — 2023.08',
           name: '2023 年全国大学生电子设计竞赛',
           result: '队员 · 湖北省一等奖',
@@ -205,6 +211,7 @@
       ],
       honors: [
         {
+          anchor: 'competition-smart-car',
           period: 'Oct 2022 — Sep 2023',
           name: 'Vision-Based Autonomous Racing',
           result: 'Team Leader · National First Prize, Baidu End-to-End Modeling Track',
@@ -216,23 +223,27 @@
           links: [
             { label: 'GitHub', href: 'https://github.com/p-xiexin/icar-pd' },
             { label: 'Video', href: 'https://www.bilibili.com/video/BV1ep421R7LV/' }
-          ]
+          ],
+          report: 'icar-pd'
         },
         {
+          anchor: 'competition-robomaster',
           period: 'Apr 2023 — Nov 2023',
           name: 'Dynamic Control of a Wheel-Legged Robot',
           result: 'Control Team Lead · Shanghai Second Prize',
           details: [
-            'Established a second-order inverted pendulum model in MATLAB and built a system-level simulation in Simulink and Simscape with embedded C code generation.',
-            'Designed a hierarchical LQR and VMC controller for end-effector force to joint-torque mapping, with phase-based jumping control implemented through a state machine.',
+            'Established an equivalent inverted-pendulum model of the wheels, virtual legs, and body in MATLAB, built system-level simulations in Simulink and Simscape, and generated embedded kinematics and gain-scheduling functions for the firmware.',
+            'Designed a hierarchical LQR and VMC controller for leg-length-dependent balance and virtual-force to joint-torque mapping, with contact-aware switching between grounded and airborne feedback.',
             'Constructed a parameterized LQR controller with leg length as the scheduling variable and deployed it on STM32F4 with FreeRTOS.'
           ],
           links: [
             { label: 'GitHub', href: 'https://github.com/leancamel/RM' },
             { label: 'Video', href: 'https://www.bilibili.com/video/BV1hx4y1r7qY/' }
-          ]
+          ],
+          report: 'wheel-leg'
         },
         {
+          anchor: 'competition-electronic-design',
           period: 'Jul 2023 — Aug 2023',
           name: '2023 National Undergraduate Electronic Design Contest',
           result: 'Team Member · Hubei Provincial First Prize',
@@ -255,12 +266,6 @@
     ? 'M.S. student in Control Science and Engineering · Huazhong University of Science and Technology'
     : '控制科学与工程硕士研究生 · 华中科技大学';
 
-  const openProjectReport = (event: MouseEvent | KeyboardEvent, index: number) => {
-    if (index !== 0 || (event.target as HTMLElement).closest('a')) return;
-    if (event instanceof KeyboardEvent && !['Enter', ' '].includes(event.key)) return;
-    event.preventDefault();
-    goto(`${base}/reports/icar-pd`);
-  };
 </script>
 
 <svelte:head>
@@ -346,24 +351,10 @@
   <section class="cv-section" id="projects" aria-labelledby="honors-title">
     <header><h2 id="honors-title">{cv.labels.honors}</h2><span>Projects &amp; Competitions</span></header>
     <div class="entry-list">
-      {#each cv.honors as honor, index}
-        {#if index === 0}
-          <div
-            class="cv-entry competition-entry report-entry"
-            id="competition-smart-car"
-            role="link"
-            tabindex="0"
-            aria-label={`${honor.name} report`}
-            onclick={(event) => openProjectReport(event, index)}
-            onkeydown={(event) => openProjectReport(event, index)}
-          >
-            {@render honorContent(honor, true)}
-          </div>
-        {:else}
-          <article class="cv-entry competition-entry" id={['competition-smart-car', 'competition-robomaster', 'competition-electronic-design'][index]}>
-            {@render honorContent(honor, false)}
-          </article>
-        {/if}
+      {#each cv.honors as honor}
+        <article class="cv-entry competition-entry" id={honor.anchor}>
+          {@render honorContent(honor)}
+        </article>
       {/each}
     </div>
   </section>
@@ -371,7 +362,7 @@
 </SimpleLayout>
 </div>
 
-{#snippet honorContent(honor: Honor, hasReport: boolean)}
+{#snippet honorContent(honor: Honor)}
   <time>{honor.period}</time>
   <div>
     <h3>{honor.name}</h3>
@@ -379,9 +370,9 @@
     {#if honor.details.length}
       <ul>{#each honor.details as detail}<li>{detail}</li>{/each}</ul>
     {/if}
-    {#if honor.links.length}
+    {#if honor.links.length || honor.report}
       <nav aria-label={`${honor.name} links`}>
-        {#if hasReport}<a href={`${base}/reports/icar-pd`}>Report →</a>{/if}
+        {#if honor.report}<a href={`${base}/reports/${honor.report}`}>Report →</a>{/if}
         {#each honor.links as link}
           <a href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>
         {/each}
@@ -431,8 +422,6 @@
   .competition-entry nav { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 7px; }
   .competition-entry a { color: hsl(var(--primary)); font-size: 10px; font-weight: 650; text-decoration: none; }
   .competition-entry a:hover { text-decoration: underline; }
-  .report-entry { cursor: pointer; transition: background-color .15s ease, padding .15s ease; }
-  .report-entry:hover, .report-entry:focus-visible { margin: 0 -10px; padding-right: 10px; padding-left: 10px; background: hsl(var(--muted) / .45); outline: none; }
   .cv-section, .publication-entry, .cv-entry { scroll-margin-top: 82px; }
 
   @media (max-width: 700px) {
