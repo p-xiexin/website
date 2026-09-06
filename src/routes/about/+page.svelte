@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import travelImage from '$lib/images/travel.jpg';
   import AboutLinks from '$lib/components/AboutLinks.svelte';
   import SimpleLayout from '$lib/components/SimpleLayout.svelte';
@@ -252,6 +254,13 @@
   $: heroIntro = isEnglish
     ? 'M.S. student in Control Science and Engineering · Huazhong University of Science and Technology'
     : '控制科学与工程硕士研究生 · 华中科技大学';
+
+  const openProjectReport = (event: MouseEvent | KeyboardEvent, index: number) => {
+    if (index !== 0 || (event.target as HTMLElement).closest('a')) return;
+    if (event instanceof KeyboardEvent && !['Enter', ' '].includes(event.key)) return;
+    event.preventDefault();
+    goto(`${base}/reports/icar-pd`);
+  };
 </script>
 
 <svelte:head>
@@ -338,29 +347,48 @@
     <header><h2 id="honors-title">{cv.labels.honors}</h2><span>Projects &amp; Competitions</span></header>
     <div class="entry-list">
       {#each cv.honors as honor, index}
-        <article class="cv-entry competition-entry" id={['competition-smart-car', 'competition-robomaster', 'competition-electronic-design'][index]}>
-          <time>{honor.period}</time>
-          <div>
-            <h3>{honor.name}</h3>
-            <p class="organization">{honor.result}</p>
-            {#if honor.details.length}
-              <ul>{#each honor.details as detail}<li>{detail}</li>{/each}</ul>
-            {/if}
-            {#if honor.links.length}
-              <nav aria-label={`${honor.name} links`}>
-                {#each honor.links as link}
-                  <a href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>
-                {/each}
-              </nav>
-            {/if}
+        {#if index === 0}
+          <div
+            class="cv-entry competition-entry report-entry"
+            id="competition-smart-car"
+            role="link"
+            tabindex="0"
+            aria-label={`${honor.name} report`}
+            onclick={(event) => openProjectReport(event, index)}
+            onkeydown={(event) => openProjectReport(event, index)}
+          >
+            {@render honorContent(honor, true)}
           </div>
-        </article>
+        {:else}
+          <article class="cv-entry competition-entry" id={['competition-smart-car', 'competition-robomaster', 'competition-electronic-design'][index]}>
+            {@render honorContent(honor, false)}
+          </article>
+        {/if}
       {/each}
     </div>
   </section>
 
 </SimpleLayout>
 </div>
+
+{#snippet honorContent(honor: Honor, hasReport: boolean)}
+  <time>{honor.period}</time>
+  <div>
+    <h3>{honor.name}</h3>
+    <p class="organization">{honor.result}</p>
+    {#if honor.details.length}
+      <ul>{#each honor.details as detail}<li>{detail}</li>{/each}</ul>
+    {/if}
+    {#if honor.links.length}
+      <nav aria-label={`${honor.name} links`}>
+        {#if hasReport}<a href={`${base}/reports/icar-pd`}>Report →</a>{/if}
+        {#each honor.links as link}
+          <a href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>
+        {/each}
+      </nav>
+    {/if}
+  </div>
+{/snippet}
 
 <style>
   :global(html) { scroll-behavior: smooth; }
@@ -403,6 +431,8 @@
   .competition-entry nav { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 7px; }
   .competition-entry a { color: hsl(var(--primary)); font-size: 10px; font-weight: 650; text-decoration: none; }
   .competition-entry a:hover { text-decoration: underline; }
+  .report-entry { cursor: pointer; transition: background-color .15s ease, padding .15s ease; }
+  .report-entry:hover, .report-entry:focus-visible { margin: 0 -10px; padding-right: 10px; padding-left: 10px; background: hsl(var(--muted) / .45); outline: none; }
   .cv-section, .publication-entry, .cv-entry { scroll-margin-top: 82px; }
 
   @media (max-width: 700px) {
