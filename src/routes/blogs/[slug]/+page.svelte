@@ -49,7 +49,7 @@
 		{#if data.meta.column}
 			<ColumnPosts columnName={data.meta.column.name} posts={data.columnPosts} currentSlug={data.meta.slug} />
 		{/if}
-		<MarkdownRender content={cleanContent} />
+		<MarkdownRender content={cleanContent} showReaderSettings={false} />
 	</BlogLayout>
 {:else}
 	<p>文章加载失败</p>

@@ -31,7 +31,7 @@
       </nav>
     </header>
     <div class="report-content">
-      <MarkdownRender content={processedContent} />
+      <MarkdownRender content={processedContent} showReaderSettings={false} />
     </div>
   </article>
 </div>

@@ -1,7 +1,7 @@
 # ICAR 视觉自主竞速系统工程报告
 
 <div class="video-embed">
-  <iframe src="https://player.bilibili.com/player.html?bvid=BV1ep421R7LV" title="ICAR 视觉自主竞速系统项目演示" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <iframe src="https://player.bilibili.com/player.html?bvid=BV1ep421R7LV&autoplay=0&muted=1" title="ICAR 视觉自主竞速系统项目演示" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 ## 摘要

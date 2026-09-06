@@ -46,6 +46,7 @@
     };
 
     export let content = "";
+    export let showReaderSettings = true;
 
     let renderedContent = "";
     let extractedTitle = "";
@@ -180,7 +181,9 @@
 <div class="markdown-frame">
     {#if extractedTitle}
         <div class="markdown-title-row">
-            <ReaderSettings bind:fontSize bind:lineHeight />
+            {#if showReaderSettings}
+                <ReaderSettings bind:fontSize bind:lineHeight />
+            {/if}
             <h1>{@html extractedTitle}</h1>
         </div>
     {/if}

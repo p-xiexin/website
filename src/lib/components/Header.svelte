@@ -4,7 +4,6 @@
   import { afterNavigate } from '$app/navigation';
   import { onMount } from 'svelte';
   import { t } from 'svelte-i18n';
-  import { Lock, Unlock } from 'lucide-svelte';
   import { navItems } from '$lib/config/siteConfig';
   import { authStore } from '$lib/stores/auth';
   import GithubRepo from './GithubRepo.svelte';
@@ -15,6 +14,10 @@
   let isLoginModalOpen = false;
   let activeSection = 'about';
   let scrollFrame = 0;
+  let nameClickTimes: number[] = [];
+
+  const loginClickTarget = 5;
+  const loginRevealWindow = 2500;
 
   const sectionKeys = ['about', 'education', 'publications', 'experience', 'projects'];
 
@@ -38,8 +41,19 @@
     scrollFrame = requestAnimationFrame(updateActiveSection);
   };
 
-  const openLogin = () => {
-    if (!$authStore.isLoggedIn) isLoginModalOpen = true;
+  const handleNameClick = (event: MouseEvent) => {
+    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+
+    const now = Date.now();
+    nameClickTimes = [...nameClickTimes.filter(time => now - time <= loginRevealWindow), now];
+
+    if (nameClickTimes.length < loginClickTarget) return;
+
+    nameClickTimes = [];
+    if (!$authStore.isLoggedIn) {
+      event.preventDefault();
+      isLoginModalOpen = true;
+    }
   };
 
   onMount(() => {
@@ -59,7 +73,7 @@
 
 <header class="academic-header">
   <div class="header-row">
-    <a class="header-name" href={`${base}/#about`}>
+    <a class="header-name" href={`${base}/#about`} onclick={handleNameClick}>
       <strong>Peng Xiexin</strong>
       <span>Academic profile</span>
     </a>
@@ -81,17 +95,6 @@
     </nav>
 
     <div class="header-actions">
-      <button
-        type="button"
-        class="login-button"
-        class:logged-in={$authStore.isLoggedIn}
-        onclick={openLogin}
-        disabled={$authStore.isLoggedIn}
-        aria-label={$t('ui.login')}
-      >
-        {#if $authStore.isLoggedIn}<Unlock size={14} />{:else}<Lock size={14} />{/if}
-        <span>{$authStore.isLoggedIn ? $t('ui.previewing') : $t('ui.login')}</span>
-      </button>
       <LanguageToggle />
       <ThemeToggle />
       <GithubRepo />
@@ -171,19 +174,6 @@
     align-items: center;
     gap: 3px;
   }
-  .login-button {
-    display: inline-flex;
-    height: 28px;
-    align-items: center;
-    gap: 4px;
-    padding: 0 6px;
-    color: hsl(var(--muted-foreground));
-    font-size: 9px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .login-button:hover, .login-button.logged-in { color: hsl(var(--primary)); }
-  .login-button:disabled { cursor: default; }
   .school-mark {
     margin-left: 5px;
     padding-left: 8px;
@@ -199,7 +189,7 @@
     .header-row { grid-template-columns: 1fr auto; padding: 8px 0 7px; }
     nav { grid-column: 1 / -1; grid-row: 2; gap: 16px; overflow-x: auto; }
     nav a { flex: 0 0 auto; padding: 2px 0; }
-    .login-button span, .school-mark { display: none; }
+    .school-mark { display: none; }
   }
 
   @media (max-width: 420px) {

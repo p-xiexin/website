@@ -1,7 +1,7 @@
 # RoboMaster 轮腿步兵机器人控制系统工程报告
 
 <div class="video-embed">
-  <iframe src="https://player.bilibili.com/player.html?bvid=BV1hx4y1r7qY" title="RoboMaster 轮腿步兵机器人项目演示" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <iframe src="https://player.bilibili.com/player.html?bvid=BV1hx4y1r7qY&autoplay=0&muted=1" title="RoboMaster 轮腿步兵机器人项目演示" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 ## 摘要

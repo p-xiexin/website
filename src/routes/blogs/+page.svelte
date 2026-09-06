@@ -2,7 +2,7 @@
   import { base } from '$app/paths';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import { ChevronDown, ChevronLeft, ChevronRight, Lock, Search, X } from 'lucide-svelte';
+  import { ChevronDown, ChevronLeft, ChevronRight, Search, X } from 'lucide-svelte';
   import { locale } from 'svelte-i18n';
   import { authStore } from '$lib/stores/auth';
   import { getNotesByLocale } from '$lib/config/notes';
@@ -84,9 +84,6 @@
 
 <SimpleLayout title={$uiContent.blogs.title} intro={$uiContent.blogs.intro}>
   <div class="archive-tools">
-    {#if !$authStore.isLoggedIn}
-      <div class="preview-note"><Lock size={12} /><span>未发布文章需要预览权限</span></div>
-    {/if}
     <div class="search-field">
       <span class="search-icon"><Search size={13} /></span>
       <input
@@ -166,7 +163,6 @@
 
 <style>
   .archive-tools { display: flex; align-items: center; gap: 8px; padding-bottom: 10px; }
-  .preview-note { display: inline-flex; align-items: center; gap: 4px; color: #a16207; font-size: 9px; white-space: nowrap; }
   .search-field { display: flex; height: 30px; flex: 1; align-items: center; gap: 6px; padding: 0 8px; border: 1px solid hsl(var(--border)); }
   .search-icon { display: inline-flex; color: hsl(var(--muted-foreground)); }
   input { min-width: 0; flex: 1; border: 0; background: transparent; color: hsl(var(--foreground)); font-size: 11px; outline: none; }
@@ -205,7 +201,6 @@
   .notes-section small { color: hsl(var(--muted-foreground)); font-size: 9px; }
   @media (max-width: 650px) {
     .archive-tools { flex-wrap: wrap; }
-    .preview-note { width: 100%; }
     .post-list article { grid-template-columns: 72px 1fr; }
     .draft { grid-column: 2; }
     .notes-section > div { grid-template-columns: 1fr; }
@@ -215,5 +210,7 @@
     .post-list article { grid-template-columns: 1fr; gap: 3px; }
     .draft { grid-column: 1; }
     .search-field { flex-basis: 100%; }
+    .category-dropdown, .category-trigger { width: 100%; }
+    .category-menu { right: 0; left: 0; width: 100%; }
   }
 </style>
