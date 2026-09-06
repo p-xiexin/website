@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - academic
   workflow_dispatch:
     inputs:
       force_build:
@@ -13,6 +13,7 @@ on:
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/academic'
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
