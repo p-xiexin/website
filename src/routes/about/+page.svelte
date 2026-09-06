@@ -437,7 +437,7 @@
 
   @media (max-width: 700px) {
     .about-intro { grid-template-columns: 1fr; gap: 24px; }
-    aside { width: min(280px, 100%); border-top: 1px solid hsl(var(--border)); border-left: 0; padding: 18px 0 0; }
+    aside { order: -1; width: min(280px, 100%); border-bottom: 1px solid hsl(var(--border)); border-left: 0; padding: 0 0 18px; }
     .publication-entry { grid-template-columns: 1fr; gap: 5px; }
     .cv-entry { grid-template-columns: 1fr; gap: 5px; }
   }
