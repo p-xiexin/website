@@ -277,7 +277,9 @@
 :global(.markdown-body tr:nth-child(2n)) { background: #f6f8fa; }
 :global(.dark .markdown-body th), :global(.dark .markdown-body td) { border-color: #3d444d; }
 :global(.dark .markdown-body th), :global(.dark .markdown-body tr:nth-child(2n)) { background: #151b23; }
-:global(.markdown-body img) { display: block; box-sizing: content-box; max-width: 100%; height: auto; margin-right: auto; margin-left: auto; background: transparent; }
+:global(.markdown-body img) { display: block; box-sizing: content-box; max-width: min(100%, 760px); max-height: 560px; height: auto; margin-right: auto; margin-left: auto; object-fit: contain; background: transparent; }
+:global(.markdown-body div[style*="display: flex"]:has(> img)) { flex-wrap: wrap; justify-content: center; }
+:global(.markdown-body div[style*="display: flex"]:has(> img) > img) { margin-right: 0; margin-left: 0; }
 :global(.markdown-body input[type="checkbox"]) { margin: 0 0.2em 0.25em -1.4em; vertical-align: middle; }
 
 :global(.code-block-wrapper) { position: relative; margin: 16px 0; overflow: hidden; border: 1px solid #d0d7de; border-radius: 6px; background: #f6f8fa; }
