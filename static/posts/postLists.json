@@ -1,16 +1,29 @@
 [
   {
-    "description": "前馈式三维重建、3D Gaussian Splatting 与世界模型的算法学习笔记",
-    "date": "2026-06-01",
+    "description": "KEMO 以运动减速和视觉变化筛选任务事件，将稀疏关键帧写入有序记忆，并通过门控交叉注意力增强长时程 VLA 策略",
+    "date": "2026-09-11",
     "author": "pxx",
     "categories": [
-      "3D Vision",
-      "Deep Learning"
+      "Deep Learning",
+      "Robotics"
     ],
-    "published": true,
-    "slug": "eee966a81e8fb4ea6cc69cc882816866",
-    "title": "3DGS Survey",
-    "file": "3DGS.md"
+    "published": false,
+    "slug": "4dd101a9b6a464941d95a0e8b4632b34",
+    "title": "KEMO 事件驱动关键帧记忆",
+    "file": "KEMO事件驱动关键帧记忆.md"
+  },
+  {
+    "description": "从数据时间轴到多模态词元，梳理世界动作模型连接传感器观测、语义任务与机器人动作的实现方式",
+    "date": "2026-09-11",
+    "author": "pxx",
+    "categories": [
+      "Deep Learning",
+      "Robotics"
+    ],
+    "published": false,
+    "slug": "41531949ae8877aee476c9956aaf08aa",
+    "title": "WAM 中的观测、任务与动作对齐",
+    "file": "WAM中的观测任务与动作对齐.md"
   },
   {
     "description": "CodeAgent配置教程以及常见问题解决方案",

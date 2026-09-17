@@ -15,8 +15,8 @@
     );
   }
 
-  const content = $derived(data?.content && data?.meta?.name
-    ? preprocessImageLinks(data.content, data.meta.name)
+  const content = $derived(data?.content && data?.meta?.slug
+    ? preprocessImageLinks(data.content, data.meta.slug)
     : '');
 </script>
 

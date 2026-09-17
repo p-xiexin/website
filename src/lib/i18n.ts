@@ -3,7 +3,7 @@ import { derived } from 'svelte/store';
 import { dictionary, init, locale as $locale } from 'svelte-i18n';
 import type Education from './components/Education.svelte';
 
-const DEFAULT_LOCALE = 'zh';
+const DEFAULT_LOCALE = 'en';
 const STORAGE_KEY = 'locale';
 
 const messages = {
@@ -138,6 +138,8 @@ const contentByLocale = {
       intro: "I've written something about Robotics, AI, programming and life.",
       notesHeadline: 'NoteBooks',
       notesIntro: 'Studying notes',
+      articlesHeadline: 'Research Articles',
+      articlesIntro: 'Long-form writing and research notes',
     },
   },
   zh: {
@@ -179,6 +181,8 @@ const contentByLocale = {
       intro: '记录关于机器人、AI、编程的思考。',
       notesHeadline: '学习笔记',
       notesIntro: '学习过程中的笔记与整理。',
+      articlesHeadline: '科研博客',
+      articlesIntro: '围绕论文、方法与工程问题的完整文章。',
     },
   },
 };
@@ -194,10 +198,7 @@ const getInitialLocale = (): string => {
   if (!browser) return DEFAULT_LOCALE;
 
   const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) return saved;
-
-  const navLocale = navigator.language.toLowerCase();
-  if (navLocale.startsWith('zh')) return 'zh';
+  if (saved === 'en' || saved === 'zh') return saved;
 
   return DEFAULT_LOCALE;
 };

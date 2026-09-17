@@ -1,14 +1,4 @@
----
-description: 前馈式三维重建、3D Gaussian Splatting 与世界模型的算法学习笔记
-date: '2026-06-01'
-author: pxx
-categories:
-  - 3D Vision
-  - Deep Learning
-published: true
----
-
-# 3DGS Survey
+# 2012Rieman
 
 [Feed-Forward 3D Model - 第1讲 前馈式重建模型发展历程](https://www.bilibili.com/video/BV1dG2PBXEoz/?share_source=copy_web&vd_source=eac89beacf4b5ecfa9a66e7ebc9bd301)
 
@@ -737,6 +727,90 @@ $$
 $$
 
 并通过李代数之间的线性变换 $\Lambda$ 将 Sim(3) 视觉 Hessian 映射为 SE(3)+scale 状态上的因子，从而可以与 IMU 预积分、GNSS 位置测量统一优化。
+
+## 16. HorizonStream: Long-Horizon Attention for Streaming 3D Reconstruction
+
+> CHENG C, TAO P, YAO N, 等. HorizonStream: Long-Horizon Attention for Streaming 3D Reconstruction[A/OL]. arXiv, 2026[2026-09-07]. https://arxiv.org/abs/2605.23889.
+
+[论文](https://arxiv.org/abs/2605.23889) · [项目主页](https://3dagentworld.github.io/horizonstream/) · [代码](https://github.com/3DAgentWorld/HorizonStream)
+
+HorizonStream 面向严格因果、有限内存的在线三维重建。模型持续接收 RGB 帧，在时刻 $t$ 根据当前帧、历史观测和固定大小的内部状态预测相机位姿 $\hat{\mathbf T}_t\in SE(3)$ 与稠密深度 $\hat D_t$。流式重建在短片段上通常可以维持稳定输出，序列继续增长后，局部匹配误差会传入位姿，尺度偏差会累积成全局漂移，循环状态和 KV cache 也会逐渐被陈旧信息占据。
+
+这类问题来自几何证据不同的有效时间。像素对应随视角变化快速失效，运动线索可以跨越若干帧，场景结构和尺度则需要在更长时间内保持稳定。滑动窗口只保留最近 $W$ 帧，证据离开窗口便立即消失。周期刷新会切断跨窗口历史。无门控循环状态持续累加旧信息，因果 softmax 注意力还可能把权重集中到少量早期 token 上。
+
+![不同流式记忆机制形成的证据影响模式](./res/horizonstream-evidence-influence.png)
+
+论文用 **evidence influence kernel** 表示第 $i$ 帧证据对时刻 $t$ 的影响，并将它分解为空间选择和时间传播
+
+$$
+K(t,i)=K_{\mathrm{spatial}}(t,i)K_{\mathrm{time}}(t,i)
+$$
+
+$K_{\mathrm{spatial}}$ 根据图像内容与相对三维位置选择可靠的局部对应，$K_{\mathrm{time}}$ 决定这些证据在状态中保留多久。HorizonStream 围绕这个分解建立三个模块。Geometric Local Attention 处理窗口内匹配，Geometric Linear Attention 维护跨窗口状态，Metric Readout Token 从长期状态中读取尺度和位姿。
+
+![HorizonStream 整体架构](./res/horizonstream-framework.png)
+
+网络采用 ViT-L 主干，并从 VGGT 与 DINOv2 初始化。每帧包含图像 patch token、pose token 和 Metric Readout Token。frame block 负责单帧内部建模，global block 交替使用局部几何注意力和长程线性注意力。经过时空融合的特征进入 DPT head，最终输出深度与相机位姿。
+
+Geometric Linear Attention 把历史几何压缩在固定大小的状态 $\mathbf S_t$ 中。每个时刻先衰减旧状态，再写入当前帧由 key 和 value 编码的几何证据
+
+$$
+\mathbf S_t=
+\operatorname{diag}(\boldsymbol\gamma_t)\mathbf S_{t-1}
++\phi(\mathbf k_t)\tilde{\mathbf v}_t^\top,
+\qquad
+\mathbf o_t=\mathbf q_t^\top\mathbf S_t
+$$
+
+其中保留率由当前特征预测
+
+$$
+\boldsymbol\gamma_t=
+\sigma(\mathbf W_\gamma\mathbf x_t+\mathbf b_\gamma)
+$$
+
+$\boldsymbol\gamma_t$ 是逐通道向量，第 $c$ 个通道中的历史证据按照下式传播
+
+$$
+K_{\mathrm{time}}^{(c)}(t,i)=
+\prod_{j=i+1}^{t}\gamma_j^{(c)}
+$$
+
+当平均保留率为 $\bar\gamma^{(c)}$ 时，对应的有效记忆长度可以写成
+
+$$
+\tau^{(c)}=-\frac{1}{\log\bar\gamma^{(c)}}
+$$
+
+低保留率通道快速覆盖旧内容，用于保存短时对应和局部运动。高保留率通道缓慢变化，用于传递场景结构和尺度。每个通道独立学习时间尺度后，同一个固定状态可以同时容纳瞬时信息与长期信息。状态大小不随输入序列增长，每个新窗口都重复执行相同的读取、衰减和写入过程。
+
+窗口内的稠密对应由 Geometric Local Attention 处理。它为每个注意力头预测可靠性门
+
+$$
+g_h=\sigma(\mathbf W_g\bar{\mathbf x}+b_g),
+\qquad
+\tilde{\mathbf y}_h=g_h\mathbf y_h
+$$
+
+当某个注意力头集中到噪声对应或 attention sink 时，较低的门值会削弱它写入后续特征的内容。位置编码采用时空 RoPE。图像 patch 的位置由时间、行坐标和列坐标共同表示，query 与 key 分别沿三个轴旋转，使注意力能够根据相对时空偏移建立局部对应。时间索引周期性重置，Metric Readout Token 与 pose token 使用零坐标。
+
+每帧的 Metric Readout Token 参与长程线性注意力，尺度头从该 token 预测正尺度
+
+$$
+\hat s=\exp\left(g\left(\mathbf z^{\mathrm{metric}}\right)\right)
+$$
+
+预测尺度同时作用于相机平移和深度
+
+$$
+\hat{\mathbf t}=\hat s\hat{\mathbf t}^{\mathrm{raw}},
+\qquad
+\hat D=\hat s\hat D^{\mathrm{raw}}
+$$
+
+Metric Readout Token 能够读取跨窗口状态中的高保留通道，尺度估计因此可以利用长于当前窗口的几何历史。相机位姿由局部窗口内的 pose token 联合估计。位姿头聚合这些 token，输出当前帧相对窗口上下文的一致变换，减少逐帧串联相对位姿产生的累计误差。
+
+模型使用 48 帧训练片段，并在推理时处理超过一万帧的序列。局部注意力始终面对固定窗口，长程信息压缩进固定状态，因此显存占用不随历史帧数持续增长，总计算量随输入帧数线性增加。论文还提供可选的回环模块，利用早期 DINOv2 特征检索重访帧，将网络预测的局部修正转成回环约束，再通过位姿图优化调整全局轨迹。
 
 ## 世界模型Q&A
 

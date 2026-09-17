@@ -77,11 +77,10 @@
       ],
       experience: [
         {
-          period: '2026.06 — 至今',
+          period: '2026.06 – 至今',
           title: '前馈式三维重建',
           organization: '华为 2012 黎曼实验室',
           details: [
-            '设计几何一致性监督生成流程并构建多源 3D 训练数据集；基于 Pi3X 训练稠密匹配解码器，预测 dense warp、匹配置信度与多视图 tracks。',
             '扩展 Pi3x 的 LiDAR 视觉多模态感知能力，场景点图重建误差由 0.057 m 降至 0.033 m；结合模型蒸馏与结构剪枝，将 32 帧 GPU 推理延迟由 6.334 s 降至 4.743 s，为后续端侧部署提供支持。',
             '基于 Pi3 几何表征训练轻量级 Matching Head，并拓展至流式增量匹配与置信度建模，提升复杂场景关联鲁棒性，使匹配质量与后续 BA 和 Fusion 优化效果对齐。',
             '将 MASt3R-Fusion 从双帧匹配扩展至多帧输入，重新设计跨帧关联与 SfM 后端，融合 IMU 完成跨窗口 Sim(3) 对齐与联合 BA。'
@@ -94,7 +93,6 @@
           details: [
             '设计并实现 Fix-Horizon MPC，缓解滚动时域中的参考轨迹缩短、接触相位漂移与动作被动追赶问题，提升动作一致性与实机调参效率，实机击球成功率约 92%。',
             '构建羽毛球飞行与碰撞模型，基于实测数据辨识空气阻力和初始状态，轨迹预测 RMSE 约 6.6 cm，MAE 约 5.4 cm。',
-            '设计两阶段轨迹预测方法，面向高速来球提前触发底盘与机械臂运动，为击球动作保留更完整的响应时间。',
             '基于轨迹优化生成多技能击球数据集，预训练物理一致的动作隐空间表示，并通过强化学习完成闭环策略后训练。'
           ]
         }
@@ -185,12 +183,10 @@
       ],
       experience: [
         {
-          period: 'Jun 2026 — Present',
+          period: 'Jun 2026 – Present',
           title: 'Feed-forward 3D Reconstruction',
           organization: 'Huawei 2012 Laboratories · Riemann Lab',
           details: [
-            'Built a multi-source 3D annotation pipeline with dynamic-region filtering, multi-model matching, camera and depth reconstruction, reprojection validation, and geometric quality control.',
-            'Trained a lightweight Matching Head on a frozen Pi3 backbone to extract explicit cross-frame correspondences from implicit geometry, improving robustness to complex scenes.',
             'Extended Pi3x with LiDAR for multimodal perception, reducing scene point-map reconstruction error from 0.057 m to 0.033 m; applied model compression and distillation to cut 32-frame GPU inference latency from 6.334 s to 4.743 s.',
             'Developed streaming incremental matching and optimization-aware confidence, reducing redundant chunk computation while aligning correspondences with downstream BA effectiveness.',
             'Extended a MASt3R-Fusion-based visual SLAM pipeline from pairwise to multi-view input and aligned point maps across windows through IMU-assisted Sim(3) estimation and joint bundle adjustment.'
@@ -204,7 +200,6 @@
             'Designed Fix-Horizon MPC to address shrinking references, contact-phase drift, and reactive motion lag in receding-horizon optimization, improving motion consistency and on-robot tuning efficiency.',
             'Accelerated MPC solving with a reduced-order bang-off-bang trajectory model, compressing dense control sequences into low-dimensional velocity-change and timing parameters.',
             'Built shuttlecock flight and collision models and identified drag and initial states from measurements, achieving approximately 6.6 cm RMSE and 5.4 cm MAE.',
-            'Designed a two-stage trajectory prediction method for early response to high-speed incoming shots, triggering chassis and arm motion in advance and reaching approximately 92% hitting success on hardware.',
             'Generated a multi-skill striking dataset through trajectory optimization, pretrained a physics-consistent latent action representation, and post-trained a closed-loop policy with reinforcement learning.'
           ]
         }

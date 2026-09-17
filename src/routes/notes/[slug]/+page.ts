@@ -1,7 +1,7 @@
 import { base } from '$app/paths';
 import type { Note } from '$lib/utils/types';
 import { error } from '@sveltejs/kit';
-import {noteList} from '$lib/config/infoConfig.js'
+import { allNoteList } from '$lib/config/infoConfig.js';
 
 export async function load({ params, fetch }): Promise<{ content: string; meta: Note | undefined }> {
   try {
@@ -15,7 +15,7 @@ export async function load({ params, fetch }): Promise<{ content: string; meta: 
 
     const content = await response.text();
 
-    const post = noteList.find((p) => p.slug === params.slug);
+    const post = allNoteList.find((p) => p.slug === params.slug);
 
     return {
       content,

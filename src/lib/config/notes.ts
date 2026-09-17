@@ -8,6 +8,20 @@ const resolveLocale = (locale?: string): SupportedLocale =>
   locale?.toLowerCase() === 'en' ? 'en' : FALLBACK_LOCALE;
 
 const EN_NOTES: Array<Note> = [
+  {
+    name: 'World Model',
+    description: 'A compact reading note on learned dynamics, imagined control, interactive environments, and world action models.',
+    slug: 'WorldModel',
+    tags: ['World Model', 'Reinforcement Learning'],
+    published: false,
+  },
+  {
+    name: '2012Rieman',
+    description: 'Notes on feed-forward 3D reconstruction, 3D Gaussian Splatting, streaming geometry, and world models.',
+    slug: '2012RiemanNote',
+    tags: ['3D Vision', 'Deep Learning'],
+    published: true,
+  },
   // {
   //   name: 'CMake',
   //   description: 'Learn the basics of CMake and build a simple C++ project.',
@@ -32,6 +46,20 @@ const EN_NOTES: Array<Note> = [
 ];
 
 const ZH_NOTES: Array<Note> = [
+  {
+    name: 'World Model',
+    description: '世界模型的动力学学习、想象控制、交互环境与世界动作模型阅读笔记。',
+    slug: 'WorldModel',
+    tags: ['World Model', 'Reinforcement Learning'],
+    published: false,
+  },
+  {
+    name: '2012Rieman',
+    description: '前馈式三维重建、3D Gaussian Splatting、流式几何与世界模型学习笔记。',
+    slug: '2012RiemanNote',
+    tags: ['3D Vision', 'Deep Learning'],
+    published: true,
+  },
   // {
   //   name: 'CMake',
   //   description: '学习 CMake 的基本使用方法，并构建一个简单的 C++ 工程。',
@@ -62,6 +90,8 @@ export const noteListByLocale: Record<SupportedLocale, Array<Note>> = {
 
 export const getNotesByLocale = (locale?: string): Array<Note> =>
   noteListByLocale[resolveLocale(locale)].filter((note) => note.published);
+
+export const allNoteList: Array<Note> = noteListByLocale[FALLBACK_LOCALE];
 
 // 保留向后兼容性
 export const noteList: Array<Note> = getNotesByLocale(FALLBACK_LOCALE);

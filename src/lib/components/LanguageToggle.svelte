@@ -2,7 +2,6 @@
   import { browser } from '$app/environment';
   import { onMount } from 'svelte';
   import { locale } from 'svelte-i18n';
-  import { Languages, Globe2 } from 'lucide-svelte';
 
   let current = 'en';
 
@@ -29,15 +28,28 @@
 
 <button
   type="button"
-  class="group inline-flex h-7 w-7 cursor-pointer items-center justify-center text-muted-foreground hover:text-primary"
-  aria-label="Toggle language"
+  class="language-toggle"
+  aria-label={current === 'en' ? 'Switch to Chinese' : '切换至英文'}
+  title={current === 'en' ? '切换至中文' : 'Switch to English'}
   on:click={toggle}
 >
-  <span class="transition-colors group-hover:text-blue-500 dark:group-hover:text-blue-400">
-    {#if current === 'en'}
-      <Globe2 class="h-3.5 w-3.5" />
-    {:else}
-      <Languages class="h-3.5 w-3.5" />
-    {/if}
-  </span>
+  {current === 'en' ? '中' : 'EN'}
 </button>
+
+<style>
+  .language-toggle {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--muted-foreground));
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 10px;
+    font-weight: 650;
+    letter-spacing: .02em;
+    cursor: pointer;
+  }
+
+  .language-toggle:hover { color: hsl(var(--primary)); }
+</style>
